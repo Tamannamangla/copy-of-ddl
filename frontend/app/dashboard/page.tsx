@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useState, useCallback, useMemo } from "react";
+import { Suspense, useEffect, useState, useCallback, useMemo } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import AppShell from "@/components/AppShell";
 import {
   getFolders,
@@ -24,7 +24,16 @@ type ViewMode = "LEDGER" | "WORKSPACES";
 type StatusFilter = "ALL" | "UNDER_SCRUTINY" | "NEEDS_EVIDENCE" | "READY_TO_DECIDE" | "DECIDED";
 
 export default function DashboardPage() {
+  return (
+    <Suspense fallback={null}>
+      <DashboardContent />
+    </Suspense>
+  );
+}
+
+function DashboardContent() {
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   // Core Data
   const [currentUser, setCurrentUser] = useState<User | null>(null);
@@ -88,11 +97,16 @@ export default function DashboardPage() {
       if (params.get("action") === "new" || params.get("challenge") === "true") {
         setShowChallengeModal(true);
       }
-      if (params.get("view") === "ledger") {
-        setViewMode("LEDGER");
-      }
     }
   }, [loadData]);
+
+  // Keep the visible tab in sync with the URL (sidebar / tab bar links)
+  useEffect(() => {
+    const view = searchParams.get("view");
+    if (view === "workspaces") setViewMode("WORKSPACES");
+    else if (view === "ledger") setViewMode("LEDGER");
+    if (searchParams.get("action") === "new") setShowChallengeModal(true);
+  }, [searchParams]);
 
   // Handle Create Workspace
   const handleCreateFolder = async (e: React.FormEvent) => {
@@ -216,31 +230,31 @@ export default function DashboardPage() {
     <AppShell onRefresh={loadData}>
       {!currentUser && !loading ? (
         /* Calm Unauthenticated State */
-        <div className="bg-[#FCFBF8] border border-[#D9D2C3] rounded-[4px] p-8 sm:p-12 text-center max-w-[620px] mx-auto my-12">
-          <h2 className="font-newsreader text-[32px] font-medium text-[#161E33] mb-3 tracking-tight">
+        <div className="bg-surface border border-line rounded-[8px] p-8 sm:p-12 text-center max-w-[620px] mx-auto my-12">
+          <h2 className="font-newsreader text-[32px] font-medium text-ink mb-3 tracking-tight">
             Sign in to your decisions
           </h2>
-          <p className="text-[14px] text-[#5A6275] leading-relaxed max-w-[460px] mx-auto mb-6">
+          <p className="text-[16px] text-ink-2 leading-relaxed max-w-[460px] mx-auto mb-6">
             Review decisions you are weighing, surface critical assumptions, and evaluate evidence before committing strategy.
           </p>
           <div>
             <Link
               href="/auth"
-              className="inline-block px-5 py-2.5 bg-[#161E33] hover:bg-[#232C47] text-white rounded-[4px] text-[14px] font-medium transition-colors focus:ring-2 focus:ring-[#2F5D8F]/25 focus:outline-none"
+              className="inline-block px-5 py-2.5 bg-ink hover:bg-ink-hover text-white rounded-[8px] text-[16px] font-medium transition-colors focus:ring-2 focus:ring-accent/25 focus:outline-none"
             >
               Sign in to DecisionLens
             </Link>
           </div>
         </div>
       ) : (
-        <div className="space-y-8 sm:space-y-10 font-ui text-[#161E33]">
+        <div className="space-y-8 sm:space-y-10 font-ui text-ink">
           {/* HEADER: Serif headline "Your decisions", subtitle, and right-aligned buttons */}
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-[#D9D2C3] pb-6">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-line pb-6">
             <div>
-              <h1 className="font-newsreader text-[36px] sm:text-[40px] font-medium tracking-tight text-[#161E33] leading-tight">
+              <h1 className="font-newsreader text-[36px] sm:text-[40px] font-medium tracking-tight text-ink leading-tight">
                 Your decisions
               </h1>
-              <p className="text-[14px] sm:text-[15px] text-[#5A6275] mt-1.5 leading-normal">
+              <p className="text-[16px] sm:text-[17px] text-ink-2 mt-1.5 leading-normal">
                 Track what you&apos;re weighing, and see where your reasoning needs work.
               </p>
             </div>
@@ -250,14 +264,14 @@ export default function DashboardPage() {
               <button
                 type="button"
                 onClick={() => setShowCreateFolderModal(true)}
-                className="px-3.5 py-2 bg-[#FCFBF8] border border-[#161E33] hover:bg-[#F5F1E8] text-[#161E33] text-[14px] font-medium rounded-[4px] transition-colors focus:ring-2 focus:ring-[#2F5D8F]/25 focus:outline-none"
+                className="px-3.5 py-2 bg-surface border border-ink hover:bg-page text-ink text-[16px] font-medium rounded-[8px] transition-colors focus:ring-2 focus:ring-accent/25 focus:outline-none"
               >
                 New workspace
               </button>
               <button
                 type="button"
                 onClick={() => setShowChallengeModal(true)}
-                className="px-4 py-2 bg-[#161E33] hover:bg-[#232C47] text-white text-[14px] font-medium rounded-[4px] transition-colors shadow-none focus:ring-2 focus:ring-[#2F5D8F]/25 focus:outline-none"
+                className="px-4 py-2 bg-ink hover:bg-ink-hover text-white text-[16px] font-medium rounded-[8px] transition-colors shadow-none focus:ring-2 focus:ring-accent/25 focus:outline-none"
               >
                 Challenge a decision
               </button>
@@ -267,39 +281,39 @@ export default function DashboardPage() {
           {/* STATS ROW: Single slim row of inline stats inside one bordered container.
               Hidden entirely if all values are 0 or no decisions exist. */}
           {hasAnyDecisions && activeDecisionsCount > 0 && (
-            <div className="bg-[#FCFBF8] border border-[#D9D2C3] rounded-[4px] py-4 px-6 grid grid-cols-2 sm:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x divide-[#D9D2C3]">
+            <div className="bg-surface border border-line rounded-[8px] py-4 px-6 grid grid-cols-2 sm:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x divide-line">
               <div className="py-2 sm:py-0 sm:px-4 first:pl-0">
-                <div className="font-newsreader text-[28px] font-normal text-[#161E33] leading-tight">
+                <div className="font-newsreader text-[30px] font-normal text-ink leading-tight">
                   {activeDecisionsCount}
                 </div>
-                <div className="text-[13px] text-[#5A6275] mt-0.5">
+                <div className="text-[15px] text-ink-2 mt-0.5">
                   Active
                 </div>
               </div>
 
               <div className="py-2 sm:py-0 sm:px-4">
-                <div className="font-newsreader text-[28px] font-normal text-[#161E33] leading-tight">
+                <div className="font-newsreader text-[30px] font-normal text-ink leading-tight">
                   {underScrutinyCount}
                 </div>
-                <div className="text-[13px] text-[#5A6275] mt-0.5">
+                <div className="text-[15px] text-ink-2 mt-0.5">
                   Under scrutiny
                 </div>
               </div>
 
               <div className="py-2 sm:py-0 sm:px-4">
-                <div className="font-newsreader text-[28px] font-normal text-[#161E33] leading-tight">
+                <div className="font-newsreader text-[30px] font-normal text-ink leading-tight">
                   {needsEvidenceCount}
                 </div>
-                <div className="text-[13px] text-[#5A6275] mt-0.5">
+                <div className="text-[15px] text-ink-2 mt-0.5">
                   Needs evidence
                 </div>
               </div>
 
               <div className="py-2 sm:py-0 sm:px-4 last:pr-0">
-                <div className="font-newsreader text-[28px] font-normal text-[#161E33] leading-tight">
+                <div className="font-newsreader text-[30px] font-normal text-ink leading-tight">
                   {totalOpenQuestionsCount}
                 </div>
-                <div className="text-[13px] text-[#5A6275] mt-0.5">
+                <div className="text-[15px] text-ink-2 mt-0.5">
                   Open questions
                 </div>
               </div>
@@ -311,10 +325,10 @@ export default function DashboardPage() {
             <div className="max-w-[720px] mx-auto text-center py-6 sm:py-10 space-y-8">
               {/* 1. Serif heading & 2. Short paragraph */}
               <div className="space-y-2.5">
-                <h2 className="font-newsreader text-[32px] sm:text-[38px] font-medium text-[#161E33] tracking-tight leading-snug">
+                <h2 className="font-newsreader text-[32px] sm:text-[38px] font-medium text-ink tracking-tight leading-snug">
                   Start with a decision you&apos;re weighing
                 </h2>
-                <p className="text-[15px] text-[#5A6275] max-w-[540px] mx-auto leading-relaxed">
+                <p className="text-[17px] text-ink-2 max-w-[540px] mx-auto leading-relaxed">
                   Describe it in a few sentences. DecisionLens will surface the assumptions behind it, ask what&apos;s missing, and help you decide with evidence.
                 </p>
               </div>
@@ -324,50 +338,50 @@ export default function DashboardPage() {
                 <button
                   type="button"
                   onClick={() => setShowChallengeModal(true)}
-                  className="px-5 py-2.5 bg-[#161E33] hover:bg-[#232C47] text-white text-[14px] font-medium rounded-[4px] transition-colors shadow-none focus:ring-2 focus:ring-[#2F5D8F]/25 focus:outline-none"
+                  className="px-5 py-2.5 bg-ink hover:bg-ink-hover text-white text-[16px] font-medium rounded-[8px] transition-colors shadow-none focus:ring-2 focus:ring-accent/25 focus:outline-none"
                 >
                   Challenge a decision
                 </button>
               </div>
 
               {/* 4. "How it works" row with 3 simple numbered steps */}
-              <div className="pt-6 border-t border-[#D9D2C3]">
-                <div className="font-courier text-[11px] font-medium text-[#5A6275] uppercase tracking-[0.08em] mb-4">
+              <div className="pt-6 border-t border-line">
+                <div className="font-courier text-[13px] font-medium text-ink-2 uppercase tracking-[0.08em] mb-4">
                   How it works
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-left">
-                  <div className="p-3.5 bg-[#FCFBF8] border border-[#D9D2C3] rounded-[4px]">
-                    <div className="font-courier text-[12px] font-medium text-[#2F5D8F] mb-1">
+                  <div className="p-3.5 bg-surface border border-line rounded-[8px]">
+                    <div className="font-courier text-[14px] font-medium text-accent mb-1">
                       01
                     </div>
-                    <div className="text-[14px] font-medium text-[#161E33]">
+                    <div className="text-[16px] font-medium text-ink">
                       Describe the decision
                     </div>
-                    <div className="text-[12px] text-[#5A6275] mt-1 leading-normal">
+                    <div className="text-[14px] text-ink-2 mt-1 leading-normal">
                       Share your current direction, alternatives, and background context.
                     </div>
                   </div>
 
-                  <div className="p-3.5 bg-[#FCFBF8] border border-[#D9D2C3] rounded-[4px]">
-                    <div className="font-courier text-[12px] font-medium text-[#2F5D8F] mb-1">
+                  <div className="p-3.5 bg-surface border border-line rounded-[8px]">
+                    <div className="font-courier text-[14px] font-medium text-accent mb-1">
                       02
                     </div>
-                    <div className="text-[14px] font-medium text-[#161E33]">
+                    <div className="text-[16px] font-medium text-ink">
                       Review assumptions and gaps
                     </div>
-                    <div className="text-[12px] text-[#5A6275] mt-1 leading-normal">
+                    <div className="text-[14px] text-ink-2 mt-1 leading-normal">
                       Identify blind spots, hidden risks, and questions that need verification.
                     </div>
                   </div>
 
-                  <div className="p-3.5 bg-[#FCFBF8] border border-[#D9D2C3] rounded-[4px]">
-                    <div className="font-courier text-[12px] font-medium text-[#2F5D8F] mb-1">
+                  <div className="p-3.5 bg-surface border border-line rounded-[8px]">
+                    <div className="font-courier text-[14px] font-medium text-accent mb-1">
                       03
                     </div>
-                    <div className="text-[14px] font-medium text-[#161E33]">
+                    <div className="text-[16px] font-medium text-ink">
                       Decide with evidence
                     </div>
-                    <div className="text-[12px] text-[#5A6275] mt-1 leading-normal">
+                    <div className="text-[14px] text-ink-2 mt-1 leading-normal">
                       Formulate a tested recommendation backed by empirical facts.
                     </div>
                   </div>
@@ -376,19 +390,19 @@ export default function DashboardPage() {
 
               {/* 5. "Or try an example" with 3 clickable example cards */}
               <div className="pt-4 text-left">
-                <div className="font-courier text-[11px] font-medium text-[#5A6275] uppercase tracking-[0.08em] mb-3">
+                <div className="font-courier text-[13px] font-medium text-ink-2 uppercase tracking-[0.08em] mb-3">
                   Or try an example
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                   <button
                     type="button"
                     onClick={() => handleSelectExample("Should we enter a new regional market this year?")}
-                    className="p-4 bg-[#FCFBF8] border border-[#D9D2C3] hover:border-[#2F5D8F] rounded-[4px] text-left transition-colors group focus:ring-2 focus:ring-[#2F5D8F]/25 focus:outline-none"
+                    className="p-4 bg-surface border border-line hover:border-accent rounded-[8px] text-left transition-colors group focus:ring-2 focus:ring-accent/25 focus:outline-none"
                   >
-                    <span className="text-[14px] text-[#161E33] font-medium group-hover:text-[#2F5D8F] transition-colors leading-snug block">
+                    <span className="text-[16px] text-ink font-medium group-hover:text-accent transition-colors leading-snug block">
                       Should we enter a new regional market this year?
                     </span>
-                    <span className="font-courier text-[11px] uppercase tracking-[0.08em] text-[#8B909C] mt-2 block">
+                    <span className="font-courier text-[13px] uppercase tracking-[0.08em] text-ink-3 mt-2 block">
                       Strategic expansion
                     </span>
                   </button>
@@ -396,12 +410,12 @@ export default function DashboardPage() {
                   <button
                     type="button"
                     onClick={() => handleSelectExample("Hire an internal leader or bring in an external one?")}
-                    className="p-4 bg-[#FCFBF8] border border-[#D9D2C3] hover:border-[#2F5D8F] rounded-[4px] text-left transition-colors group focus:ring-2 focus:ring-[#2F5D8F]/25 focus:outline-none"
+                    className="p-4 bg-surface border border-line hover:border-accent rounded-[8px] text-left transition-colors group focus:ring-2 focus:ring-accent/25 focus:outline-none"
                   >
-                    <span className="text-[14px] text-[#161E33] font-medium group-hover:text-[#2F5D8F] transition-colors leading-snug block">
+                    <span className="text-[16px] text-ink font-medium group-hover:text-accent transition-colors leading-snug block">
                       Hire an internal leader or bring in an external one?
                     </span>
-                    <span className="font-courier text-[11px] uppercase tracking-[0.08em] text-[#8B909C] mt-2 block">
+                    <span className="font-courier text-[13px] uppercase tracking-[0.08em] text-ink-3 mt-2 block">
                       Leadership &amp; talent
                     </span>
                   </button>
@@ -409,12 +423,12 @@ export default function DashboardPage() {
                   <button
                     type="button"
                     onClick={() => handleSelectExample("Build this capability in-house or buy it?")}
-                    className="p-4 bg-[#FCFBF8] border border-[#D9D2C3] hover:border-[#2F5D8F] rounded-[4px] text-left transition-colors group focus:ring-2 focus:ring-[#2F5D8F]/25 focus:outline-none"
+                    className="p-4 bg-surface border border-line hover:border-accent rounded-[8px] text-left transition-colors group focus:ring-2 focus:ring-accent/25 focus:outline-none"
                   >
-                    <span className="text-[14px] text-[#161E33] font-medium group-hover:text-[#2F5D8F] transition-colors leading-snug block">
+                    <span className="text-[16px] text-ink font-medium group-hover:text-accent transition-colors leading-snug block">
                       Build this capability in-house or buy it?
                     </span>
-                    <span className="font-courier text-[11px] uppercase tracking-[0.08em] text-[#8B909C] mt-2 block">
+                    <span className="font-courier text-[13px] uppercase tracking-[0.08em] text-ink-3 mt-2 block">
                       Capital allocation
                     </span>
                   </button>
@@ -430,45 +444,53 @@ export default function DashboardPage() {
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 {/* Search */}
                 <div className="relative flex-1 max-w-md">
-                  <Search className="w-3.5 h-3.5 text-[#8B909C] absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                  <Search className="w-4 h-4 text-ink-3 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
                   <input
                     type="text"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="Search decisions or workspaces..."
-                    className="w-full pl-8 pr-8 py-1.5 text-[13px] bg-[#FCFBF8] border border-[#D9D2C3] rounded-[4px] text-[#161E33] placeholder-[#8B909C] focus:border-[#2F5D8F] focus:ring-2 focus:ring-[#2F5D8F]/25 focus:outline-none transition-colors"
+                    className="w-full pl-8 pr-8 py-1.5 text-[15px] bg-surface border border-line rounded-[8px] text-ink placeholder-ink-3 focus:border-accent focus:ring-2 focus:ring-accent/25 focus:outline-none transition-colors"
                   />
                   {searchQuery && (
                     <button
                       type="button"
                       onClick={() => setSearchQuery("")}
-                      className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[#8B909C] hover:text-[#161E33]"
+                      className="absolute right-2.5 top-1/2 -translate-y-1/2 text-ink-3 hover:text-ink"
                     >
-                      <X className="w-3.5 h-3.5" />
+                      <X className="w-4 h-4" />
                     </button>
                   )}
                 </div>
 
                 {/* View Switcher: All decisions vs Workspaces */}
-                <div className="flex items-center gap-1 border border-[#D9D2C3] rounded-[4px] p-0.5 bg-[#FCFBF8] text-[13px]">
+                <div className="flex items-center gap-1 border border-line rounded-[10px] p-1 bg-subtle text-[15px] shrink-0">
                   <button
                     type="button"
-                    onClick={() => setViewMode("LEDGER")}
-                    className={`px-3 py-1 rounded-[4px] transition-colors ${
+                    onClick={() => {
+                      setViewMode("LEDGER");
+                      router.replace("/dashboard?view=ledger", { scroll: false });
+                    }}
+                    aria-pressed={viewMode === "LEDGER"}
+                    className={`h-10 px-4 rounded-[8px] transition-colors ${
                       viewMode === "LEDGER"
-                        ? "bg-[#F5F1E8] text-[#161E33] font-medium"
-                        : "text-[#5A6275] hover:text-[#161E33]"
+                        ? "bg-surface text-ink font-semibold shadow-soft"
+                        : "text-ink-2 hover:text-ink"
                     }`}
                   >
                     All decisions
                   </button>
                   <button
                     type="button"
-                    onClick={() => setViewMode("WORKSPACES")}
-                    className={`px-3 py-1 rounded-[4px] transition-colors ${
+                    onClick={() => {
+                      setViewMode("WORKSPACES");
+                      router.replace("/dashboard?view=workspaces", { scroll: false });
+                    }}
+                    aria-pressed={viewMode === "WORKSPACES"}
+                    className={`h-10 px-4 rounded-[8px] transition-colors ${
                       viewMode === "WORKSPACES"
-                        ? "bg-[#F5F1E8] text-[#161E33] font-medium"
-                        : "text-[#5A6275] hover:text-[#161E33]"
+                        ? "bg-surface text-ink font-semibold shadow-soft"
+                        : "text-ink-2 hover:text-ink"
                     }`}
                   >
                     Workspaces
@@ -478,7 +500,7 @@ export default function DashboardPage() {
 
               {/* Status Tab Bar: Simple text tab bar with an underline on the active tab (no scrollbar artifact) */}
               {viewMode === "LEDGER" && (
-                <div className="flex items-center gap-6 border-b border-[#D9D2C3] text-[13px] overflow-x-auto scrollbar-none">
+                <div className="flex items-center gap-6 border-b border-line text-[15px] overflow-x-auto scrollbar-none">
                   {(
                     [
                       { key: "ALL", label: "All" },
@@ -494,8 +516,8 @@ export default function DashboardPage() {
                       onClick={() => setStatusFilter(tab.key)}
                       className={`pb-2 transition-colors relative whitespace-nowrap ${
                         statusFilter === tab.key
-                          ? "text-[#2F5D8F] font-medium border-b-2 border-[#2F5D8F] -mb-[1px]"
-                          : "text-[#5A6275] hover:text-[#161E33]"
+                          ? "text-accent font-medium border-b-2 border-accent -mb-[1px]"
+                          : "text-ink-2 hover:text-ink"
                       }`}
                     >
                       {tab.label}
@@ -506,22 +528,22 @@ export default function DashboardPage() {
 
               {/* LEDGER VIEW */}
               {viewMode === "LEDGER" && (
-                <div className="bg-[#FCFBF8] border border-[#D9D2C3] rounded-[4px] overflow-hidden">
+                <div className="bg-surface border border-line rounded-[8px] overflow-hidden">
                   {filteredDecisions.length === 0 ? (
-                    <div className="p-8 text-center text-[#5A6275] text-[13px]">
+                    <div className="p-8 text-center text-ink-2 text-[15px]">
                       No decisions match your search or filter.
                     </div>
                   ) : (
-                    <table className="w-full text-left border-collapse text-[13px]">
+                    <table className="w-full text-left border-collapse text-[15px]">
                       <thead>
-                        <tr className="border-b border-[#D9D2C3] font-courier text-[11px] text-[#5A6275] font-medium uppercase tracking-[0.08em]">
+                        <tr className="border-b border-line font-courier text-[13px] text-ink-2 font-medium uppercase tracking-[0.08em]">
                           <th className="py-3 px-4 font-medium">DECISION</th>
                           <th className="py-3 px-4 font-medium">WORKSPACE</th>
                           <th className="py-3 px-4 font-medium">STATUS</th>
                           <th className="py-3 px-4 font-medium text-right">DATE</th>
                         </tr>
                       </thead>
-                      <tbody className="divide-y divide-[#D9D2C3]">
+                      <tbody className="divide-y divide-line">
                         {filteredDecisions.map((d) => {
                           const parentFolder = folders.find((f) => f.id === d.folder_id);
                           const status = resolveStatus(d);
@@ -534,36 +556,36 @@ export default function DashboardPage() {
                             <tr
                               key={d.id}
                               onClick={() => router.push(`/decisions/${d.id}`)}
-                              className="hover:bg-[#F5F1E8] cursor-pointer transition-colors group"
+                              className="hover:bg-page cursor-pointer transition-colors group"
                             >
                               {/* Decision Title & Problem */}
                               <td className="py-3 px-4 max-w-md">
-                                <span className="font-medium text-[#161E33] group-hover:text-[#2F5D8F] transition-colors block leading-snug">
+                                <span className="font-medium text-ink group-hover:text-accent transition-colors block leading-snug">
                                   {d.title}
                                 </span>
                                 {d.problem_statement && (
-                                  <span className="text-[12px] text-[#5A6275] line-clamp-1 mt-0.5">
+                                  <span className="text-[14px] text-ink-2 line-clamp-1 mt-0.5">
                                     {d.problem_statement}
                                   </span>
                                 )}
                               </td>
 
                               {/* Workspace */}
-                              <td className="py-3 px-4 text-[#5A6275] whitespace-nowrap">
+                              <td className="py-3 px-4 text-ink-2 whitespace-nowrap">
                                 {parentFolder?.name || "General"}
                               </td>
 
                               {/* Status Badge: square-ish (2px radius), mono 11px uppercase, muted tones with 1px border */}
                               <td className="py-3 px-4 whitespace-nowrap">
                                 <span
-                                  className={`inline-flex items-center font-courier text-[11px] font-medium uppercase tracking-[0.08em] px-2 py-0.5 rounded-[2px] border ${
+                                  className={`inline-flex items-center font-courier text-[13px] font-medium uppercase tracking-[0.08em] px-2 py-0.5 rounded-[6px] border ${
                                     status === "DECIDED"
-                                      ? "text-[#2F6B4F] bg-[#E6EFE9] border-[#C5DACD]"
+                                      ? "text-accent-700 bg-accent-50 border-accent-200"
                                       : status === "UNDER_SCRUTINY"
-                                      ? "text-[#2F5D8F] bg-[#E6EDF5] border-[#C5D4E6]"
+                                      ? "text-accent bg-accent-50 border-accent-200"
                                       : status === "NEEDS_EVIDENCE"
-                                      ? "text-[#8A5A14] bg-[#F4ECDC] border-[#E3D3AE]"
-                                      : "text-[#161E33] bg-[#EAE6DB] border-[#D3CDBD]"
+                                      ? "text-accent-700 bg-subtle border-accent-200"
+                                      : "text-ink bg-subtle border-line"
                                   }`}
                                 >
                                   {status === "UNDER_SCRUTINY" && "Under scrutiny"}
@@ -574,7 +596,7 @@ export default function DashboardPage() {
                               </td>
 
                               {/* Date: monospace uppercase label */}
-                              <td className="py-3 px-4 text-right font-courier text-[11px] text-[#5A6275] uppercase tracking-[0.08em] whitespace-nowrap">
+                              <td className="py-3 px-4 text-right font-courier text-[13px] text-ink-2 uppercase tracking-[0.08em] whitespace-nowrap">
                                 {formattedDate}
                               </td>
                             </tr>
@@ -590,7 +612,7 @@ export default function DashboardPage() {
               {viewMode === "WORKSPACES" && (
                 <div className="space-y-4">
                   {filteredFolders.length === 0 ? (
-                    <div className="bg-[#FCFBF8] border border-[#D9D2C3] rounded-[4px] p-8 text-center text-[#5A6275] text-[13px]">
+                    <div className="bg-surface border border-line rounded-[8px] p-8 text-center text-ink-2 text-[15px]">
                       No workspaces found.
                     </div>
                   ) : (
@@ -601,22 +623,22 @@ export default function DashboardPage() {
                           <Link
                             key={f.id}
                             href={`/folders/${f.id}`}
-                            className="bg-[#FCFBF8] border border-[#D9D2C3] hover:border-[#2F5D8F] rounded-[4px] p-4 flex flex-col justify-between transition-colors group focus:ring-2 focus:ring-[#2F5D8F]/25 focus:outline-none"
+                            className="bg-surface border border-line hover:border-accent rounded-[8px] p-4 flex flex-col justify-between transition-colors group focus:ring-2 focus:ring-accent/25 focus:outline-none"
                           >
                             <div className="space-y-1.5">
                               <div className="flex items-center justify-between">
-                                <span className="text-[14px] font-medium text-[#161E33] group-hover:text-[#2F5D8F] transition-colors">
+                                <span className="text-[16px] font-medium text-ink group-hover:text-accent transition-colors">
                                   {f.name}
                                 </span>
-                                <span className="font-courier text-[11px] uppercase tracking-[0.08em] text-[#8B909C]">
+                                <span className="font-courier text-[13px] uppercase tracking-[0.08em] text-ink-3">
                                   {count} {count === 1 ? "DECISION" : "DECISIONS"}
                                 </span>
                               </div>
-                              <p className="text-[12px] text-[#5A6275] line-clamp-2 leading-relaxed">
+                              <p className="text-[14px] text-ink-2 line-clamp-2 leading-relaxed">
                                 {f.description || "Active decision domain."}
                               </p>
                             </div>
-                            <div className="pt-3 mt-3 border-t border-[#D9D2C3] text-[12px] text-[#2F5D8F] font-medium">
+                            <div className="pt-3 mt-3 border-t border-line text-[14px] text-accent font-medium">
                               Open workspace
                             </div>
                           </Link>
@@ -634,29 +656,29 @@ export default function DashboardPage() {
       {/* MODAL: CREATE WORKSPACE */}
       {showCreateFolderModal && (
         <div className="fixed inset-0 z-50 bg-black/25 backdrop-blur-xs flex items-center justify-center p-4 font-ui">
-          <div className="bg-[#FCFBF8] rounded-[4px] border border-[#D9D2C3] max-w-md w-full p-6 relative">
-            <div className="flex items-center justify-between pb-3 border-b border-[#D9D2C3] mb-4">
-              <h3 className="text-[17px] font-medium text-[#161E33]">
+          <div className="bg-surface rounded-[8px] border border-line max-w-md w-full p-6 relative">
+            <div className="flex items-center justify-between pb-3 border-b border-line mb-4">
+              <h3 className="text-[19px] font-medium text-ink">
                 New workspace
               </h3>
               <button
                 type="button"
                 onClick={() => setShowCreateFolderModal(false)}
-                className="text-[#8B909C] hover:text-[#161E33] p-1 rounded-[2px]"
+                className="text-ink-3 hover:text-ink p-1 rounded-[6px]"
               >
                 <X className="w-4 h-4" />
               </button>
             </div>
 
             {error && (
-              <div className="mb-3 p-2.5 rounded-[4px] bg-red-50 border border-red-200 text-red-700 text-xs">
+              <div className="mb-3 p-2.5 rounded-[8px] bg-red-50 border border-red-200 text-red-700 text-xs">
                 {error}
               </div>
             )}
 
             <form onSubmit={handleCreateFolder} className="space-y-4">
               <div>
-                <label className="block text-[13px] font-medium text-[#161E33] mb-1">
+                <label className="block text-[15px] font-medium text-ink mb-1">
                   Workspace name
                 </label>
                 <input
@@ -665,12 +687,12 @@ export default function DashboardPage() {
                   value={newFolderName}
                   onChange={(e) => setNewFolderName(e.target.value)}
                   placeholder="e.g. Product Strategy, Leadership, Expansion"
-                  className="w-full px-3 py-2 text-[13px] bg-[#FCFBF8] border border-[#D9D2C3] rounded-[4px] text-[#161E33] placeholder-[#8B909C] focus:border-[#2F5D8F] focus:ring-2 focus:ring-[#2F5D8F]/25 focus:outline-none transition-colors"
+                  className="w-full px-3 py-2 text-[15px] bg-surface border border-line rounded-[8px] text-ink placeholder-ink-3 focus:border-accent focus:ring-2 focus:ring-accent/25 focus:outline-none transition-colors"
                 />
               </div>
 
               <div>
-                <label className="block text-[13px] font-medium text-[#161E33] mb-1">
+                <label className="block text-[15px] font-medium text-ink mb-1">
                   Description (optional)
                 </label>
                 <textarea
@@ -678,22 +700,22 @@ export default function DashboardPage() {
                   value={newFolderDesc}
                   onChange={(e) => setNewFolderDesc(e.target.value)}
                   placeholder="Brief context or domain notes..."
-                  className="w-full px-3 py-2 text-[13px] bg-[#FCFBF8] border border-[#D9D2C3] rounded-[4px] text-[#161E33] placeholder-[#8B909C] focus:border-[#2F5D8F] focus:ring-2 focus:ring-[#2F5D8F]/25 focus:outline-none transition-colors"
+                  className="w-full px-3 py-2 text-[15px] bg-surface border border-line rounded-[8px] text-ink placeholder-ink-3 focus:border-accent focus:ring-2 focus:ring-accent/25 focus:outline-none transition-colors"
                 />
               </div>
 
-              <div className="pt-2 flex items-center justify-end gap-2 border-t border-[#D9D2C3]">
+              <div className="pt-2 flex items-center justify-end gap-2 border-t border-line">
                 <button
                   type="button"
                   onClick={() => setShowCreateFolderModal(false)}
-                  className="px-3.5 py-1.5 text-[13px] font-medium text-[#5A6275] hover:text-[#161E33] rounded-[4px]"
+                  className="px-3.5 py-1.5 text-[15px] font-medium text-ink-2 hover:text-ink rounded-[8px]"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={folderSubmitting}
-                  className="px-4 py-1.5 bg-[#161E33] hover:bg-[#232C47] text-white text-[13px] font-medium rounded-[4px] transition-colors disabled:opacity-50"
+                  className="px-4 py-1.5 bg-ink hover:bg-ink-hover text-white text-[15px] font-medium rounded-[8px] transition-colors disabled:opacity-50"
                 >
                   {folderSubmitting ? "Creating..." : "Create workspace"}
                 </button>
@@ -706,35 +728,35 @@ export default function DashboardPage() {
       {/* MODAL: CHALLENGE A DECISION */}
       {showChallengeModal && (
         <div className="fixed inset-0 z-50 bg-black/25 backdrop-blur-xs flex items-center justify-center p-4 font-ui">
-          <div className="bg-[#FCFBF8] rounded-[4px] border border-[#D9D2C3] max-w-md w-full p-6 relative">
-            <div className="flex items-center justify-between pb-3 border-b border-[#D9D2C3] mb-4">
-              <h3 className="text-[17px] font-medium text-[#161E33]">
+          <div className="bg-surface rounded-[8px] border border-line max-w-md w-full p-6 relative">
+            <div className="flex items-center justify-between pb-3 border-b border-line mb-4">
+              <h3 className="text-[19px] font-medium text-ink">
                 Challenge a decision
               </h3>
               <button
                 type="button"
                 onClick={() => setShowChallengeModal(false)}
-                className="text-[#8B909C] hover:text-[#161E33] p-1 rounded-[2px]"
+                className="text-ink-3 hover:text-ink p-1 rounded-[6px]"
               >
                 <X className="w-4 h-4" />
               </button>
             </div>
 
             {error && (
-              <div className="mb-3 p-2.5 rounded-[4px] bg-red-50 border border-red-200 text-red-700 text-xs">
+              <div className="mb-3 p-2.5 rounded-[8px] bg-red-50 border border-red-200 text-red-700 text-xs">
                 {error}
               </div>
             )}
 
             <form onSubmit={handleChallengeDecision} className="space-y-4">
               <div>
-                <label className="block text-[13px] font-medium text-[#161E33] mb-1">
+                <label className="block text-[15px] font-medium text-ink mb-1">
                   Workspace
                 </label>
                 <select
                   value={challengeFolderId}
                   onChange={(e) => setChallengeFolderId(Number(e.target.value))}
-                  className="w-full px-3 py-2 text-[13px] bg-[#FCFBF8] border border-[#D9D2C3] rounded-[4px] text-[#161E33] focus:border-[#2F5D8F] focus:ring-2 focus:ring-[#2F5D8F]/25 focus:outline-none transition-colors"
+                  className="w-full px-3 py-2 text-[15px] bg-surface border border-line rounded-[8px] text-ink focus:border-accent focus:ring-2 focus:ring-accent/25 focus:outline-none transition-colors"
                 >
                   {folders.map((f) => (
                     <option key={f.id} value={f.id}>
@@ -748,7 +770,7 @@ export default function DashboardPage() {
               </div>
 
               <div>
-                <label className="block text-[13px] font-medium text-[#161E33] mb-1">
+                <label className="block text-[15px] font-medium text-ink mb-1">
                   What decision are you weighing?
                 </label>
                 <textarea
@@ -757,22 +779,22 @@ export default function DashboardPage() {
                   value={challengeTitle}
                   onChange={(e) => setChallengeTitle(e.target.value)}
                   placeholder="e.g. Should we enter a new regional market this year?"
-                  className="w-full px-3 py-2 text-[13px] bg-[#FCFBF8] border border-[#D9D2C3] rounded-[4px] text-[#161E33] placeholder-[#8B909C] focus:border-[#2F5D8F] focus:ring-2 focus:ring-[#2F5D8F]/25 focus:outline-none transition-colors"
+                  className="w-full px-3 py-2 text-[15px] bg-surface border border-line rounded-[8px] text-ink placeholder-ink-3 focus:border-accent focus:ring-2 focus:ring-accent/25 focus:outline-none transition-colors"
                 />
               </div>
 
-              <div className="pt-2 flex items-center justify-end gap-2 border-t border-[#D9D2C3]">
+              <div className="pt-2 flex items-center justify-end gap-2 border-t border-line">
                 <button
                   type="button"
                   onClick={() => setShowChallengeModal(false)}
-                  className="px-3.5 py-1.5 text-[13px] font-medium text-[#5A6275] hover:text-[#161E33] rounded-[4px]"
+                  className="px-3.5 py-1.5 text-[15px] font-medium text-ink-2 hover:text-ink rounded-[8px]"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={challengeSubmitting}
-                  className="px-4 py-1.5 bg-[#161E33] hover:bg-[#232C47] text-white text-[13px] font-medium rounded-[4px] transition-colors disabled:opacity-50"
+                  className="px-4 py-1.5 bg-ink hover:bg-ink-hover text-white text-[15px] font-medium rounded-[8px] transition-colors disabled:opacity-50"
                 >
                   {challengeSubmitting ? "Starting..." : "Start decision"}
                 </button>

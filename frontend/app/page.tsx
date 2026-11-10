@@ -7,6 +7,7 @@ import {
   getMe,
   User,
 } from "@/lib/api";
+import { formatDisplayName } from "@/lib/userDisplay";
 
 type LensType =
   | "ASSUMPTIONS"
@@ -173,30 +174,30 @@ export default function EditorialLandingPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#F5F1E8] text-[#172033] font-courier antialiased selection:bg-[#315C8A] selection:text-[#F5F1E8]">
+    <div className="min-h-screen bg-page text-ink font-courier antialiased selection:bg-accent selection:text-page">
       {/* ==================================================
           04 — NAVIGATION (Fixed 58px)
           ================================================== */}
-      <nav className="fixed top-0 left-0 right-0 h-[58px] z-40 bg-[#F5F1E8]/92 backdrop-blur-md border-b border-[#172033]/15 px-6 lg:px-16 flex items-center justify-between">
+      <nav className="fixed top-0 left-0 right-0 h-[58px] z-40 bg-page/92 backdrop-blur-md border-b border-ink/15 px-6 lg:px-16 flex items-center justify-between">
         <div className="flex items-center space-x-8">
           <Link
             href="/"
-            className="font-newsreader text-2xl tracking-tight text-[#172033] font-medium"
+            className="font-newsreader text-2xl tracking-tight text-ink font-medium"
           >
-            DecisionLens<span className="text-[#315C8A]">.</span>
+            DecisionLens<span className="text-accent">.</span>
           </Link>
 
-          <div className="hidden md:flex items-center space-x-6 text-[11px] font-courier tracking-[0.09em] uppercase text-[#596474]">
-            <a href="#the-flow" className="hover:text-[#315C8A] transition-colors">
+          <div className="hidden md:flex items-center space-x-6 text-[13px] font-courier tracking-[0.09em] uppercase text-ink-2">
+            <a href="#the-flow" className="hover:text-accent transition-colors">
               THE FLOW
             </a>
-            <a href="#lenses-in-action" className="hover:text-[#315C8A] transition-colors">
+            <a href="#lenses-in-action" className="hover:text-accent transition-colors">
               LENSES IN ACTION
             </a>
-            <a href="#epistemic-rigor" className="hover:text-[#315C8A] transition-colors">
+            <a href="#epistemic-rigor" className="hover:text-accent transition-colors">
               EPISTEMIC RIGOR
             </a>
-            <a href="#domains" className="hover:text-[#315C8A] transition-colors">
+            <a href="#domains" className="hover:text-accent transition-colors">
               DOMAINS
             </a>
           </div>
@@ -204,21 +205,21 @@ export default function EditorialLandingPage() {
 
         <div className="flex items-center space-x-4">
           {loadingUser ? (
-            <span className="text-[11px] text-[#7B8491] tracking-[0.08em]">VERIFYING...</span>
+            <span className="text-[13px] text-ink-3 tracking-[0.08em]">VERIFYING...</span>
           ) : user ? (
             <div className="flex items-center space-x-3">
-              <span className="hidden sm:inline text-[11px] text-[#315C8A] tracking-[0.08em] font-semibold">
-                {user.display_name || user.email.split("@")[0]}
+              <span className="hidden sm:inline text-[13px] text-accent tracking-[0.08em] font-semibold">
+                {formatDisplayName(user.display_name, user.email)}
               </span>
               <Link
                 href="/dashboard?action=new"
-                className="text-[11px] font-bold tracking-[0.08em] px-3.5 py-1.5 border border-[#172033] bg-[#172033] text-[#F5F1E8] hover:bg-transparent hover:text-[#172033] transition-colors"
+                className="text-[13px] font-bold tracking-[0.08em] px-3.5 py-1.5 border border-ink bg-ink text-page hover:bg-transparent hover:text-ink transition-colors"
               >
                 CHALLENGE A DECISION
               </Link>
               <Link
-                href="/dashboard"
-                className="text-[11px] font-bold tracking-[0.08em] px-3 py-1.5 border border-[#172033]/30 text-[#172033] hover:border-[#172033] hover:bg-[#172033]/5 transition-colors"
+                href="/overview"
+                className="text-[13px] font-bold tracking-[0.08em] px-3 py-1.5 border border-ink/30 text-ink hover:border-ink hover:bg-ink/5 transition-colors"
               >
                 DASHBOARD →
               </Link>
@@ -227,13 +228,13 @@ export default function EditorialLandingPage() {
             <div className="flex items-center space-x-3">
               <Link
                 href="/auth"
-                className="text-[11px] font-bold tracking-[0.08em] text-[#596474] hover:text-[#315C8A] px-2.5 py-1 transition-colors"
+                className="text-[13px] font-bold tracking-[0.08em] text-ink-2 hover:text-accent px-2.5 py-1 transition-colors"
               >
                 SIGN IN
               </Link>
               <Link
                 href="/auth?redirect=/dashboard?action=new"
-                className="text-[11px] font-bold tracking-[0.08em] px-3.5 py-1.5 border border-[#172033] bg-[#172033] text-[#F5F1E8] hover:bg-transparent hover:text-[#172033] transition-colors"
+                className="text-[13px] font-bold tracking-[0.08em] px-3.5 py-1.5 border border-ink bg-ink text-page hover:bg-transparent hover:text-ink transition-colors"
               >
                 CHALLENGE A DECISION
               </Link>
@@ -244,16 +245,16 @@ export default function EditorialLandingPage() {
 
       {/* Authenticated User Status Bar */}
       {user && (
-        <div className="pt-[58px] bg-[#E9E3D7] border-b border-[#172033]/15 px-6 py-2 text-[11px] text-[#596474] tracking-[0.08em] flex items-center justify-between">
+        <div className="pt-[58px] bg-subtle border-b border-ink/15 px-6 py-2 text-[13px] text-ink-2 tracking-[0.08em] flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <span className="w-1.5 h-1.5 bg-[#315C8A]" />
+            <span className="w-1.5 h-1.5 bg-accent" />
             <span>
-              AUTHENTICATED DOSSIER WORKSPACE: <strong className="text-[#172033]">{user.email}</strong>. READY FOR REASONING SCRUTINY.
+              AUTHENTICATED DOSSIER WORKSPACE: <strong className="text-ink">{user.email}</strong>. READY FOR REASONING SCRUTINY.
             </span>
           </div>
           <Link
-            href="/dashboard"
-            className="text-[#315C8A] font-bold hover:underline tracking-widest uppercase ml-4"
+            href="/overview"
+            className="text-accent font-bold hover:underline tracking-widest uppercase ml-4"
           >
             ENTER WORKSPACE →
           </Link>
@@ -266,30 +267,30 @@ export default function EditorialLandingPage() {
       <section
         className={`relative ${
           user ? "pt-10" : "pt-20"
-        } pb-16 sm:pb-24 px-6 sm:px-12 lg:px-20 bg-[#E9E3D7] border-b border-[#172033]/15 overflow-hidden`}
+        } pb-16 sm:pb-24 px-6 sm:px-12 lg:px-20 bg-subtle border-b border-ink/15 overflow-hidden`}
       >
         <div className="max-w-4xl mx-auto relative z-10">
           {/* Kicker */}
           <div className="flex items-center gap-3 mb-6">
-            <span className="text-[11px] font-courier tracking-[0.1em] text-[#315C8A] font-bold">
+            <span className="text-[13px] font-courier tracking-[0.1em] text-accent font-bold">
               DECISION INTELLIGENCE / 01
             </span>
-            <span className="w-6 h-[1px] bg-[#315C8A]/40" />
-            <span className="text-[11px] font-courier tracking-[0.08em] text-[#7B8491]">
+            <span className="w-6 h-[1px] bg-accent/40" />
+            <span className="text-[13px] font-courier tracking-[0.08em] text-ink-3">
               REASONING SCRUTINY ENGINE
             </span>
           </div>
 
           {/* Headline */}
-          <h1 className="font-newsreader text-4xl sm:text-6xl lg:text-7xl text-[#172033] font-normal tracking-[-0.02em] leading-[1.08] mb-6">
+          <h1 className="font-newsreader text-4xl sm:text-6xl lg:text-7xl text-ink font-normal tracking-[-0.02em] leading-[1.08] mb-6">
             Don&apos;t just make the decision.{" "}
-            <span className="italic text-[#315C8A] font-normal block sm:inline">
+            <span className="italic text-accent font-normal block sm:inline">
               Challenge it.
             </span>
           </h1>
 
           {/* Supporting Copy */}
-          <p className="font-courier text-xs sm:text-sm text-[#596474] leading-[1.9] max-w-2xl mb-8">
+          <p className="font-courier text-xs sm:text-sm text-ink-2 leading-[1.9] max-w-2xl mb-8">
             DecisionLens puts your decisions under scrutiny. Explore trade-offs, test assumptions,
             uncover gaps, and see how your reasoning holds up from multiple perspectives — before you commit.
           </p>
@@ -298,42 +299,42 @@ export default function EditorialLandingPage() {
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 mb-10">
             <Link
               href={user ? "/dashboard?action=new" : "/auth?redirect=/dashboard?action=new"}
-              className="px-6 py-3.5 border border-[#172033] bg-[#172033] text-[#F5F1E8] font-courier text-xs tracking-[0.08em] uppercase font-bold hover:bg-transparent hover:text-[#172033] transition-colors text-center inline-block"
+              className="px-6 py-3.5 border border-ink bg-ink text-page font-courier text-xs tracking-[0.08em] uppercase font-bold hover:bg-transparent hover:text-ink transition-colors text-center inline-block"
             >
               Challenge a Decision →
             </Link>
             <a
               href="#the-problem"
-              className="px-6 py-3.5 border border-[#172033]/30 bg-transparent text-[#172033] font-courier text-xs tracking-[0.08em] uppercase hover:border-[#172033] transition-colors text-center"
+              className="px-6 py-3.5 border border-ink/30 bg-transparent text-ink font-courier text-xs tracking-[0.08em] uppercase hover:border-ink transition-colors text-center"
             >
               See How It Works ↓
             </a>
           </div>
 
           {/* Process Index Strip */}
-          <div className="pt-6 border-t border-[#172033]/15 grid grid-cols-2 sm:grid-cols-6 gap-2 text-[10px] font-courier tracking-[0.08em] text-[#596474]">
+          <div className="pt-6 border-t border-ink/15 grid grid-cols-2 sm:grid-cols-6 gap-2 text-[13px] font-courier tracking-[0.08em] text-ink-2">
             <div className="flex items-center gap-1.5">
-              <span className="text-[#315C8A] font-bold">01</span>
-              <span className="text-[#172033] font-bold">DECISION</span>
+              <span className="text-accent font-bold">01</span>
+              <span className="text-ink font-bold">DECISION</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <span className="text-[#315C8A]">→</span>
+              <span className="text-accent">→</span>
               <span>ASSUMPTIONS</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <span className="text-[#315C8A]">→</span>
+              <span className="text-accent">→</span>
               <span>EVIDENCE</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <span className="text-[#315C8A]">→</span>
+              <span className="text-accent">→</span>
               <span>BIAS</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <span className="text-[#315C8A]">→</span>
+              <span className="text-accent">→</span>
               <span>TRADE-OFFS</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <span className="text-[#315C8A]">→</span>
+              <span className="text-accent">→</span>
               <span>RISKS</span>
             </div>
           </div>
@@ -346,7 +347,7 @@ export default function EditorialLandingPage() {
             transform: `translateY(${Math.min(scrollY * 0.08, 30)}px) scale(${1 + Math.min(scrollY * 0.0003, 0.05)})`,
           }}
         >
-          <p className="font-newsreader font-bold text-[22vw] leading-none tracking-tighter text-[#172033] text-center whitespace-nowrap">
+          <p className="font-newsreader font-bold text-[22vw] leading-none tracking-tighter text-ink text-center whitespace-nowrap">
             DECISION
           </p>
         </div>
@@ -355,58 +356,58 @@ export default function EditorialLandingPage() {
       {/* ==================================================
           06 — SECTION: THE PROBLEM (THE STRUCTURAL FLAW)
           ================================================== */}
-      <section id="the-problem" className="py-14 sm:py-20 px-6 sm:px-12 lg:px-20 border-b border-[#172033]/15 bg-[#F5F1E8]">
+      <section id="the-problem" className="py-14 sm:py-20 px-6 sm:px-12 lg:px-20 border-b border-ink/15 bg-page">
         <div className="max-w-4xl mx-auto">
           <div className="mb-10">
-            <span className="text-[10px] font-courier tracking-[0.1em] text-[#315C8A] block mb-2 font-bold uppercase">
+            <span className="text-[13px] font-courier tracking-[0.1em] text-accent block mb-2 font-bold uppercase">
               The Structural Flaw
             </span>
-            <h2 className="font-newsreader text-3xl sm:text-4xl text-[#172033] font-normal leading-[1.14] mb-4">
+            <h2 className="font-newsreader text-3xl sm:text-4xl text-ink font-normal leading-[1.14] mb-4">
               A decision can look reasonable until you examine what it assumes.
             </h2>
-            <p className="font-courier text-xs sm:text-sm text-[#596474] leading-[1.85] max-w-2xl">
+            <p className="font-courier text-xs sm:text-sm text-ink-2 leading-[1.85] max-w-2xl">
               Most decisions arrive with reasons already attached. We tend to collect evidence that supports
               what we want, overlook what is missing, and underestimate the assumptions underneath the conclusion.
             </p>
           </div>
 
-          <div className="divide-y divide-[#172033]/15 border-t border-b border-[#172033]/15 font-courier">
+          <div className="divide-y divide-ink/15 border-t border-b border-ink/15 font-courier">
             <div className="py-4 grid grid-cols-1 sm:grid-cols-12 gap-2 sm:gap-4 items-start">
               <div className="sm:col-span-4">
-                <span className="text-[10px] text-[#315C8A] font-bold tracking-widest block">01</span>
-                <span className="text-xs font-bold text-[#172033] uppercase">ASSUMPTIONS</span>
+                <span className="text-[13px] text-accent font-bold tracking-widest block">01</span>
+                <span className="text-xs font-bold text-ink uppercase">ASSUMPTIONS</span>
               </div>
-              <p className="sm:col-span-8 text-xs text-[#596474] leading-[1.8]">
+              <p className="sm:col-span-8 text-xs text-ink-2 leading-[1.8]">
                 Every decision rests on things we believe to be true. Some are supported. Others simply go unquestioned.
               </p>
             </div>
 
             <div className="py-4 grid grid-cols-1 sm:grid-cols-12 gap-2 sm:gap-4 items-start">
               <div className="sm:col-span-4">
-                <span className="text-[10px] text-[#315C8A] font-bold tracking-widest block">02</span>
-                <span className="text-xs font-bold text-[#172033] uppercase">BLIND SPOTS</span>
+                <span className="text-[13px] text-accent font-bold tracking-widest block">02</span>
+                <span className="text-xs font-bold text-ink uppercase">BLIND SPOTS</span>
               </div>
-              <p className="sm:col-span-8 text-xs text-[#596474] leading-[1.8]">
+              <p className="sm:col-span-8 text-xs text-ink-2 leading-[1.8]">
                 The information we never think to ask for can matter as much as the information we already have.
               </p>
             </div>
 
             <div className="py-4 grid grid-cols-1 sm:grid-cols-12 gap-2 sm:gap-4 items-start">
               <div className="sm:col-span-4">
-                <span className="text-[10px] text-[#315C8A] font-bold tracking-widest block">03</span>
-                <span className="text-xs font-bold text-[#172033] uppercase">TRADE-OFFS</span>
+                <span className="text-[13px] text-accent font-bold tracking-widest block">03</span>
+                <span className="text-xs font-bold text-ink uppercase">TRADE-OFFS</span>
               </div>
-              <p className="sm:col-span-8 text-xs text-[#596474] leading-[1.8]">
+              <p className="sm:col-span-8 text-xs text-ink-2 leading-[1.8]">
                 Choosing one path always means giving something else up. Those costs are easy to underestimate when they remain implicit.
               </p>
             </div>
 
             <div className="py-4 grid grid-cols-1 sm:grid-cols-12 gap-2 sm:gap-4 items-start">
               <div className="sm:col-span-4">
-                <span className="text-[10px] text-[#315C8A] font-bold tracking-widest block">04</span>
-                <span className="text-xs font-bold text-[#172033] uppercase">BIAS</span>
+                <span className="text-[13px] text-accent font-bold tracking-widest block">04</span>
+                <span className="text-xs font-bold text-ink uppercase">BIAS</span>
               </div>
-              <p className="sm:col-span-8 text-xs text-[#596474] leading-[1.8]">
+              <p className="sm:col-span-8 text-xs text-ink-2 leading-[1.8]">
                 The way a question is framed can influence the answer before the analysis even begins.
               </p>
             </div>
@@ -417,52 +418,52 @@ export default function EditorialLandingPage() {
       {/* ==================================================
           07 — SECTION: WHAT DECISIONLENS ACTUALLY DOES (THE FLOW)
           ================================================== */}
-      <section id="the-flow" className="py-14 sm:py-20 px-6 sm:px-12 lg:px-20 border-b border-[#172033]/15 bg-[#E9E3D7]">
+      <section id="the-flow" className="py-14 sm:py-20 px-6 sm:px-12 lg:px-20 border-b border-ink/15 bg-subtle">
         <div className="max-w-4xl mx-auto">
           <div className="mb-10">
-            <span className="text-[10px] font-courier tracking-[0.1em] text-[#315C8A] block mb-2 font-bold uppercase">
+            <span className="text-[13px] font-courier tracking-[0.1em] text-accent block mb-2 font-bold uppercase">
               The Flow
             </span>
-            <h2 className="font-newsreader text-3xl sm:text-4xl text-[#172033] font-normal leading-[1.14] mb-3">
+            <h2 className="font-newsreader text-3xl sm:text-4xl text-ink font-normal leading-[1.14] mb-3">
               Turn a decision into something you can examine.
             </h2>
-            <p className="font-courier text-xs sm:text-sm text-[#596474] leading-[1.85] max-w-xl">
+            <p className="font-courier text-xs sm:text-sm text-ink-2 leading-[1.85] max-w-xl">
               DecisionLens takes a messy decision and makes the reasoning around it inspectable.
             </p>
           </div>
 
-          <div className="divide-y divide-[#172033]/15 border-t border-b border-[#172033]/15 font-courier">
+          <div className="divide-y divide-ink/15 border-t border-b border-ink/15 font-courier">
             <div className="py-4 flex items-start gap-4">
-              <span className="text-xs font-bold text-[#315C8A] shrink-0 w-24">01 — FRAME</span>
-              <p className="text-xs text-[#596474] leading-[1.8]">
+              <span className="text-xs font-bold text-accent shrink-0 w-24">01 — FRAME</span>
+              <p className="text-xs text-ink-2 leading-[1.8]">
                 Define the decision, options, objectives and constraints.
               </p>
             </div>
 
             <div className="py-4 flex items-start gap-4">
-              <span className="text-xs font-bold text-[#315C8A] shrink-0 w-24">02 — EXAMINE</span>
-              <p className="text-xs text-[#596474] leading-[1.8]">
+              <span className="text-xs font-bold text-accent shrink-0 w-24">02 — EXAMINE</span>
+              <p className="text-xs text-ink-2 leading-[1.8]">
                 Separate facts, claims, assumptions and things that still need evidence.
               </p>
             </div>
 
             <div className="py-4 flex items-start gap-4">
-              <span className="text-xs font-bold text-[#315C8A] shrink-0 w-24">03 — CHALLENGE</span>
-              <p className="text-xs text-[#596474] leading-[1.8]">
+              <span className="text-xs font-bold text-accent shrink-0 w-24">03 — CHALLENGE</span>
+              <p className="text-xs text-ink-2 leading-[1.8]">
                 Apply different decision-making techniques to test the reasoning.
               </p>
             </div>
 
             <div className="py-4 flex items-start gap-4">
-              <span className="text-xs font-bold text-[#315C8A] shrink-0 w-24">04 — EXPOSE</span>
-              <p className="text-xs text-[#596474] leading-[1.8]">
+              <span className="text-xs font-bold text-accent shrink-0 w-24">04 — EXPOSE</span>
+              <p className="text-xs text-ink-2 leading-[1.8]">
                 Surface gaps, potential bias, risks, contradictions and overlooked alternatives.
               </p>
             </div>
 
             <div className="py-4 flex items-start gap-4">
-              <span className="text-xs font-bold text-[#315C8A] shrink-0 w-24">05 — REVIEW</span>
-              <p className="text-xs text-[#596474] leading-[1.8]">
+              <span className="text-xs font-bold text-accent shrink-0 w-24">05 — REVIEW</span>
+              <p className="text-xs text-ink-2 leading-[1.8]">
                 See the trade-offs and unresolved questions before deciding what to do.
               </p>
             </div>
@@ -473,32 +474,32 @@ export default function EditorialLandingPage() {
       {/* ==================================================
           08 & 09 — THE CENTRAL STORY & TRAVELLING DECISION ARTIFACT
           ================================================== */}
-      <section className="py-14 sm:py-20 px-6 sm:px-12 lg:px-20 border-b border-[#172033]/15 bg-[#F5F1E8]">
+      <section className="py-14 sm:py-20 px-6 sm:px-12 lg:px-20 border-b border-ink/15 bg-page">
         <div className="max-w-4xl mx-auto">
           <div className="mb-8">
-            <span className="text-[10px] font-courier tracking-[0.1em] text-[#315C8A] block mb-2 font-bold uppercase">
+            <span className="text-[13px] font-courier tracking-[0.1em] text-accent block mb-2 font-bold uppercase">
               Lenses in Action / 01
             </span>
-            <h2 className="font-newsreader text-3xl sm:text-4xl text-[#172033] font-normal leading-tight mb-3">
+            <h2 className="font-newsreader text-3xl sm:text-4xl text-ink font-normal leading-tight mb-3">
               Let&apos;s put a decision under pressure.
             </h2>
-            <p className="font-courier text-xs sm:text-sm text-[#596474] max-w-xl leading-relaxed">
+            <p className="font-courier text-xs sm:text-sm text-ink-2 max-w-xl leading-relaxed">
               Below is one real decision. Follow its evolution as DecisionLens progressively interrogates
               what is taken for granted, what is missing, and what could fail.
             </p>
           </div>
 
           {/* Dossier Scrubber Index */}
-          <div className="flex flex-wrap gap-1.5 mb-4 border-b border-[#172033]/15 pb-3">
+          <div className="flex flex-wrap gap-1.5 mb-4 border-b border-ink/15 pb-3">
             {artifactLayers.map((l, idx) => (
               <button
                 key={l.num}
                 type="button"
                 onClick={() => setArtifactStage(idx)}
-                className={`px-2.5 py-1 text-[10px] font-courier tracking-[0.08em] transition-colors border ${
+                className={`px-2.5 py-1 text-[13px] font-courier tracking-[0.08em] transition-colors border ${
                   artifactStage === idx
-                    ? "border-[#315C8A] bg-[#315C8A] text-[#F5F1E8] font-bold"
-                    : "border-[#172033]/15 bg-[#E9E3D7] text-[#596474] hover:border-[#172033]"
+                    ? "border-accent bg-accent text-page font-bold"
+                    : "border-ink/15 bg-subtle text-ink-2 hover:border-ink"
                 }`}
               >
                 {l.num} {l.layer}
@@ -507,33 +508,33 @@ export default function EditorialLandingPage() {
           </div>
 
           {/* The Single Travelling Decision Dossier */}
-          <div className="border border-[#172033] bg-[#E9E3D7] p-6 sm:p-8 transition-all duration-200">
-            <div className="flex items-center justify-between border-b border-[#172033]/15 pb-3 mb-4 text-[10px] font-courier">
-              <span className="text-[#315C8A] font-bold tracking-widest uppercase">
+          <div className="border border-ink bg-subtle p-6 sm:p-8 transition-all duration-200">
+            <div className="flex items-center justify-between border-b border-ink/15 pb-3 mb-4 text-[13px] font-courier">
+              <span className="text-accent font-bold tracking-widest uppercase">
                 DECISION / 014 • STAGE {artifactLayers[artifactStage].num}: {artifactLayers[artifactStage].layer}
               </span>
-              <span className="text-[#172033] font-bold border border-[#172033]/20 px-2 py-0.5 bg-[#F5F1E8]">
+              <span className="text-ink font-bold border border-ink/20 px-2 py-0.5 bg-page">
                 STATUS: {artifactLayers[artifactStage].status}
               </span>
             </div>
 
             <div className="space-y-3 mb-6">
-              <span className="text-[10px] text-[#7B8491] uppercase tracking-wider block">
+              <span className="text-[13px] text-ink-3 uppercase tracking-wider block">
                 {artifactLayers[artifactStage].title}
               </span>
-              <h3 className="font-newsreader text-2xl sm:text-3xl text-[#172033] leading-snug">
+              <h3 className="font-newsreader text-2xl sm:text-3xl text-ink leading-snug">
                 {artifactLayers[artifactStage].question}
               </h3>
-              <div className="text-xs font-courier text-[#596474] pt-1">
+              <div className="text-xs font-courier text-ink-2 pt-1">
                 <strong>FRAMEWORK EVALUATION:</strong> {artifactLayers[artifactStage].options}
               </div>
             </div>
 
-            <div className="pt-3 border-t border-[#172033]/15 flex items-start gap-3 text-xs font-courier">
-              <span className="text-[#315C8A] font-bold text-[10px] tracking-wider shrink-0 mt-0.5">
+            <div className="pt-3 border-t border-ink/15 flex items-start gap-3 text-xs font-courier">
+              <span className="text-accent font-bold text-[13px] tracking-wider shrink-0 mt-0.5">
                 EXPOSURE:
               </span>
-              <p className="text-[#172033] text-[11px] leading-relaxed">
+              <p className="text-ink text-[13px] leading-relaxed">
                 {artifactLayers[artifactStage].note}
               </p>
             </div>
@@ -544,43 +545,43 @@ export default function EditorialLandingPage() {
       {/* ==================================================
           10 — SECTION: ASSUMPTIONS (01 / ASSUMPTIONS)
           ================================================== */}
-      <section className="py-14 sm:py-20 px-6 sm:px-12 lg:px-20 border-b border-[#172033]/15 bg-[#E9E3D7]">
+      <section className="py-14 sm:py-20 px-6 sm:px-12 lg:px-20 border-b border-ink/15 bg-subtle">
         <div className="max-w-4xl mx-auto">
           <div className="mb-8">
-            <span className="text-[10px] font-courier tracking-[0.1em] text-[#315C8A] block mb-2 font-bold uppercase">
+            <span className="text-[13px] font-courier tracking-[0.1em] text-accent block mb-2 font-bold uppercase">
               01 / Assumptions
             </span>
-            <h2 className="font-newsreader text-3xl sm:text-4xl text-[#172033] font-normal leading-tight mb-2">
+            <h2 className="font-newsreader text-3xl sm:text-4xl text-ink font-normal leading-tight mb-2">
               Start with what you&apos;re taking for granted.
             </h2>
-            <p className="font-courier text-xs text-[#596474]">
+            <p className="font-courier text-xs text-ink-2">
               DecisionLens isolates premises to confirm whether they are substantiated by evidence.
             </p>
           </div>
 
-          <div className="divide-y divide-[#172033]/15 border-t border-b border-[#172033]/15 font-courier text-xs">
+          <div className="divide-y divide-ink/15 border-t border-b border-ink/15 font-courier text-xs">
             <div className="py-4 space-y-1.5">
               <div className="flex items-center justify-between">
-                <span className="text-[10px] text-[#7B8491] uppercase">ASSUMPTION 01</span>
-                <span className="text-[10px] text-[#B4874B] font-bold">STATUS: NEEDS EVIDENCE</span>
+                <span className="text-[13px] text-ink-3 uppercase">ASSUMPTION 01</span>
+                <span className="text-[13px] text-accent font-bold">STATUS: NEEDS EVIDENCE</span>
               </div>
-              <p className="text-sm text-[#172033] font-bold">
+              <p className="text-sm text-ink font-bold">
                 &ldquo;Migration will reduce long-term infrastructure cost.&rdquo;
               </p>
-              <p className="text-xs text-[#596474]">
+              <p className="text-xs text-ink-2">
                 <strong>QUESTION:</strong> &ldquo;What costs are actually included?&rdquo;
               </p>
             </div>
 
             <div className="py-4 space-y-1.5">
               <div className="flex items-center justify-between">
-                <span className="text-[10px] text-[#7B8491] uppercase">ASSUMPTION 02</span>
-                <span className="text-[10px] text-[#B4874B] font-bold">STATUS: NEEDS EVIDENCE</span>
+                <span className="text-[13px] text-ink-3 uppercase">ASSUMPTION 02</span>
+                <span className="text-[13px] text-accent font-bold">STATUS: NEEDS EVIDENCE</span>
               </div>
-              <p className="text-sm text-[#172033] font-bold">
+              <p className="text-sm text-ink font-bold">
                 &ldquo;The team can absorb the migration workload.&rdquo;
               </p>
-              <p className="text-xs text-[#596474]">
+              <p className="text-xs text-ink-2">
                 <strong>QUESTION:</strong> &ldquo;What existing capacity supports that assumption?&rdquo;
               </p>
             </div>
@@ -591,51 +592,51 @@ export default function EditorialLandingPage() {
       {/* ==================================================
           11 — SECTION: EVIDENCE (02 / EVIDENCE)
           ================================================== */}
-      <section className="py-14 sm:py-20 px-6 sm:px-12 lg:px-20 border-b border-[#172033]/15 bg-[#F5F1E8]">
+      <section className="py-14 sm:py-20 px-6 sm:px-12 lg:px-20 border-b border-ink/15 bg-page">
         <div className="max-w-4xl mx-auto">
           <div className="mb-8">
-            <span className="text-[10px] font-courier tracking-[0.1em] text-[#315C8A] block mb-2 font-bold uppercase">
+            <span className="text-[13px] font-courier tracking-[0.1em] text-accent block mb-2 font-bold uppercase">
               02 / Evidence
             </span>
-            <h2 className="font-newsreader text-3xl sm:text-4xl text-[#172033] font-normal leading-tight mb-2">
+            <h2 className="font-newsreader text-3xl sm:text-4xl text-ink font-normal leading-tight mb-2">
               An argument is only as strong as what supports it.
             </h2>
-            <p className="font-courier text-xs text-[#596474]">
+            <p className="font-courier text-xs text-ink-2">
               An empirical ledger separating documented records from unverified claims.
             </p>
           </div>
 
-          <div className="border border-[#172033] bg-[#E9E3D7] divide-y divide-[#172033]/15 font-courier text-xs">
+          <div className="border border-ink bg-subtle divide-y divide-ink/15 font-courier text-xs">
             <div className="p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
               <div>
-                <span className="text-[10px] text-[#315C8A] font-bold block">[FACT]</span>
-                <span className="text-[#172033]">Current infrastructure costs $X per year (audited run rate).</span>
+                <span className="text-[13px] text-accent font-bold block">[FACT]</span>
+                <span className="text-ink">Current infrastructure costs $X per year (audited run rate).</span>
               </div>
-              <span className="text-[10px] text-[#596474]">VERIFIED RECORD</span>
+              <span className="text-[13px] text-ink-2">VERIFIED RECORD</span>
             </div>
 
             <div className="p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
               <div>
-                <span className="text-[10px] text-[#315C8A] font-bold block">[CLAIM]</span>
-                <span className="text-[#172033]">Cloud migration will reduce operating cost.</span>
+                <span className="text-[13px] text-accent font-bold block">[CLAIM]</span>
+                <span className="text-ink">Cloud migration will reduce operating cost.</span>
               </div>
-              <span className="text-[10px] text-[#596474]">ASSERTION TO TEST</span>
+              <span className="text-[13px] text-ink-2">ASSERTION TO TEST</span>
             </div>
 
             <div className="p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
               <div>
-                <span className="text-[10px] text-[#B4874B] font-bold block">[ASSUMPTION]</span>
-                <span className="text-[#172033]">The migration can be completed without significant disruption.</span>
+                <span className="text-[13px] text-accent font-bold block">[ASSUMPTION]</span>
+                <span className="text-ink">The migration can be completed without significant disruption.</span>
               </div>
-              <span className="text-[10px] text-[#B4874B] font-bold">UNTESTED</span>
+              <span className="text-[13px] text-accent font-bold">UNTESTED</span>
             </div>
 
             <div className="p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
               <div>
-                <span className="text-[10px] text-[#B4874B] font-bold block">[NEEDS PROOF]</span>
-                <span className="text-[#172033]">Three-year total cost comparison under peak load.</span>
+                <span className="text-[13px] text-accent font-bold block">[NEEDS PROOF]</span>
+                <span className="text-ink">Three-year total cost comparison under peak load.</span>
               </div>
-              <span className="text-[10px] text-[#B4874B] font-bold">MISSING EVIDENCE</span>
+              <span className="text-[13px] text-accent font-bold">MISSING EVIDENCE</span>
             </div>
           </div>
         </div>
@@ -644,54 +645,54 @@ export default function EditorialLandingPage() {
       {/* ==================================================
           12 — SECTION: GAPS (03 / GAPS)
           ================================================== */}
-      <section className="py-14 sm:py-20 px-6 sm:px-12 lg:px-20 border-b border-[#172033]/15 bg-[#E9E3D7]">
+      <section className="py-14 sm:py-20 px-6 sm:px-12 lg:px-20 border-b border-ink/15 bg-subtle">
         <div className="max-w-4xl mx-auto">
           <div className="mb-8">
-            <span className="text-[10px] font-courier tracking-[0.1em] text-[#315C8A] block mb-2 font-bold uppercase">
+            <span className="text-[13px] font-courier tracking-[0.1em] text-accent block mb-2 font-bold uppercase">
               03 / Gaps
             </span>
-            <h2 className="font-newsreader text-3xl sm:text-4xl text-[#172033] font-normal leading-tight mb-2">
+            <h2 className="font-newsreader text-3xl sm:text-4xl text-ink font-normal leading-tight mb-2">
               What you don&apos;t know can change the decision.
             </h2>
           </div>
 
-          <div className="divide-y divide-[#172033]/15 border-t border-b border-[#172033]/15 font-courier text-xs">
+          <div className="divide-y divide-ink/15 border-t border-b border-ink/15 font-courier text-xs">
             <div className="py-3 flex items-center justify-between">
               <div>
-                <span className="text-[10px] text-[#7B8491] block">EVIDENCE GAP</span>
-                <span className="text-[#172033] font-bold">Migration cost over three years</span>
+                <span className="text-[13px] text-ink-3 block">EVIDENCE GAP</span>
+                <span className="text-ink font-bold">Migration cost over three years</span>
               </div>
-              <span className="text-[10px] text-[#B4874B] font-bold border border-[#B4874B]/40 px-2 py-0.5 bg-[#F5F1E8]">
+              <span className="text-[13px] text-accent font-bold border border-accent/40 px-2 py-0.5 bg-page">
                 NEEDS EVIDENCE
               </span>
             </div>
 
             <div className="py-3 flex items-center justify-between">
               <div>
-                <span className="text-[10px] text-[#7B8491] block">EVIDENCE GAP</span>
-                <span className="text-[#172033] font-bold">Expected operational impact</span>
+                <span className="text-[13px] text-ink-3 block">EVIDENCE GAP</span>
+                <span className="text-ink font-bold">Expected operational impact</span>
               </div>
-              <span className="text-[10px] text-[#B4874B] font-bold border border-[#B4874B]/40 px-2 py-0.5 bg-[#F5F1E8]">
+              <span className="text-[13px] text-accent font-bold border border-accent/40 px-2 py-0.5 bg-page">
                 NEEDS EVIDENCE
               </span>
             </div>
 
             <div className="py-3 flex items-center justify-between">
               <div>
-                <span className="text-[10px] text-[#7B8491] block">UNRESOLVED</span>
-                <span className="text-[#172033] font-bold">Rollback strategy</span>
+                <span className="text-[13px] text-ink-3 block">UNRESOLVED</span>
+                <span className="text-ink font-bold">Rollback strategy</span>
               </div>
-              <span className="text-[10px] text-[#B4874B] font-bold border border-[#B4874B]/40 px-2 py-0.5 bg-[#F5F1E8]">
+              <span className="text-[13px] text-accent font-bold border border-accent/40 px-2 py-0.5 bg-page">
                 NOT ESTABLISHED
               </span>
             </div>
 
             <div className="py-3 flex items-center justify-between">
               <div>
-                <span className="text-[10px] text-[#7B8491] block">MISSING CONTEXT</span>
-                <span className="text-[#172033] font-bold">Team migration capacity</span>
+                <span className="text-[13px] text-ink-3 block">MISSING CONTEXT</span>
+                <span className="text-ink font-bold">Team migration capacity</span>
               </div>
-              <span className="text-[10px] text-[#B4874B] font-bold border border-[#B4874B]/40 px-2 py-0.5 bg-[#F5F1E8]">
+              <span className="text-[13px] text-accent font-bold border border-accent/40 px-2 py-0.5 bg-page">
                 NEEDS EVIDENCE
               </span>
             </div>
@@ -702,45 +703,45 @@ export default function EditorialLandingPage() {
       {/* ==================================================
           13 — SECTION: BIAS (04 / BIAS)
           ================================================== */}
-      <section className="py-14 sm:py-20 px-6 sm:px-12 lg:px-20 border-b border-[#172033]/15 bg-[#F5F1E8]">
+      <section className="py-14 sm:py-20 px-6 sm:px-12 lg:px-20 border-b border-ink/15 bg-page">
         <div className="max-w-4xl mx-auto">
           <div className="mb-8">
-            <span className="text-[10px] font-courier tracking-[0.1em] text-[#315C8A] block mb-2 font-bold uppercase">
+            <span className="text-[13px] font-courier tracking-[0.1em] text-accent block mb-2 font-bold uppercase">
               04 / Bias
             </span>
-            <h2 className="font-newsreader text-3xl sm:text-4xl text-[#172033] font-normal leading-tight mb-2">
+            <h2 className="font-newsreader text-3xl sm:text-4xl text-ink font-normal leading-tight mb-2">
               Sometimes the reasoning is the problem.
             </h2>
-            <p className="font-courier text-xs text-[#596474] max-w-xl">
+            <p className="font-courier text-xs text-ink-2 max-w-xl">
               DecisionLens does not diagnose bias. It surfaces patterns worth examining.
             </p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 font-courier text-xs">
-            <div className="border border-[#172033] bg-[#E9E3D7] p-5 space-y-2">
-              <span className="text-[10px] text-[#315C8A] font-bold tracking-widest block uppercase">
+            <div className="border border-ink bg-subtle p-5 space-y-2">
+              <span className="text-[13px] text-accent font-bold tracking-widest block uppercase">
                 POTENTIAL BIAS
               </span>
-              <h3 className="font-newsreader text-xl text-[#172033]">STATUS QUO BIAS</h3>
-              <p className="text-xs text-[#596474] leading-[1.8]">
+              <h3 className="font-newsreader text-xl text-ink">STATUS QUO BIAS</h3>
+              <p className="text-xs text-ink-2 leading-[1.8]">
                 &ldquo;The current system may feel safer simply because the team already knows it.&rdquo;
               </p>
             </div>
 
-            <div className="border border-[#172033] bg-[#E9E3D7] p-5 space-y-2">
-              <span className="text-[10px] text-[#315C8A] font-bold tracking-widest block uppercase">
+            <div className="border border-ink bg-subtle p-5 space-y-2">
+              <span className="text-[13px] text-accent font-bold tracking-widest block uppercase">
                 POTENTIAL BIAS
               </span>
-              <h3 className="font-newsreader text-xl text-[#172033]">CONFIRMATION BIAS</h3>
-              <p className="text-xs text-[#596474] leading-[1.8]">
+              <h3 className="font-newsreader text-xl text-ink">CONFIRMATION BIAS</h3>
+              <p className="text-xs text-ink-2 leading-[1.8]">
                 &ldquo;Evidence supporting migration may receive more attention than evidence against it.&rdquo;
               </p>
             </div>
           </div>
 
-          <div className="mt-4 p-4 border border-[#172033]/15 bg-[#F5F1E8] font-courier text-xs">
-            <strong className="text-[#315C8A] block mb-1">SCRUTINY QUESTION:</strong>
-            <p className="text-[#172033]">
+          <div className="mt-4 p-4 border border-ink/15 bg-page font-courier text-xs">
+            <strong className="text-accent block mb-1">SCRUTINY QUESTION:</strong>
+            <p className="text-ink">
               &ldquo;What evidence would change our current preference?&rdquo;
             </p>
           </div>
@@ -750,37 +751,37 @@ export default function EditorialLandingPage() {
       {/* ==================================================
           14 — SECTION: TRADE-OFFS (05 / TRADE-OFFS)
           ================================================== */}
-      <section className="py-14 sm:py-20 px-6 sm:px-12 lg:px-20 border-b border-[#172033]/15 bg-[#E9E3D7]">
+      <section className="py-14 sm:py-20 px-6 sm:px-12 lg:px-20 border-b border-ink/15 bg-subtle">
         <div className="max-w-4xl mx-auto">
           <div className="mb-8">
-            <span className="text-[10px] font-courier tracking-[0.1em] text-[#315C8A] block mb-2 font-bold uppercase">
+            <span className="text-[13px] font-courier tracking-[0.1em] text-accent block mb-2 font-bold uppercase">
               05 / Trade-Offs
             </span>
-            <h2 className="font-newsreader text-3xl sm:text-4xl text-[#172033] font-normal leading-tight mb-2">
+            <h2 className="font-newsreader text-3xl sm:text-4xl text-ink font-normal leading-tight mb-2">
               Every choice closes another door.
             </h2>
-            <p className="font-courier text-xs text-[#596474]">
+            <p className="font-courier text-xs text-ink-2">
               A balanced editorial comparison. Pros and cons remain visually neutral.
             </p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 font-courier text-xs">
             {/* MIGRATE */}
-            <div className="border border-[#172033] bg-[#F5F1E8] p-5 space-y-3">
-              <span className="text-xs font-bold text-[#172033] tracking-wider block border-b border-[#172033]/15 pb-1">
+            <div className="border border-ink bg-page p-5 space-y-3">
+              <span className="text-xs font-bold text-ink tracking-wider block border-b border-ink/15 pb-1">
                 PATH A: MIGRATE
               </span>
               <div>
-                <span className="text-[10px] text-[#7B8491] uppercase block mb-1">Potential advantages:</span>
-                <p className="text-[11px] text-[#596474] leading-relaxed">
+                <span className="text-[13px] text-ink-3 uppercase block mb-1">Potential advantages:</span>
+                <p className="text-[13px] text-ink-2 leading-relaxed">
                   • Scalability<br />
                   • Operational flexibility<br />
                   • New infrastructure capabilities
                 </p>
               </div>
-              <div className="pt-2 border-t border-[#172033]/10">
-                <span className="text-[10px] text-[#7B8491] uppercase block mb-1">Potential costs:</span>
-                <p className="text-[11px] text-[#596474] leading-relaxed">
+              <div className="pt-2 border-t border-ink/10">
+                <span className="text-[13px] text-ink-3 uppercase block mb-1">Potential costs:</span>
+                <p className="text-[13px] text-ink-2 leading-relaxed">
                   • Migration complexity<br />
                   • Transition effort<br />
                   • Operational disruption
@@ -789,20 +790,20 @@ export default function EditorialLandingPage() {
             </div>
 
             {/* STAY */}
-            <div className="border border-[#172033] bg-[#F5F1E8] p-5 space-y-3">
-              <span className="text-xs font-bold text-[#172033] tracking-wider block border-b border-[#172033]/15 pb-1">
+            <div className="border border-ink bg-page p-5 space-y-3">
+              <span className="text-xs font-bold text-ink tracking-wider block border-b border-ink/15 pb-1">
                 PATH B: STAY
               </span>
               <div>
-                <span className="text-[10px] text-[#7B8491] uppercase block mb-1">Potential advantages:</span>
-                <p className="text-[11px] text-[#596474] leading-relaxed">
+                <span className="text-[13px] text-ink-3 uppercase block mb-1">Potential advantages:</span>
+                <p className="text-[13px] text-ink-2 leading-relaxed">
                   • Known environment<br />
                   • Lower immediate disruption
                 </p>
               </div>
-              <div className="pt-2 border-t border-[#172033]/10">
-                <span className="text-[10px] text-[#7B8491] uppercase block mb-1">Potential costs:</span>
-                <p className="text-[11px] text-[#596474] leading-relaxed">
+              <div className="pt-2 border-t border-ink/10">
+                <span className="text-[13px] text-ink-3 uppercase block mb-1">Potential costs:</span>
+                <p className="text-[13px] text-ink-2 leading-relaxed">
                   • Existing limitations remain<br />
                   • Future migration may become harder
                 </p>
@@ -815,40 +816,40 @@ export default function EditorialLandingPage() {
       {/* ==================================================
           15 — SECTION: RISK (06 / RISK)
           ================================================== */}
-      <section className="py-14 sm:py-20 px-6 sm:px-12 lg:px-20 border-b border-[#172033]/15 bg-[#F5F1E8]">
+      <section className="py-14 sm:py-20 px-6 sm:px-12 lg:px-20 border-b border-ink/15 bg-page">
         <div className="max-w-4xl mx-auto">
           <div className="mb-8">
-            <span className="text-[10px] font-courier tracking-[0.1em] text-[#315C8A] block mb-2 font-bold uppercase">
+            <span className="text-[13px] font-courier tracking-[0.1em] text-accent block mb-2 font-bold uppercase">
               06 / Risk
             </span>
-            <h2 className="font-newsreader text-3xl sm:text-4xl text-[#172033] font-normal leading-tight mb-2">
+            <h2 className="font-newsreader text-3xl sm:text-4xl text-ink font-normal leading-tight mb-2">
               Ask what could make the decision fail.
             </h2>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 font-courier text-xs">
-            <div className="border border-[#172033] bg-[#E9E3D7] p-5 space-y-2">
-              <span className="text-[10px] text-[#7B8491] uppercase">RISK</span>
-              <h3 className="font-newsreader text-xl text-[#172033]">Migration downtime</h3>
-              <div className="flex gap-4 text-[10px] text-[#596474]">
+            <div className="border border-ink bg-subtle p-5 space-y-2">
+              <span className="text-[13px] text-ink-3 uppercase">RISK</span>
+              <h3 className="font-newsreader text-xl text-ink">Migration downtime</h3>
+              <div className="flex gap-4 text-[13px] text-ink-2">
                 <span>LIKELIHOOD: <strong>Medium</strong></span>
                 <span>•</span>
                 <span>IMPACT: <strong>High</strong></span>
               </div>
-              <p className="pt-2 border-t border-[#172033]/10 text-[11px] text-[#172033]">
+              <p className="pt-2 border-t border-ink/10 text-[13px] text-ink">
                 <strong>QUESTION:</strong> &ldquo;What rollback capability exists?&rdquo;
               </p>
             </div>
 
-            <div className="border border-[#172033] bg-[#E9E3D7] p-5 space-y-2">
-              <span className="text-[10px] text-[#7B8491] uppercase">RISK</span>
-              <h3 className="font-newsreader text-xl text-[#172033]">Unexpected migration cost</h3>
-              <div className="flex gap-4 text-[10px] text-[#596474]">
+            <div className="border border-ink bg-subtle p-5 space-y-2">
+              <span className="text-[13px] text-ink-3 uppercase">RISK</span>
+              <h3 className="font-newsreader text-xl text-ink">Unexpected migration cost</h3>
+              <div className="flex gap-4 text-[13px] text-ink-2">
                 <span>LIKELIHOOD: <strong>Unknown</strong></span>
                 <span>•</span>
                 <span>IMPACT: <strong>High</strong></span>
               </div>
-              <p className="pt-2 border-t border-[#172033]/10 text-[11px] text-[#172033]">
+              <p className="pt-2 border-t border-ink/10 text-[13px] text-ink">
                 <strong>QUESTION:</strong> &ldquo;What evidence would reduce this uncertainty?&rdquo;
               </p>
             </div>
@@ -859,36 +860,36 @@ export default function EditorialLandingPage() {
       {/* ==================================================
           16 — SECTION: ALTERNATIVES (07 / ALTERNATIVES)
           ================================================== */}
-      <section className="py-14 sm:py-20 px-6 sm:px-12 lg:px-20 border-b border-[#172033]/15 bg-[#E9E3D7]">
+      <section className="py-14 sm:py-20 px-6 sm:px-12 lg:px-20 border-b border-ink/15 bg-subtle">
         <div className="max-w-4xl mx-auto">
           <div className="mb-8">
-            <span className="text-[10px] font-courier tracking-[0.1em] text-[#315C8A] block mb-2 font-bold uppercase">
+            <span className="text-[13px] font-courier tracking-[0.1em] text-accent block mb-2 font-bold uppercase">
               07 / Alternatives
             </span>
-            <h2 className="font-newsreader text-3xl sm:text-4xl text-[#172033] font-normal leading-tight mb-2">
+            <h2 className="font-newsreader text-3xl sm:text-4xl text-ink font-normal leading-tight mb-2">
               Are these really the only options?
             </h2>
-            <p className="font-courier text-xs text-[#596474]">
+            <p className="font-courier text-xs text-ink-2">
               DecisionLens challenges the framing of the decision itself to discover overlooked paths.
             </p>
           </div>
 
-          <div className="divide-y divide-[#172033]/15 border-t border-b border-[#172033]/15 font-courier text-xs">
+          <div className="divide-y divide-ink/15 border-t border-b border-ink/15 font-courier text-xs">
             <div className="py-3 flex items-center justify-between">
-              <span className="text-[10px] text-[#315C8A] font-bold">OPTION A</span>
-              <span className="text-[#172033] font-bold">Migrate now</span>
+              <span className="text-[13px] text-accent font-bold">OPTION A</span>
+              <span className="text-ink font-bold">Migrate now</span>
             </div>
             <div className="py-3 flex items-center justify-between">
-              <span className="text-[10px] text-[#315C8A] font-bold">OPTION B</span>
-              <span className="text-[#172033] font-bold">Stay with current infrastructure</span>
+              <span className="text-[13px] text-accent font-bold">OPTION B</span>
+              <span className="text-ink font-bold">Stay with current infrastructure</span>
             </div>
             <div className="py-3 flex items-center justify-between">
-              <span className="text-[10px] text-[#315C8A] font-bold">OPTION C</span>
-              <span className="text-[#172033] font-bold">Migrate incrementally</span>
+              <span className="text-[13px] text-accent font-bold">OPTION C</span>
+              <span className="text-ink font-bold">Migrate incrementally</span>
             </div>
             <div className="py-3 flex items-center justify-between">
-              <span className="text-[10px] text-[#315C8A] font-bold">OPTION D</span>
-              <span className="text-[#172033] font-bold">Run a limited pilot first</span>
+              <span className="text-[13px] text-accent font-bold">OPTION D</span>
+              <span className="text-ink font-bold">Run a limited pilot first</span>
             </div>
           </div>
         </div>
@@ -897,40 +898,40 @@ export default function EditorialLandingPage() {
       {/* ==================================================
           17 — FIVE DECISION LENSES
           ================================================== */}
-      <section className="py-14 sm:py-20 px-6 sm:px-12 lg:px-20 border-b border-[#172033]/15 bg-[#F5F1E8]">
+      <section className="py-14 sm:py-20 px-6 sm:px-12 lg:px-20 border-b border-ink/15 bg-page">
         <div className="max-w-4xl mx-auto">
           <div className="mb-8">
-            <span className="text-[10px] font-courier tracking-[0.1em] text-[#315C8A] block mb-2 font-bold uppercase">
+            <span className="text-[13px] font-courier tracking-[0.1em] text-accent block mb-2 font-bold uppercase">
               Lenses in Action
             </span>
-            <h2 className="font-newsreader text-3xl sm:text-4xl text-[#172033] font-normal leading-tight mb-2">
+            <h2 className="font-newsreader text-3xl sm:text-4xl text-ink font-normal leading-tight mb-2">
               One decision. Different ways to think about it.
             </h2>
-            <p className="font-courier text-xs text-[#596474]">
+            <p className="font-courier text-xs text-ink-2">
               No single framework sees everything. DecisionLens applies five disciplined techniques.
             </p>
           </div>
 
-          <div className="divide-y divide-[#172033]/15 border-t border-b border-[#172033]/15 font-courier">
+          <div className="divide-y divide-ink/15 border-t border-b border-ink/15 font-courier">
             <div className="py-3.5 grid grid-cols-1 sm:grid-cols-12 gap-2 items-start">
-              <span className="sm:col-span-4 text-xs font-bold text-[#172033]">SIX THINKING HATS</span>
-              <p className="sm:col-span-8 text-xs text-[#596474]">Look at the decision through different modes of thinking.</p>
+              <span className="sm:col-span-4 text-xs font-bold text-ink">SIX THINKING HATS</span>
+              <p className="sm:col-span-8 text-xs text-ink-2">Look at the decision through different modes of thinking.</p>
             </div>
             <div className="py-3.5 grid grid-cols-1 sm:grid-cols-12 gap-2 items-start">
-              <span className="sm:col-span-4 text-xs font-bold text-[#172033]">DECISION MATRIX</span>
-              <p className="sm:col-span-8 text-xs text-[#596474]">Compare options against the factors that actually matter.</p>
+              <span className="sm:col-span-4 text-xs font-bold text-ink">DECISION MATRIX</span>
+              <p className="sm:col-span-8 text-xs text-ink-2">Compare options against the factors that actually matter.</p>
             </div>
             <div className="py-3.5 grid grid-cols-1 sm:grid-cols-12 gap-2 items-start">
-              <span className="sm:col-span-4 text-xs font-bold text-[#172033]">5 WHYS</span>
-              <p className="sm:col-span-8 text-xs text-[#596474]">Follow the reasoning deeper to uncover assumptions and underlying causes.</p>
+              <span className="sm:col-span-4 text-xs font-bold text-ink">5 WHYS</span>
+              <p className="sm:col-span-8 text-xs text-ink-2">Follow the reasoning deeper to uncover assumptions and underlying causes.</p>
             </div>
             <div className="py-3.5 grid grid-cols-1 sm:grid-cols-12 gap-2 items-start">
-              <span className="sm:col-span-4 text-xs font-bold text-[#172033]">RISK ANALYSIS</span>
-              <p className="sm:col-span-8 text-xs text-[#596474]">Explore what could go wrong and what would reduce the exposure.</p>
+              <span className="sm:col-span-4 text-xs font-bold text-ink">RISK ANALYSIS</span>
+              <p className="sm:col-span-8 text-xs text-ink-2">Explore what could go wrong and what would reduce the exposure.</p>
             </div>
             <div className="py-3.5 grid grid-cols-1 sm:grid-cols-12 gap-2 items-start">
-              <span className="sm:col-span-4 text-xs font-bold text-[#172033]">DECISION TREE</span>
-              <p className="sm:col-span-8 text-xs text-[#596474]">Map choices, consequences and alternative paths.</p>
+              <span className="sm:col-span-4 text-xs font-bold text-ink">DECISION TREE</span>
+              <p className="sm:col-span-8 text-xs text-ink-2">Map choices, consequences and alternative paths.</p>
             </div>
           </div>
         </div>
@@ -939,22 +940,22 @@ export default function EditorialLandingPage() {
       {/* ==================================================
           18 & 19 — INTERACTIVE LENS DEMONSTRATION & DECISION TREE
           ================================================== */}
-      <section id="lenses-in-action" className="py-14 sm:py-20 px-6 sm:px-12 lg:px-20 border-b border-[#172033]/15 bg-[#E9E3D7]">
+      <section id="lenses-in-action" className="py-14 sm:py-20 px-6 sm:px-12 lg:px-20 border-b border-ink/15 bg-subtle">
         <div className="max-w-4xl mx-auto">
           <div className="mb-6">
-            <span className="text-[10px] font-courier tracking-[0.1em] text-[#315C8A] block mb-1 font-bold uppercase">
+            <span className="text-[13px] font-courier tracking-[0.1em] text-accent block mb-1 font-bold uppercase">
               Interactive Scrutiny
             </span>
-            <h2 className="font-newsreader text-3xl sm:text-4xl text-[#172033] font-normal leading-tight">
+            <h2 className="font-newsreader text-3xl sm:text-4xl text-ink font-normal leading-tight">
               Change the lens. Watch the reasoning change.
             </h2>
-            <p className="font-courier text-xs text-[#596474] mt-1.5">
+            <p className="font-courier text-xs text-ink-2 mt-1.5">
               Select a lens below to view the exact same decision through a different analytical frame:
             </p>
           </div>
 
           {/* Underline Controls */}
-          <div className="flex flex-wrap gap-2 mb-4 border-b border-[#172033]/15 pb-2">
+          <div className="flex flex-wrap gap-2 mb-4 border-b border-ink/15 pb-2">
             {(
               [
                 "ASSUMPTIONS",
@@ -972,8 +973,8 @@ export default function EditorialLandingPage() {
                 onClick={() => setActiveLens(lens)}
                 className={`px-3 py-1 text-xs font-courier tracking-[0.08em] transition-colors ${
                   activeLens === lens
-                    ? "text-[#315C8A] font-bold border-b-2 border-[#315C8A] underline underline-offset-4"
-                    : "text-[#596474] hover:text-[#172033]"
+                    ? "text-accent font-bold border-b-2 border-accent underline underline-offset-4"
+                    : "text-ink-2 hover:text-ink"
                 }`}
               >
                 [{lens}]
@@ -982,31 +983,31 @@ export default function EditorialLandingPage() {
           </div>
 
           {/* Interactive Output Sheet */}
-          <div className="border border-[#172033] bg-[#F5F1E8] p-6 sm:p-8 min-h-[260px]">
+          <div className="border border-ink bg-page p-6 sm:p-8 min-h-[260px]">
             {activeLens === "ASSUMPTIONS" && (
               <div className="space-y-3 font-courier text-xs">
-                <span className="text-[10px] text-[#7B8491] uppercase block">ACTIVE LENS: ASSUMPTIONS</span>
-                <p className="font-newsreader text-lg text-[#172033] italic">
+                <span className="text-[13px] text-ink-3 uppercase block">ACTIVE LENS: ASSUMPTIONS</span>
+                <p className="font-newsreader text-lg text-ink italic">
                   &ldquo;Migration will reduce long-term infrastructure cost.&rdquo;
                 </p>
-                <div className="pt-2 border-t border-[#172033]/15 flex items-center justify-between text-[11px]">
-                  <span className="text-[#B4874B] font-bold">STATUS: NEEDS EVIDENCE</span>
-                  <span className="text-[#596474]">QUESTION: &ldquo;What costs are actually included?&rdquo;</span>
+                <div className="pt-2 border-t border-ink/15 flex items-center justify-between text-[13px]">
+                  <span className="text-accent font-bold">STATUS: NEEDS EVIDENCE</span>
+                  <span className="text-ink-2">QUESTION: &ldquo;What costs are actually included?&rdquo;</span>
                 </div>
               </div>
             )}
 
             {activeLens === "PROS / CONS" && (
               <div className="space-y-3 font-courier text-xs">
-                <span className="text-[10px] text-[#7B8491] uppercase block">ACTIVE LENS: BALANCED COMPARISON (NEUTRAL)</span>
+                <span className="text-[13px] text-ink-3 uppercase block">ACTIVE LENS: BALANCED COMPARISON (NEUTRAL)</span>
                 <div className="grid grid-cols-2 gap-4">
-                  <div className="p-3 border border-[#172033]/15 bg-[#E9E3D7]">
-                    <strong className="block text-[#172033] mb-1">PROS:</strong>
-                    <span className="text-[11px] text-[#596474]">Scalability, Operational flexibility, Potential control.</span>
+                  <div className="p-3 border border-ink/15 bg-subtle">
+                    <strong className="block text-ink mb-1">PROS:</strong>
+                    <span className="text-[13px] text-ink-2">Scalability, Operational flexibility, Potential control.</span>
                   </div>
-                  <div className="p-3 border border-[#172033]/15 bg-[#E9E3D7]">
-                    <strong className="block text-[#172033] mb-1">CONS:</strong>
-                    <span className="text-[11px] text-[#596474]">Migration complexity, Transition cost, Disruption.</span>
+                  <div className="p-3 border border-ink/15 bg-subtle">
+                    <strong className="block text-ink mb-1">CONS:</strong>
+                    <span className="text-[13px] text-ink-2">Migration complexity, Transition cost, Disruption.</span>
                   </div>
                 </div>
               </div>
@@ -1014,11 +1015,11 @@ export default function EditorialLandingPage() {
 
             {activeLens === "BIAS" && (
               <div className="space-y-3 font-courier text-xs">
-                <span className="text-[10px] text-[#7B8491] uppercase block">ACTIVE LENS: POTENTIAL BIAS</span>
-                <p className="text-[#172033] italic">
+                <span className="text-[13px] text-ink-3 uppercase block">ACTIVE LENS: POTENTIAL BIAS</span>
+                <p className="text-ink italic">
                   &ldquo;The current system may feel safer simply because the team already knows it.&rdquo; (Status Quo Bias)
                 </p>
-                <p className="text-[11px] text-[#596474]">
+                <p className="text-[13px] text-ink-2">
                   DecisionLens surfaces heuristics to examine rather than personal diagnoses.
                 </p>
               </div>
@@ -1026,28 +1027,28 @@ export default function EditorialLandingPage() {
 
             {activeLens === "GAPS" && (
               <div className="space-y-2 font-courier text-xs">
-                <span className="text-[10px] text-[#7B8491] uppercase block">ACTIVE LENS: EVIDENCE GAPS</span>
-                <div className="p-2 border border-[#172033]/15 flex justify-between">
+                <span className="text-[13px] text-ink-3 uppercase block">ACTIVE LENS: EVIDENCE GAPS</span>
+                <div className="p-2 border border-ink/15 flex justify-between">
                   <span>Migration cost over 3 years</span>
-                  <span className="text-[#B4874B] font-bold">NEEDS EVIDENCE</span>
+                  <span className="text-accent font-bold">NEEDS EVIDENCE</span>
                 </div>
-                <div className="p-2 border border-[#172033]/15 flex justify-between">
+                <div className="p-2 border border-ink/15 flex justify-between">
                   <span>Documented rollback strategy</span>
-                  <span className="text-[#B4874B] font-bold">NOT ESTABLISHED</span>
+                  <span className="text-accent font-bold">NOT ESTABLISHED</span>
                 </div>
               </div>
             )}
 
             {activeLens === "RISK" && (
               <div className="space-y-2 font-courier text-xs">
-                <span className="text-[10px] text-[#7B8491] uppercase block">ACTIVE LENS: RISK ANALYSIS</span>
-                <h4 className="font-newsreader text-base text-[#172033]">Migration Downtime</h4>
-                <div className="flex gap-4 text-[11px] text-[#596474]">
+                <span className="text-[13px] text-ink-3 uppercase block">ACTIVE LENS: RISK ANALYSIS</span>
+                <h4 className="font-newsreader text-base text-ink">Migration Downtime</h4>
+                <div className="flex gap-4 text-[13px] text-ink-2">
                   <span>LIKELIHOOD: Medium</span>
                   <span>•</span>
                   <span>IMPACT: High</span>
                 </div>
-                <p className="text-[11px] text-[#172033]">
+                <p className="text-[13px] text-ink">
                   <strong>QUESTION:</strong> &ldquo;What rollback capability exists?&rdquo;
                 </p>
               </div>
@@ -1056,19 +1057,19 @@ export default function EditorialLandingPage() {
             {/* 19 — DECISION TREE VISUAL */}
             {activeLens === "DECISION TREE" && (
               <div className="space-y-2 font-courier text-xs">
-                <span className="text-[10px] text-[#7B8491] uppercase block">ACTIVE LENS: EDITORIAL SVG DECISION TREE</span>
+                <span className="text-[13px] text-ink-3 uppercase block">ACTIVE LENS: EDITORIAL SVG DECISION TREE</span>
                 <div className="overflow-x-auto py-2">
                   <svg
                     ref={treeRef}
                     viewBox="0 0 540 180"
-                    className="w-full max-w-[540px] h-auto font-courier text-[10px]"
+                    className="w-full max-w-[540px] h-auto font-courier text-[11px]"
                   >
                     <path
                       d="M 50 90 L 140 90"
-                      stroke="#172033"
                       strokeWidth="1.5"
                       fill="none"
                       style={{
+                        stroke: "rgb(var(--ink))",
                         strokeDasharray: 90,
                         strokeDashoffset: hasDrawnTree ? 0 : 90,
                         transition: "stroke-dashoffset 1.5s ease-in-out",
@@ -1076,10 +1077,10 @@ export default function EditorialLandingPage() {
                     />
                     <path
                       d="M 140 90 L 140 45 L 230 45"
-                      stroke="#172033"
                       strokeWidth="1.5"
                       fill="none"
                       style={{
+                        stroke: "rgb(var(--ink))",
                         strokeDasharray: 140,
                         strokeDashoffset: hasDrawnTree ? 0 : 140,
                         transition: "stroke-dashoffset 1.5s ease-in-out 0.2s",
@@ -1087,10 +1088,10 @@ export default function EditorialLandingPage() {
                     />
                     <path
                       d="M 140 90 L 140 135 L 230 135"
-                      stroke="#172033"
                       strokeWidth="1.5"
                       fill="none"
                       style={{
+                        stroke: "rgb(var(--ink))",
                         strokeDasharray: 140,
                         strokeDashoffset: hasDrawnTree ? 0 : 140,
                         transition: "stroke-dashoffset 1.5s ease-in-out 0.2s",
@@ -1100,10 +1101,10 @@ export default function EditorialLandingPage() {
                     {/* Migrate Branches */}
                     <path
                       d="M 310 45 L 370 25"
-                      stroke="#315C8A"
                       strokeWidth="1.5"
                       fill="none"
                       style={{
+                        stroke: "rgb(var(--a-600))",
                         strokeDasharray: 80,
                         strokeDashoffset: hasDrawnTree ? 0 : 80,
                         transition: "stroke-dashoffset 1.5s ease-in-out 0.4s",
@@ -1111,7 +1112,7 @@ export default function EditorialLandingPage() {
                     />
                     <path
                       d="M 310 45 L 370 65"
-                      stroke="#172033"
+                      style={{ stroke: "rgb(var(--ink))" }}
                       strokeWidth="1.5"
                       strokeDasharray="3 2"
                       fill="none"
@@ -1120,25 +1121,25 @@ export default function EditorialLandingPage() {
                     {/* Stay Branches */}
                     <path
                       d="M 310 135 L 370 115"
-                      stroke="#172033"
+                      style={{ stroke: "rgb(var(--ink))" }}
                       strokeWidth="1.5"
                       fill="none"
                     />
                     <path
                       d="M 310 135 L 370 155"
-                      stroke="#172033"
+                      style={{ stroke: "rgb(var(--ink))" }}
                       strokeWidth="1.5"
                       strokeDasharray="3 2"
                       fill="none"
                     />
 
-                    <text x="10" y="94" fill="#172033" fontWeight="bold">START</text>
-                    <text x="235" y="49" fill="#315C8A" fontWeight="bold">MIGRATE</text>
-                    <text x="375" y="29" fill="#172033">• SUCCESS</text>
-                    <text x="375" y="69" fill="#7B8491">• DISRUPTION</text>
-                    <text x="235" y="139" fill="#172033" fontWeight="bold">STAY</text>
-                    <text x="375" y="119" fill="#172033">• STABLE</text>
-                    <text x="375" y="159" fill="#7B8491">• LIMITATIONS CONTINUE</text>
+                    <text x="10" y="94" style={{ fill: "rgb(var(--ink))" }} fontWeight="bold">START</text>
+                    <text x="235" y="49" style={{ fill: "rgb(var(--a-600))" }} fontWeight="bold">MIGRATE</text>
+                    <text x="375" y="29" style={{ fill: "rgb(var(--ink))" }}>• SUCCESS</text>
+                    <text x="375" y="69" style={{ fill: "rgb(var(--ink-3))" }}>• DISRUPTION</text>
+                    <text x="235" y="139" style={{ fill: "rgb(var(--ink))" }} fontWeight="bold">STAY</text>
+                    <text x="375" y="119" style={{ fill: "rgb(var(--ink))" }}>• STABLE</text>
+                    <text x="375" y="159" style={{ fill: "rgb(var(--ink-3))" }}>• LIMITATIONS CONTINUE</text>
                   </svg>
                 </div>
               </div>
@@ -1150,45 +1151,45 @@ export default function EditorialLandingPage() {
       {/* ==================================================
           20 — EPISTEMIC RIGOR
           ================================================== */}
-      <section id="epistemic-rigor" className="py-14 sm:py-20 px-6 sm:px-12 lg:px-20 border-b border-[#172033]/15 bg-[#F5F1E8]">
+      <section id="epistemic-rigor" className="py-14 sm:py-20 px-6 sm:px-12 lg:px-20 border-b border-ink/15 bg-page">
         <div className="max-w-4xl mx-auto">
           <div className="mb-8">
-            <span className="text-[10px] font-courier tracking-[0.1em] text-[#315C8A] block mb-2 font-bold uppercase">
+            <span className="text-[13px] font-courier tracking-[0.1em] text-accent block mb-2 font-bold uppercase">
               Epistemic Rigor
             </span>
-            <h2 className="font-newsreader text-3xl sm:text-4xl text-[#172033] font-normal leading-tight mb-2">
+            <h2 className="font-newsreader text-3xl sm:text-4xl text-ink font-normal leading-tight mb-2">
               Not every statement deserves equal weight.
             </h2>
-            <p className="font-courier text-xs text-[#596474] max-w-xl">
+            <p className="font-courier text-xs text-ink-2 max-w-xl">
               Good decisions depend on knowing the difference between what you know, what you believe,
               and what you still need to establish.
             </p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 font-courier text-xs">
-            <div className="border border-[#172033] bg-[#E9E3D7] p-3.5 space-y-1">
-              <span className="text-[10px] text-[#315C8A] font-bold block">[FACT]</span>
-              <p className="text-[11px] text-[#596474]">Supported by evidence.</p>
+            <div className="border border-ink bg-subtle p-3.5 space-y-1">
+              <span className="text-[13px] text-accent font-bold block">[FACT]</span>
+              <p className="text-[13px] text-ink-2">Supported by evidence.</p>
             </div>
 
-            <div className="border border-[#172033] bg-[#E9E3D7] p-3.5 space-y-1">
-              <span className="text-[10px] text-[#315C8A] font-bold block">[CLAIM]</span>
-              <p className="text-[11px] text-[#596474]">A statement that should be examined.</p>
+            <div className="border border-ink bg-subtle p-3.5 space-y-1">
+              <span className="text-[13px] text-accent font-bold block">[CLAIM]</span>
+              <p className="text-[13px] text-ink-2">A statement that should be examined.</p>
             </div>
 
-            <div className="border border-[#172033] bg-[#E9E3D7] p-3.5 space-y-1">
-              <span className="text-[10px] text-[#B4874B] font-bold block">[ASSUMPTION]</span>
-              <p className="text-[11px] text-[#596474]">Something being taken as true.</p>
+            <div className="border border-ink bg-subtle p-3.5 space-y-1">
+              <span className="text-[13px] text-accent font-bold block">[ASSUMPTION]</span>
+              <p className="text-[13px] text-ink-2">Something being taken as true.</p>
             </div>
 
-            <div className="border border-[#172033] bg-[#E9E3D7] p-3.5 space-y-1">
-              <span className="text-[10px] text-[#B4874B] font-bold block">[NEEDS PROOF]</span>
-              <p className="text-[11px] text-[#596474]">Important information that is missing.</p>
+            <div className="border border-ink bg-subtle p-3.5 space-y-1">
+              <span className="text-[13px] text-accent font-bold block">[NEEDS PROOF]</span>
+              <p className="text-[13px] text-ink-2">Important information that is missing.</p>
             </div>
 
-            <div className="border border-[#172033] bg-[#E9E3D7] p-3.5 space-y-1">
-              <span className="text-[10px] text-[#172033] font-bold block">[CONTRADICTION]</span>
-              <p className="text-[11px] text-[#596474]">Two pieces of reasoning that do not comfortably coexist.</p>
+            <div className="border border-ink bg-subtle p-3.5 space-y-1">
+              <span className="text-[13px] text-ink font-bold block">[CONTRADICTION]</span>
+              <p className="text-[13px] text-ink-2">Two pieces of reasoning that do not comfortably coexist.</p>
             </div>
           </div>
         </div>
@@ -1197,21 +1198,21 @@ export default function EditorialLandingPage() {
       {/* ==================================================
           21 — THE PHILOSOPHY (Quiet Visual Peak)
           ================================================== */}
-      <section className="py-20 sm:py-28 px-6 sm:px-12 lg:px-20 border-b border-[#172033]/15 bg-[#E9E3D7] text-center">
+      <section className="py-20 sm:py-28 px-6 sm:px-12 lg:px-20 border-b border-ink/15 bg-subtle text-center">
         <div className="max-w-3xl mx-auto space-y-4">
-          <span className="text-[10px] font-courier tracking-[0.1em] text-[#315C8A] font-bold uppercase block">
+          <span className="text-[13px] font-courier tracking-[0.1em] text-accent font-bold uppercase block">
             Core Philosophy
           </span>
-          <h2 className="font-newsreader text-4xl sm:text-6xl text-[#172033] font-normal leading-[1.12]">
+          <h2 className="font-newsreader text-4xl sm:text-6xl text-ink font-normal leading-[1.12]">
             DecisionLens doesn&apos;t choose for you.
           </h2>
-          <p className="font-newsreader text-3xl sm:text-5xl text-[#172033] font-normal">
+          <p className="font-newsreader text-3xl sm:text-5xl text-ink font-normal">
             It makes the reasoning{" "}
-            <span className="italic text-[#315C8A] underline decoration-[#315C8A]/40 underline-offset-8">
+            <span className="italic text-accent underline decoration-accent/40 underline-offset-8">
               harder to ignore.
             </span>
           </p>
-          <p className="font-courier text-xs sm:text-sm text-[#596474] pt-4 max-w-xl mx-auto leading-relaxed">
+          <p className="font-courier text-xs sm:text-sm text-ink-2 pt-4 max-w-xl mx-auto leading-relaxed">
             The final decision remains yours. DecisionLens helps you understand what supports it,
             what challenges it, and what you may still need to know.
           </p>
@@ -1221,49 +1222,49 @@ export default function EditorialLandingPage() {
       {/* ==================================================
           22 — WHEN TO USE DECISIONLENS (DOMAINS)
           ================================================== */}
-      <section id="domains" className="py-14 sm:py-20 px-6 sm:px-12 lg:px-20 border-b border-[#172033]/15 bg-[#F5F1E8]">
+      <section id="domains" className="py-14 sm:py-20 px-6 sm:px-12 lg:px-20 border-b border-ink/15 bg-page">
         <div className="max-w-4xl mx-auto">
           <div className="mb-8">
-            <span className="text-[10px] font-courier tracking-[0.1em] text-[#315C8A] block mb-2 font-bold uppercase">
+            <span className="text-[13px] font-courier tracking-[0.1em] text-accent block mb-2 font-bold uppercase">
               Domains
             </span>
-            <h2 className="font-newsreader text-3xl sm:text-4xl text-[#172033] font-normal leading-tight">
+            <h2 className="font-newsreader text-3xl sm:text-4xl text-ink font-normal leading-tight">
               Useful when the decision actually matters.
             </h2>
           </div>
 
-          <div className="divide-y divide-[#172033]/15 border-t border-b border-[#172033]/15 font-courier">
+          <div className="divide-y divide-ink/15 border-t border-b border-ink/15 font-courier">
             <div className="py-2.5 flex flex-col sm:flex-row sm:items-center justify-between gap-1">
-              <span className="text-xs font-bold text-[#315C8A] tracking-wider sm:w-36">[CAREER]</span>
-              <span className="text-xs sm:text-sm text-[#172033] flex-1">Should I accept this offer?</span>
+              <span className="text-xs font-bold text-accent tracking-wider sm:w-36">[CAREER]</span>
+              <span className="text-xs sm:text-sm text-ink flex-1">Should I accept this offer?</span>
             </div>
             <div className="py-2.5 flex flex-col sm:flex-row sm:items-center justify-between gap-1">
-              <span className="text-xs font-bold text-[#315C8A] tracking-wider sm:w-36">[BUSINESS]</span>
-              <span className="text-xs sm:text-sm text-[#172033] flex-1">Should we launch this product?</span>
+              <span className="text-xs font-bold text-accent tracking-wider sm:w-36">[BUSINESS]</span>
+              <span className="text-xs sm:text-sm text-ink flex-1">Should we launch this product?</span>
             </div>
             <div className="py-2.5 flex flex-col sm:flex-row sm:items-center justify-between gap-1">
-              <span className="text-xs font-bold text-[#315C8A] tracking-wider sm:w-36">[TECHNOLOGY]</span>
-              <span className="text-xs sm:text-sm text-[#172033] flex-1">Should we migrate our infrastructure?</span>
+              <span className="text-xs font-bold text-accent tracking-wider sm:w-36">[TECHNOLOGY]</span>
+              <span className="text-xs sm:text-sm text-ink flex-1">Should we migrate our infrastructure?</span>
             </div>
             <div className="py-2.5 flex flex-col sm:flex-row sm:items-center justify-between gap-1">
-              <span className="text-xs font-bold text-[#315C8A] tracking-wider sm:w-36">[HIRING]</span>
-              <span className="text-xs sm:text-sm text-[#172033] flex-1">Which candidate best fits the role?</span>
+              <span className="text-xs font-bold text-accent tracking-wider sm:w-36">[HIRING]</span>
+              <span className="text-xs sm:text-sm text-ink flex-1">Which candidate best fits the role?</span>
             </div>
             <div className="py-2.5 flex flex-col sm:flex-row sm:items-center justify-between gap-1">
-              <span className="text-xs font-bold text-[#315C8A] tracking-wider sm:w-36">[PURCHASING]</span>
-              <span className="text-xs sm:text-sm text-[#172033] flex-1">Which vendor should we choose?</span>
+              <span className="text-xs font-bold text-accent tracking-wider sm:w-36">[PURCHASING]</span>
+              <span className="text-xs sm:text-sm text-ink flex-1">Which vendor should we choose?</span>
             </div>
             <div className="py-2.5 flex flex-col sm:flex-row sm:items-center justify-between gap-1">
-              <span className="text-xs font-bold text-[#315C8A] tracking-wider sm:w-36">[PRODUCT]</span>
-              <span className="text-xs sm:text-sm text-[#172033] flex-1">Should we build this feature?</span>
+              <span className="text-xs font-bold text-accent tracking-wider sm:w-36">[PRODUCT]</span>
+              <span className="text-xs sm:text-sm text-ink flex-1">Should we build this feature?</span>
             </div>
             <div className="py-2.5 flex flex-col sm:flex-row sm:items-center justify-between gap-1">
-              <span className="text-xs font-bold text-[#315C8A] tracking-wider sm:w-36">[INVESTMENT]</span>
-              <span className="text-xs sm:text-sm text-[#172033] flex-1">Which option best fits our objectives?</span>
+              <span className="text-xs font-bold text-accent tracking-wider sm:w-36">[INVESTMENT]</span>
+              <span className="text-xs sm:text-sm text-ink flex-1">Which option best fits our objectives?</span>
             </div>
             <div className="py-2.5 flex flex-col sm:flex-row sm:items-center justify-between gap-1">
-              <span className="text-xs font-bold text-[#315C8A] tracking-wider sm:w-36">[PERSONAL]</span>
-              <span className="text-xs sm:text-sm text-[#172033] flex-1">Which path makes the most sense long term?</span>
+              <span className="text-xs font-bold text-accent tracking-wider sm:w-36">[PERSONAL]</span>
+              <span className="text-xs sm:text-sm text-ink flex-1">Which path makes the most sense long term?</span>
             </div>
           </div>
         </div>
@@ -1272,18 +1273,18 @@ export default function EditorialLandingPage() {
       {/* ==================================================
           23 — THE OUTCOME (AFTER SCRUTINY)
           ================================================== */}
-      <section className="py-14 sm:py-20 px-6 sm:px-12 lg:px-20 border-b border-[#172033]/15 bg-[#E9E3D7]">
+      <section className="py-14 sm:py-20 px-6 sm:px-12 lg:px-20 border-b border-ink/15 bg-subtle">
         <div className="max-w-3xl mx-auto space-y-3">
-          <span className="text-[10px] font-courier tracking-[0.1em] text-[#315C8A] font-bold uppercase block">
+          <span className="text-[13px] font-courier tracking-[0.1em] text-accent font-bold uppercase block">
             After Scrutiny
           </span>
-          <h2 className="font-newsreader text-3xl sm:text-4xl text-[#172033] font-normal leading-tight">
+          <h2 className="font-newsreader text-3xl sm:text-4xl text-ink font-normal leading-tight">
             The goal isn&apos;t certainty.
           </h2>
-          <p className="font-newsreader text-2xl sm:text-3xl text-[#315C8A] italic">
+          <p className="font-newsreader text-2xl sm:text-3xl text-accent italic">
             It&apos;s clarity about what you know — and what you don&apos;t.
           </p>
-          <p className="font-courier text-xs sm:text-sm text-[#596474] pt-2 leading-[1.85]">
+          <p className="font-courier text-xs sm:text-sm text-ink-2 pt-2 leading-[1.85]">
             A challenged decision may still be difficult. It may even lead you to choose the same option.
             The difference is that you now understand the assumptions, evidence, trade-offs and unresolved questions behind it.
           </p>
@@ -1293,51 +1294,51 @@ export default function EditorialLandingPage() {
       {/* ==================================================
           24 & 25 — FINAL CTA & FOOTER
           ================================================== */}
-      <section className="py-16 sm:py-24 px-6 sm:px-12 lg:px-20 bg-[#F5F1E8] relative overflow-hidden">
+      <section className="py-16 sm:py-24 px-6 sm:px-12 lg:px-20 bg-page relative overflow-hidden">
         <div className="max-w-4xl mx-auto text-center space-y-6 relative z-10">
-          <h2 className="font-newsreader text-3xl sm:text-5xl text-[#172033] font-normal leading-[1.1]">
+          <h2 className="font-newsreader text-3xl sm:text-5xl text-ink font-normal leading-[1.1]">
             Before you commit,{" "}
-            <span className="italic text-[#315C8A] block sm:inline">
+            <span className="italic text-accent block sm:inline">
               challenge the decision.
             </span>
           </h2>
 
-          <p className="font-courier text-xs sm:text-sm text-[#596474] leading-[1.8] max-w-lg mx-auto">
+          <p className="font-courier text-xs sm:text-sm text-ink-2 leading-[1.8] max-w-lg mx-auto">
             Bring the decision you&apos;re already considering. Put the reasoning under scrutiny. Find what is missing. Examine the trade-offs. Then decide.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
             <Link
               href={user ? "/dashboard?action=new" : "/auth?redirect=/dashboard?action=new"}
-              className="w-full sm:w-auto px-7 py-3.5 border border-[#172033] bg-[#172033] text-[#F5F1E8] font-courier text-xs tracking-[0.08em] uppercase font-bold hover:bg-transparent hover:text-[#172033] transition-colors text-center inline-block"
+              className="w-full sm:w-auto px-7 py-3.5 border border-ink bg-ink text-page font-courier text-xs tracking-[0.08em] uppercase font-bold hover:bg-transparent hover:text-ink transition-colors text-center inline-block"
             >
               Challenge a Decision →
             </Link>
             <a
               href="#the-flow"
-              className="w-full sm:w-auto px-7 py-3.5 border border-[#172033]/30 bg-transparent text-[#172033] font-courier text-xs tracking-[0.08em] uppercase hover:border-[#172033] transition-colors"
+              className="w-full sm:w-auto px-7 py-3.5 border border-ink/30 bg-transparent text-ink font-courier text-xs tracking-[0.08em] uppercase hover:border-ink transition-colors"
             >
               Explore the Method
             </a>
           </div>
 
           {/* Minimal 25 Footer */}
-          <div className="pt-14 border-t border-[#172033]/15 flex flex-col sm:flex-row items-center justify-between text-[11px] text-[#7B8491] font-courier gap-4">
+          <div className="pt-14 border-t border-ink/15 flex flex-col sm:flex-row items-center justify-between text-[13px] text-ink-3 font-courier gap-4">
             <div className="flex items-center space-x-6">
-              <span className="font-newsreader text-lg text-[#172033] font-medium">
-                DecisionLens<span className="text-[#315C8A]">.</span>
+              <span className="font-newsreader text-lg text-ink font-medium">
+                DecisionLens<span className="text-accent">.</span>
               </span>
-              <a href="#the-flow" className="hover:text-[#172033]">THE FLOW</a>
-              <a href="#lenses-in-action" className="hover:text-[#172033]">LENSES IN ACTION</a>
-              <a href="#epistemic-rigor" className="hover:text-[#172033]">EPISTEMIC RIGOR</a>
-              <a href="#domains" className="hover:text-[#172033]">DOMAINS</a>
+              <a href="#the-flow" className="hover:text-ink">THE FLOW</a>
+              <a href="#lenses-in-action" className="hover:text-ink">LENSES IN ACTION</a>
+              <a href="#epistemic-rigor" className="hover:text-ink">EPISTEMIC RIGOR</a>
+              <a href="#domains" className="hover:text-ink">DOMAINS</a>
             </div>
 
             <div className="flex items-center gap-4">
-              <Link href="/softly" className="hover:text-[#172033] transition-colors">
+              <Link href="/softly" className="hover:text-ink transition-colors">
                 [SOFTLY ROOM]
               </Link>
-              <Link href="/dashboard" className="text-[#315C8A] font-bold hover:underline">
+              <Link href="/overview" className="text-accent font-bold hover:underline">
                 DASHBOARD →
               </Link>
             </div>
@@ -1346,7 +1347,7 @@ export default function EditorialLandingPage() {
 
         {/* Oversized DECISIONLENS Wordmark Cropped by Bottom Edge */}
         <div className="w-full pointer-events-none select-none overflow-hidden opacity-[0.06] mt-8">
-          <p className="font-newsreader font-bold text-[18vw] leading-[0.7] tracking-tighter text-[#172033] text-center whitespace-nowrap translate-y-4">
+          <p className="font-newsreader font-bold text-[18vw] leading-[0.7] tracking-tighter text-ink text-center whitespace-nowrap translate-y-4">
             DECISIONLENS
           </p>
         </div>
