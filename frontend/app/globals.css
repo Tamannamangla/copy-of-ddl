@@ -1,66 +1,209 @@
-@import url('https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&family=Inter:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* ------------------------------------------------------------------
+   Theme tokens (RGB triplets so Tailwind opacity modifiers work)
+   One neutral scale (n-*), one accent scale (a-*), one danger scale (d-*)
+------------------------------------------------------------------- */
 :root {
-  /* Printed Dossier Editorial Tokens */
-  --bg-page: #F5F1E8;
-  --bg-surface: #FCFBF8;
-  --bg-sidebar: #EFEADF;
-  --ink: #161E33;
-  --ink-secondary: #5A6275;
-  --ink-tertiary: #8B909C;
-  --accent: #2F5D8F;
-  --accent-hover: #264B74;
-  --border: #D9D2C3;
-  --radius-sm: 2px;
-  --radius-md: 4px;
+  color-scheme: light;
 
-  /* Aliases for compatibility */
-  --page-bg: #F5F1E8;
-  --surface: #FCFBF8;
-  --text-primary: #161E33;
-  --text-secondary: #5A6275;
-  --text-tertiary: #8B909C;
-  --border-subtle: #D9D2C3;
+  --page: 247 247 249;
+  --surface: 255 255 255;
+  --subtle: 241 242 245;
+  --line: 226 228 233;
+  --ink: 23 25 31;
+  --ink-hover: 45 49 60;
+  --ink-2: 74 79 92;
+  --ink-3: 104 110 124;
+  --on-ink: 255 255 255;
+  --white: 255 255 255;
 
-  --background: #F5F1E8;
-  --foreground: #161E33;
-  --card: #FCFBF8;
-  --card-foreground: #161E33;
-  --ring: #2F5D8F;
-  --primary: #161E33;
-  --primary-foreground: #FFFFFF;
+  --n-50: 249 250 251;
+  --n-100: 243 244 246;
+  --n-200: 229 231 235;
+  --n-300: 209 213 219;
+  --n-400: 156 163 175;
+  --n-500: 107 114 128;
+  --n-600: 75 85 99;
+  --n-700: 55 65 81;
+  --n-800: 31 41 55;
+  --n-900: 23 25 31;
+  --n-950: 10 12 16;
+
+  --a-50: 239 241 251;
+  --a-100: 223 227 246;
+  --a-200: 192 200 237;
+  --a-300: 151 164 222;
+  --a-400: 110 126 206;
+  --a-500: 80 97 192;
+  --a-600: 61 78 172;
+  --a-700: 50 64 143;
+  --a-800: 42 53 115;
+  --a-900: 34 43 91;
+  --a-950: 22 27 56;
+
+  --d-50: 254 242 242;
+  --d-100: 254 226 226;
+  --d-200: 254 202 202;
+  --d-300: 252 165 165;
+  --d-400: 248 113 113;
+  --d-500: 239 68 68;
+  --d-600: 220 38 38;
+  --d-700: 185 28 28;
+  --d-800: 153 27 27;
+  --d-900: 127 29 29;
+  --d-950: 69 10 10;
+
+  /* Legacy aliases used in a few inline styles */
+  --bg-page: rgb(var(--page));
+  --bg-surface: rgb(var(--surface));
+  --bg-sidebar: rgb(var(--subtle));
+  --accent: rgb(var(--a-600));
+  --accent-hover: rgb(var(--a-700));
+  --border: rgb(var(--line));
+  --radius-sm: 6px;
+  --radius-md: 8px;
+}
+
+.dark {
+  color-scheme: dark;
+
+  --page: 13 14 18;
+  --surface: 21 23 29;
+  --subtle: 28 31 38;
+  --line: 44 48 58;
+  --ink: 238 239 243;
+  --ink-hover: 214 216 224;
+  --ink-2: 184 188 199;
+  --ink-3: 145 150 163;
+  --on-ink: 17 19 24;
+  --white: 21 23 29;
+
+  --n-50: 24 26 32;
+  --n-100: 30 33 40;
+  --n-200: 44 48 58;
+  --n-300: 62 67 79;
+  --n-400: 104 110 124;
+  --n-500: 145 150 163;
+  --n-600: 172 177 189;
+  --n-700: 200 204 213;
+  --n-800: 222 224 230;
+  --n-900: 238 239 243;
+  --n-950: 248 249 251;
+
+  --a-50: 27 31 54;
+  --a-100: 33 39 70;
+  --a-200: 45 54 100;
+  --a-300: 64 78 140;
+  --a-400: 94 111 184;
+  --a-500: 122 139 214;
+  --a-600: 142 158 232;
+  --a-700: 168 181 240;
+  --a-800: 199 208 246;
+  --a-900: 225 230 251;
+  --a-950: 241 243 253;
+
+  --d-50: 44 20 22;
+  --d-100: 58 24 27;
+  --d-200: 92 34 39;
+  --d-300: 138 47 53;
+  --d-400: 194 70 77;
+  --d-500: 227 93 99;
+  --d-600: 239 122 127;
+  --d-700: 245 158 161;
+  --d-800: 249 194 196;
+  --d-900: 252 222 223;
+  --d-950: 254 240 240;
+}
+
+html {
+  font-size: 100%;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-  color: var(--ink);
-  background-color: var(--bg-page);
+  color: rgb(var(--ink));
+  background-color: rgb(var(--page));
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 1.0625rem;
+  line-height: 1.65;
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+@layer base {
+  h1, h2, h3, h4 {
+    letter-spacing: -0.015em;
+    line-height: 1.25;
+  }
+
+  /* Comfortable, easy-to-hit controls everywhere */
+  button:not([class*=" h-"]):not([class^="h-"]):not([role="switch"]):not(:has(> svg:only-child)) {
+    min-height: 2.5rem;
+  }
+  button:has(> svg:only-child):not([class*=" h-"]):not([class^="h-"]) {
+    min-width: 2.25rem;
+    min-height: 2.25rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  a[class*="rounded"][class*="px-"][class*="py-"] {
+    min-height: 2.5rem;
+  }
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]),
+  select {
+    min-height: 2.75rem;
+  }
+  input, select, textarea {
+    font-size: max(1rem, 1em);
+  }
+  input::placeholder, textarea::placeholder {
+    color: rgb(var(--ink-3));
+    opacity: 1;
+  }
+  label {
+    line-height: 1.5;
+  }
+  button:disabled {
+    cursor: not-allowed;
+  }
+}
+
+@layer components {
+  /* Previously undefined helper classes – now a clean card surface */
+  .glass-panel {
+    background-color: rgb(var(--surface));
+    border: 1px solid rgb(var(--line));
+  }
+  .specular-edge {
+    box-shadow: 0 1px 2px rgb(0 0 0 / 0.04);
+  }
 }
 
 /* Custom Scrollbars */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 10px;
+  height: 10px;
 }
 ::-webkit-scrollbar-track {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #D9D2C3;
-  border-radius: 2px;
+  background: rgb(var(--line));
+  border-radius: 8px;
+  border: 2px solid rgb(var(--page));
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #C4BCAC;
+  background: rgb(var(--n-400));
 }
 
-/* Hide scrollbar while preserving scroll functionality */
 .scrollbar-none::-webkit-scrollbar {
   display: none;
 }
@@ -69,13 +212,16 @@ body {
   scrollbar-width: none;
 }
 
-/* Accessible focus ring in steel blue accent */
 *:focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid rgb(var(--a-600));
   outline-offset: 2px;
 }
 
-/* Editorial Typography */
+::selection {
+  background: rgb(var(--a-200));
+  color: rgb(var(--ink));
+}
+
 .font-newsreader {
   font-family: 'Newsreader', Georgia, serif;
 }
@@ -85,5 +231,12 @@ body {
 }
 
 .font-courier {
-  font-family: 'Courier Prime', Courier, monospace;
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }

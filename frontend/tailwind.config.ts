@@ -1,95 +1,161 @@
 import type { Config } from "tailwindcss";
 
+/**
+ * DecisionLens theme
+ * ------------------
+ * Every color is driven by CSS variables (see app/globals.css) so the whole
+ * app switches between Light and Dark mode by toggling the `dark` class on
+ * <html>. Legacy palette names (slate, indigo, emerald, amber, blue …) are
+ * remapped onto ONE neutral scale and ONE accent scale, which keeps the UI
+ * consistent and minimal without touching every component.
+ */
+
+const v = (name: string) => `rgb(var(--${name}) / <alpha-value>)`;
+
+const scale = (prefix: string) => ({
+  50: v(`${prefix}-50`),
+  100: v(`${prefix}-100`),
+  200: v(`${prefix}-200`),
+  300: v(`${prefix}-300`),
+  400: v(`${prefix}-400`),
+  500: v(`${prefix}-500`),
+  600: v(`${prefix}-600`),
+  700: v(`${prefix}-700`),
+  800: v(`${prefix}-800`),
+  900: v(`${prefix}-900`),
+  950: v(`${prefix}-950`),
+});
+
+const neutral = scale("n");
+const accentScale = scale("a");
+const danger = scale("d");
+
 const config: Config = {
+  darkMode: "class",
   content: [
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
+    // Larger, more readable type scale (base = 17px)
+    fontSize: {
+      xs: ["0.875rem", { lineHeight: "1.3rem" }], // 14px
+      sm: ["1rem", { lineHeight: "1.55rem" }], // 16px
+      base: ["1.0625rem", { lineHeight: "1.7rem" }], // 17px
+      lg: ["1.1875rem", { lineHeight: "1.8rem" }], // 19px
+      xl: ["1.375rem", { lineHeight: "1.9rem" }], // 22px
+      "2xl": ["1.625rem", { lineHeight: "2.1rem" }], // 26px
+      "3xl": ["2rem", { lineHeight: "2.4rem" }], // 32px
+      "4xl": ["2.5rem", { lineHeight: "2.9rem" }], // 40px
+      "5xl": ["3rem", { lineHeight: "1.1" }],
+      "6xl": ["3.75rem", { lineHeight: "1.05" }],
+      "7xl": ["4.5rem", { lineHeight: "1" }],
+      "8xl": ["6rem", { lineHeight: "1" }],
+      "9xl": ["8rem", { lineHeight: "1" }],
+    },
     extend: {
       colors: {
-        brand: {
-          50: "#f0f4f8",
-          100: "#d9e2ec",
-          200: "#bcccdc",
-          300: "#9fb3c8",
-          400: "#829ab1",
-          500: "#627d98",
-          600: "#486581",
-          700: "#334e68",
-          800: "#243b53",
-          900: "#102a43",
+        white: v("white"),
+
+        // Semantic tokens
+        page: v("page"),
+        surface: v("surface"),
+        subtle: v("subtle"),
+        line: v("line"),
+        ink: {
+          DEFAULT: v("ink"),
+          hover: v("ink-hover"),
+          2: v("ink-2"),
+          3: v("ink-3"),
+          secondary: v("ink-2"),
+          tertiary: v("ink-3"),
         },
-        accent: {
-          50: "#f0fdf4",
-          100: "#dcfce7",
-          500: "#22c55e",
-          600: "#16a34a",
-          700: "#15803d",
-        },
-        softly: {
-          bg: "#FDFCF8",
-          sage: "#E8EFE8",
-          lavender: "#EFEDF4",
-          coral: "#FFB7B2",
-          dark: "#292524",
-          muted: "#78716C",
-          blush: "#FFE4E1",
-          softpurple: "#E6E6FA",
+        "on-ink": v("on-ink"),
+        accent: { DEFAULT: v("a-600"), hover: v("a-700"), ...accentScale },
+
+        // Neutral family → one neutral scale
+        slate: neutral,
+        gray: neutral,
+        zinc: neutral,
+        stone: neutral,
+        neutral: neutral,
+
+        // Every hue → one accent scale (no stray green / blue / orange)
+        indigo: accentScale,
+        blue: accentScale,
+        sky: accentScale,
+        cyan: accentScale,
+        teal: accentScale,
+        emerald: accentScale,
+        green: accentScale,
+        lime: accentScale,
+        violet: accentScale,
+        purple: accentScale,
+        fuchsia: accentScale,
+        pink: accentScale,
+        amber: accentScale,
+        orange: accentScale,
+        yellow: accentScale,
+
+        // Errors / destructive stay red, but theme-aware
+        red: danger,
+        rose: danger,
+        danger,
+
+        // Legacy names kept so nothing breaks
+        brand: neutral,
+        border: { DEFAULT: v("line"), subtle: v("line") },
+        paper: { page: v("page"), surface: v("surface"), sidebar: v("subtle") },
+        dossier: {
+          page: v("page"),
+          surface: v("surface"),
+          sidebar: v("subtle"),
+          ink: v("ink"),
+          "ink-hover": v("ink-hover"),
+          "ink-secondary": v("ink-2"),
+          "ink-tertiary": v("ink-3"),
+          accent: v("a-600"),
+          border: v("line"),
         },
         editorial: {
-          ground: "#F5F1E8",
-          "ground-secondary": "#E9E3D7",
-          ink: "#161E33",
-          "ink-secondary": "#5A6275",
-          muted: "#8B909C",
-          blue: "#2F5D8F",
-          amber: "#B4874B",
-          hairline: "rgba(22, 30, 51, 0.15)",
+          ground: v("page"),
+          "ground-secondary": v("subtle"),
+          ink: v("ink"),
+          "ink-secondary": v("ink-2"),
+          muted: v("ink-3"),
+          blue: v("a-600"),
+          amber: v("a-600"),
+          hairline: v("line"),
         },
-        dossier: {
-          page: "#F5F1E8",
-          surface: "#FCFBF8",
-          sidebar: "#EFEADF",
-          ink: "#161E33",
-          "ink-hover": "#232C47",
-          "ink-secondary": "#5A6275",
-          "ink-tertiary": "#8B909C",
-          accent: "#2F5D8F",
-          border: "#D9D2C3",
-        },
-        paper: {
-          page: "#F5F1E8",
-          surface: "#FCFBF8",
-          sidebar: "#EFEADF",
-        },
-        ink: {
-          DEFAULT: "#161E33",
-          secondary: "#5A6275",
-          tertiary: "#8B909C",
-        },
-        border: {
-          DEFAULT: "#D9D2C3",
-          subtle: "#E4DEC8",
+        softly: {
+          bg: v("page"),
+          sage: v("subtle"),
+          lavender: v("subtle"),
+          coral: v("a-300"),
+          dark: v("ink"),
+          muted: v("ink-3"),
+          blush: v("a-100"),
+          softpurple: v("a-100"),
         },
       },
       borderRadius: {
-        sm: "2px",
-        md: "4px",
+        sm: "6px",
+        md: "8px",
       },
       fontFamily: {
-        sans: ['"Plus Jakarta Sans"', "Inter", "system-ui", "-apple-system", "sans-serif"],
-        jakarta: ['"Plus Jakarta Sans"', "sans-serif"],
+        sans: ["Inter", "system-ui", "-apple-system", "Segoe UI", "sans-serif"],
+        ui: ["Inter", "system-ui", "-apple-system", "Segoe UI", "sans-serif"],
+        jakarta: ["Inter", "sans-serif"],
         inter: ["Inter", "sans-serif"],
-        newsreader: ["Newsreader", "serif"],
-        courier: ['"Courier Prime"', "monospace"],
-        mono: ['"Courier Prime"', "monospace"],
-        outfit: ["Outfit", "sans-serif"],
+        outfit: ["Inter", "sans-serif"],
+        newsreader: ["Newsreader", "Georgia", "serif"],
+        courier: ['"JetBrains Mono"', "ui-monospace", "monospace"],
+        mono: ['"JetBrains Mono"', "ui-monospace", "monospace"],
         reenie: ['"Reenie Beanie"', "cursive"],
       },
       boxShadow: {
-        soft: "0 4px 20px -2px rgba(0,0,0,0.05)",
-        "soft-lg": "0 10px 30px -4px rgba(0,0,0,0.07)",
+        soft: "0 1px 2px rgb(0 0 0 / 0.04), 0 4px 16px -4px rgb(0 0 0 / 0.08)",
+        "soft-lg": "0 2px 4px rgb(0 0 0 / 0.04), 0 12px 32px -8px rgb(0 0 0 / 0.14)",
       },
       keyframes: {
         float: {
@@ -101,14 +167,19 @@ const config: Config = {
           "50%": { transform: "translateY(10px)" },
         },
         breathe: {
-          "0%, 100%": { transform: "scale(1)", boxShadow: "0 0 0 0 rgba(255, 183, 178, 0.35)" },
-          "50%": { transform: "scale(1.06)", boxShadow: "0 0 24px 6px rgba(255, 183, 178, 0.5)" },
+          "0%, 100%": { transform: "scale(1)" },
+          "50%": { transform: "scale(1.06)" },
+        },
+        "fade-up": {
+          "0%": { opacity: "0", transform: "translateY(6px)" },
+          "100%": { opacity: "1", transform: "translateY(0)" },
         },
       },
       animation: {
         float: "float 6s ease-in-out infinite",
         "float-delayed": "float-delayed 7s ease-in-out infinite",
         breathe: "breathe 4s ease-in-out infinite",
+        "fade-up": "fade-up 0.35s ease-out both",
       },
     },
   },
