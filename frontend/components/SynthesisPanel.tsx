@@ -239,16 +239,16 @@ export default function SynthesisPanel({
   return (
     <div className="space-y-6">
       {/* Editorial Header & Action Bar */}
-      <div className="bg-[#FCFBF8] border border-[#D9D2C3] rounded p-5">
+      <div className="bg-surface border border-line rounded p-5">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
             <div className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-[#2F5D8F]"></span>
-              <h2 className="text-base font-serif font-bold text-[#161E33] tracking-tight">
+              <span className="w-2 h-2 rounded-full bg-accent"></span>
+              <h2 className="text-base font-serif font-bold text-ink tracking-tight">
                 Decision Recommendation & Execution Roadmap
               </h2>
             </div>
-            <p className="text-xs text-[#5A6275] mt-1">
+            <p className="text-xs text-ink-2 mt-1">
               Synthesized from cognitive findings, resolved information gaps, and multi-criteria evaluation.
             </p>
           </div>
@@ -256,7 +256,7 @@ export default function SynthesisPanel({
           <div className="flex items-center gap-2 flex-wrap">
             {snapshots.length > 0 && (
               <select
-                className="text-xs bg-[#FCFBF8] border border-[#D9D2C3] rounded px-2.5 py-1.5 font-medium text-[#161E33] focus:outline-none focus:ring-1 focus:ring-[#2F5D8F]"
+                className="text-xs bg-surface border border-line rounded px-2.5 py-1.5 font-medium text-ink focus:outline-none focus:ring-1 focus:ring-accent"
                 value={viewingSnapshot?.id || ""}
                 onChange={(e) =>
                   handleSelectSnapshot(Number(e.target.value) || 0)
@@ -279,8 +279,8 @@ export default function SynthesisPanel({
                 onClick={() => setShowPriorities(!showPriorities)}
                 className={`text-xs px-3 py-1.5 rounded font-medium border transition-colors ${
                   showPriorities || priorities.length > 0
-                    ? "bg-[#EFEADF] border-[#D9D2C3] text-[#161E33]"
-                    : "bg-[#FCFBF8] border-[#D9D2C3] text-[#5A6275] hover:bg-[#F5F1E8]"
+                    ? "bg-subtle border-line text-ink"
+                    : "bg-surface border-line text-ink-2 hover:bg-page"
                 }`}
               >
                 {priorities.length > 0 ? `Priorities (${priorities.length})` : "Set Priorities"}
@@ -290,12 +290,12 @@ export default function SynthesisPanel({
             <button
               onClick={handleRunSynthesis}
               disabled={loading}
-              className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-[#161E33] hover:bg-[#1e293b] text-[#FCFBF8] font-medium text-xs rounded transition-colors disabled:opacity-50"
+              className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-ink hover:bg-ink text-surface font-medium text-xs rounded transition-colors disabled:opacity-50"
             >
               {loading ? (
                 <>
                   <svg
-                    className="animate-spin h-3.5 w-3.5 text-[#FCFBF8]"
+                    className="animate-spin h-3.5 w-3.5 text-surface"
                     fill="none"
                     viewBox="0 0 24 24"
                   >
@@ -339,15 +339,15 @@ export default function SynthesisPanel({
 
         {/* Collapsible Strategic Priorities Drawer */}
         {!viewingSnapshot && (showPriorities || (!displaySynthesis && priorities.length > 0)) && (
-          <div className="mt-4 pt-4 border-t border-[#D9D2C3]">
+          <div className="mt-4 pt-4 border-t border-line">
             <div className="flex items-center justify-between mb-2">
-              <label className="block text-[11px] font-mono uppercase tracking-wider text-[#5A6275]">
+              <label className="block text-[13px] font-mono uppercase tracking-wider text-ink-2">
                 Strategic Priorities & Decision Weights
               </label>
               <button
                 type="button"
                 onClick={() => setShowPriorities(false)}
-                className="text-xs text-[#8B909C] hover:text-[#161E33]"
+                className="text-xs text-ink-3 hover:text-ink"
               >
                 Close
               </button>
@@ -356,12 +356,12 @@ export default function SynthesisPanel({
               {priorities.map((p) => (
                 <span
                   key={p}
-                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-sm text-xs font-medium bg-[#EFEADF] text-[#161E33] border border-[#D9D2C3]"
+                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-sm text-xs font-medium bg-subtle text-ink border border-line"
                 >
                   {p}
                   <button
                     onClick={() => handleRemovePriority(p)}
-                    className="hover:text-red-600 text-[#8B909C] font-bold"
+                    className="hover:text-red-600 text-ink-3 font-bold"
                   >
                     ×
                   </button>
@@ -374,18 +374,18 @@ export default function SynthesisPanel({
                   value={newPriorityInput}
                   onChange={(e) => setNewPriorityInput(e.target.value)}
                   onKeyDown={handleAddPriority}
-                  className="w-full text-xs px-3 py-1.5 bg-[#FCFBF8] border border-[#D9D2C3] rounded text-[#161E33] focus:outline-none focus:ring-1 focus:ring-[#2F5D8F]"
+                  className="w-full text-xs px-3 py-1.5 bg-surface border border-line rounded text-ink focus:outline-none focus:ring-1 focus:ring-accent"
                 />
                 <button
                   type="button"
                   onClick={handleAddPriority}
-                  className="text-xs px-3 py-1.5 bg-[#EFEADF] hover:bg-[#e4ddce] text-[#161E33] font-medium rounded border border-[#D9D2C3] transition-colors"
+                  className="text-xs px-3 py-1.5 bg-subtle hover:bg-line text-ink font-medium rounded border border-line transition-colors"
                 >
                   Add
                 </button>
               </div>
             </div>
-            <p className="text-[11px] text-[#8B909C]">
+            <p className="text-[13px] text-ink-3">
               Directly calibrates criteria weights and threshold tolerances during strategic synthesis.
             </p>
           </div>
@@ -394,22 +394,22 @@ export default function SynthesisPanel({
 
       {/* Alert Notices */}
       {error && (
-        <div className="p-3.5 rounded bg-[#FDF2F2] border border-[#F8B4B4] text-[#9B1C1C] text-xs flex items-center justify-between">
+        <div className="p-3.5 rounded bg-danger-50 border border-danger-200 text-danger-700 text-xs flex items-center justify-between">
           <span>{error}</span>
           <button
             onClick={() => setError(null)}
-            className="text-[#9B1C1C] hover:opacity-80 font-bold ml-2"
+            className="text-danger-700 hover:opacity-80 font-bold ml-2"
           >
             ×
           </button>
         </div>
       )}
       {successMsg && (
-        <div className="p-3.5 rounded bg-[#F3FAF7] border border-[#BCF0DA] text-[#03543F] text-xs flex items-center justify-between">
+        <div className="p-3.5 rounded bg-accent-50 border border-accent-200 text-accent-700 text-xs flex items-center justify-between">
           <span>{successMsg}</span>
           <button
             onClick={() => setSuccessMsg(null)}
-            className="text-[#03543F] hover:opacity-80 font-bold ml-2"
+            className="text-accent-700 hover:opacity-80 font-bold ml-2"
           >
             ×
           </button>
@@ -418,21 +418,21 @@ export default function SynthesisPanel({
 
       {/* Historical Snapshot Notice */}
       {viewingSnapshot && (
-        <div className="p-4 rounded bg-[#FFFBEB] border border-[#FDE68A] flex items-center justify-between text-xs text-[#92400E]">
+        <div className="p-4 rounded bg-accent-50 border border-accent-200 flex items-center justify-between text-xs text-accent-700">
           <div className="flex items-center gap-3">
             <span className="font-mono text-sm font-bold">HISTORICAL DOSSIER</span>
             <div>
               <h4 className="font-bold">
                 Viewing Immutable Snapshot Version {viewingSnapshot.version}
               </h4>
-              <p className="text-[11px] opacity-90">
+              <p className="text-[13px] opacity-90">
                 Recorded on {new Date(viewingSnapshot.created_at).toLocaleString()} with verified criteria and evidence at that time.
               </p>
             </div>
           </div>
           <button
             onClick={() => setViewingSnapshot(null)}
-            className="px-3 py-1.5 bg-[#FCFBF8] text-[#92400E] font-medium text-xs rounded border border-[#FDE68A] hover:bg-[#FEF3C7] transition-colors shrink-0"
+            className="px-3 py-1.5 bg-surface text-accent-700 font-medium text-xs rounded border border-accent-200 hover:bg-accent-50 transition-colors shrink-0"
           >
             Return to Active Version
           </button>
@@ -444,9 +444,9 @@ export default function SynthesisPanel({
         <div className="space-y-6">
           {/* Stale Synthesis Warning */}
           {displaySynthesis.is_stale && (
-            <div className="p-4 rounded bg-[#FFFBEB] border border-[#FDE68A] flex items-center justify-between text-[#92400E] text-xs">
+            <div className="p-4 rounded bg-accent-50 border border-accent-200 flex items-center justify-between text-accent-700 text-xs">
               <div className="flex items-center gap-2.5">
-                <AlertTriangle className="w-4 h-4 text-[#92400E] shrink-0" />
+                <AlertTriangle className="w-4 h-4 text-accent-700 shrink-0" />
                 <div>
                   <strong className="block font-bold">Upstream Analysis Updated</strong>
                   <span>Problem framing, evidence findings, or matrix weights have changed since this synthesis was produced.</span>
@@ -455,7 +455,7 @@ export default function SynthesisPanel({
               <button
                 onClick={handleRunSynthesis}
                 disabled={loading}
-                className="px-3 py-1.5 bg-[#92400E] hover:bg-[#78350F] text-[#FCFBF8] font-medium rounded text-xs shrink-0 transition-colors"
+                className="px-3 py-1.5 bg-accent-700 hover:bg-accent-700 text-surface font-medium rounded text-xs shrink-0 transition-colors"
               >
                 Re-Run Synthesis
               </button>
@@ -463,49 +463,49 @@ export default function SynthesisPanel({
           )}
 
           {/* Executive Mandate & Recommendation Card */}
-          <div className="bg-[#FCFBF8] border border-[#D9D2C3] rounded p-6 space-y-4">
+          <div className="bg-surface border border-line rounded p-6 space-y-4">
             {/* Top Meta Bar */}
-            <div className="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-[#D9D2C3]">
+            <div className="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-line">
               <div className="flex items-center gap-2 flex-wrap">
-                <span className="px-2 py-0.5 rounded-sm text-[10px] font-mono uppercase bg-[#EFEADF] text-[#161E33] border border-[#D9D2C3]">
+                <span className="px-2 py-0.5 rounded-sm text-[13px] font-mono uppercase bg-subtle text-ink border border-line">
                   {displaySynthesis.domain}
                 </span>
                 <span
-                  className={`px-2 py-0.5 rounded-sm text-[10px] font-mono uppercase font-semibold border ${
+                  className={`px-2 py-0.5 rounded-sm text-[13px] font-mono uppercase font-semibold border ${
                     isConditional
-                      ? "bg-[#FEF6EE] text-[#944012] border-[#F9DBAF]"
-                      : "bg-[#EBF5EE] text-[#1F5132] border-[#C2E4CD]"
+                      ? "bg-accent-50 text-accent-700 border-accent-200"
+                      : "bg-accent-50 text-accent-700 border-accent-200"
                   }`}
                 >
                   {isConditional ? "Conditional Pre-Commitment" : "Conclusive Recommendation"}
                 </span>
               </div>
-              <span className="text-[11px] font-mono text-[#8B909C]">
+              <span className="text-[13px] font-mono text-ink-3">
                 Snapshot v{displaySynthesis.version} • {new Date(displaySynthesis.created_at).toLocaleDateString()}
               </span>
             </div>
 
             {/* Strategic Directive Alignment Box */}
             {displaySynthesis.canonical_result && (
-              <div className="p-3.5 rounded bg-[#EFEADF] border border-[#D9D2C3] flex flex-wrap items-center justify-between gap-3 text-xs">
+              <div className="p-3.5 rounded bg-subtle border border-line flex flex-wrap items-center justify-between gap-3 text-xs">
                 <div>
-                  <span className="text-[#5A6275] block text-[11px]">Recommended Strategic Path:</span>
-                  <strong className="text-sm font-serif font-bold text-[#161E33]">
+                  <span className="text-ink-2 block text-[13px]">Recommended Strategic Path:</span>
+                  <strong className="text-sm font-serif font-bold text-ink">
                     {displaySynthesis.canonical_result.winner_option_name}
                   </strong>
                 </div>
                 <div className="flex items-center gap-3">
                   <div className="text-right">
-                    <span className="text-[10px] font-mono uppercase text-[#5A6275] block">Evaluated Score</span>
-                    <span className="font-mono font-bold text-sm text-[#161E33]">
+                    <span className="text-[13px] font-mono uppercase text-ink-2 block">Evaluated Score</span>
+                    <span className="font-mono font-bold text-sm text-ink">
                       {displaySynthesis.canonical_result.winner_score.toFixed(1)}/10
                     </span>
                   </div>
                   <span
-                    className={`px-2 py-0.5 rounded-sm text-[10px] font-mono uppercase font-bold border ${
+                    className={`px-2 py-0.5 rounded-sm text-[13px] font-mono uppercase font-bold border ${
                       displaySynthesis.canonical_result.decision_status === "READY"
-                        ? "bg-[#EBF5EE] text-[#1F5132] border-[#C2E4CD]"
-                        : "bg-[#FEF6EE] text-[#944012] border-[#F9DBAF]"
+                        ? "bg-accent-50 text-accent-700 border-accent-200"
+                        : "bg-accent-50 text-accent-700 border-accent-200"
                     }`}
                   >
                     {displaySynthesis.canonical_result.decision_status === "READY"
@@ -518,28 +518,28 @@ export default function SynthesisPanel({
 
             {/* Headline & Recommendation Body */}
             <div>
-              <h3 className="text-lg md:text-xl font-serif font-bold text-[#161E33] leading-snug mb-2">
+              <h3 className="text-lg md:text-xl font-serif font-bold text-ink leading-snug mb-2">
                 {displaySynthesis.headline}
               </h3>
-              <p className="text-xs md:text-sm text-[#161E33] leading-relaxed font-normal whitespace-pre-line">
+              <p className="text-xs md:text-sm text-ink leading-relaxed font-normal whitespace-pre-line">
                 {displaySynthesis.recommendation_text}
               </p>
             </div>
 
             {/* Conditional Triggers & Due Diligence Requirements */}
             {isConditional && displaySynthesis.conditional_triggers.length > 0 && (
-              <div className="mt-4 p-4 rounded bg-[#EFEADF]/50 border border-[#D9D2C3]">
-                <h4 className="text-[11px] font-mono uppercase tracking-wider text-[#161E33] font-bold mb-2 flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#944012]"></span>
+              <div className="mt-4 p-4 rounded bg-subtle/50 border border-line">
+                <h4 className="text-[13px] font-mono uppercase tracking-wider text-ink font-bold mb-2 flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-accent-700"></span>
                   Mandatory Precedent Conditions & Due-Diligence Clearances
                 </h4>
                 <ul className="space-y-1.5">
                   {displaySynthesis.conditional_triggers.map((trigger, idx) => (
                     <li
                       key={idx}
-                      className="text-xs text-[#161E33] flex items-start gap-2"
+                      className="text-xs text-ink flex items-start gap-2"
                     >
-                      <span className="font-mono text-[#944012] font-semibold shrink-0">
+                      <span className="font-mono text-accent-700 font-semibold shrink-0">
                         [{idx + 1}]
                       </span>
                       <span className="leading-relaxed">{trigger}</span>
@@ -551,12 +551,12 @@ export default function SynthesisPanel({
           </div>
 
           {/* Alternatives Evaluated & Trade-offs */}
-          <div className="bg-[#FCFBF8] border border-[#D9D2C3] rounded p-6">
+          <div className="bg-surface border border-line rounded p-6">
             <div className="mb-4">
-              <h3 className="text-base font-serif font-bold text-[#161E33]">
+              <h3 className="text-base font-serif font-bold text-ink">
                 Comparative Alternatives & Strategic Trade-Offs
               </h3>
-              <p className="text-xs text-[#5A6275]">
+              <p className="text-xs text-ink-2">
                 Side-by-side evaluation of considered alternatives with operational justifications.
               </p>
             </div>
@@ -567,39 +567,39 @@ export default function SynthesisPanel({
                   key={idx}
                   className={`rounded p-4 border flex flex-col justify-between transition-colors ${
                     alt.is_recommended
-                      ? "bg-[#FCFBF8] border-2 border-[#2F5D8F]"
-                      : "bg-[#FCFBF8] border-[#D9D2C3]"
+                      ? "bg-surface border-2 border-accent"
+                      : "bg-surface border-line"
                   }`}
                 >
                   <div>
-                    <div className="flex items-center justify-between gap-2 mb-2 pb-2 border-b border-[#D9D2C3]">
-                      <h4 className="font-serif font-bold text-[#161E33] text-sm truncate">
+                    <div className="flex items-center justify-between gap-2 mb-2 pb-2 border-b border-line">
+                      <h4 className="font-serif font-bold text-ink text-sm truncate">
                         {alt.name}
                       </h4>
                       {alt.is_recommended ? (
-                        <span className="px-1.5 py-0.5 rounded-sm text-[10px] font-mono uppercase font-bold bg-[#2F5D8F] text-[#FCFBF8]">
+                        <span className="px-1.5 py-0.5 rounded-sm text-[13px] font-mono uppercase font-bold bg-accent text-surface">
                           Selected
                         </span>
                       ) : (
-                        <span className="px-1.5 py-0.5 rounded-sm text-[10px] font-mono uppercase bg-[#EFEADF] text-[#5A6275] border border-[#D9D2C3]">
+                        <span className="px-1.5 py-0.5 rounded-sm text-[13px] font-mono uppercase bg-subtle text-ink-2 border border-line">
                           Alternative
                         </span>
                       )}
                     </div>
 
-                    <p className="text-xs text-[#5A6275] mb-3">
+                    <p className="text-xs text-ink-2 mb-3">
                       {alt.description}
                     </p>
 
                     <div className="space-y-2 mb-3">
                       <div>
-                        <span className="text-[10px] font-mono uppercase font-semibold text-[#1F5132] block mb-1">
+                        <span className="text-[13px] font-mono uppercase font-semibold text-accent-700 block mb-1">
                           Advantages
                         </span>
-                        <ul className="text-xs text-[#161E33] space-y-0.5">
+                        <ul className="text-xs text-ink space-y-0.5">
                           {alt.pros.map((p, pIdx) => (
                             <li key={pIdx} className="flex items-start gap-1.5">
-                              <span className="text-[#1F5132] font-bold">+</span>
+                              <span className="text-accent-700 font-bold">+</span>
                               <span>{p}</span>
                             </li>
                           ))}
@@ -607,13 +607,13 @@ export default function SynthesisPanel({
                       </div>
 
                       <div>
-                        <span className="text-[10px] font-mono uppercase font-semibold text-[#944012] block mb-1">
+                        <span className="text-[13px] font-mono uppercase font-semibold text-accent-700 block mb-1">
                           Disadvantages & Costs
                         </span>
-                        <ul className="text-xs text-[#161E33] space-y-0.5">
+                        <ul className="text-xs text-ink space-y-0.5">
                           {alt.cons.map((c, cIdx) => (
                             <li key={cIdx} className="flex items-start gap-1.5">
-                              <span className="text-[#944012] font-bold">-</span>
+                              <span className="text-accent-700 font-bold">-</span>
                               <span>{c}</span>
                             </li>
                           ))}
@@ -622,14 +622,14 @@ export default function SynthesisPanel({
                     </div>
                   </div>
 
-                  <div className="pt-2.5 border-t border-[#D9D2C3] mt-2 space-y-1 text-xs">
+                  <div className="pt-2.5 border-t border-line mt-2 space-y-1 text-xs">
                     {alt.tradeoffs && (
-                      <p className="text-[11px] text-[#5A6275]">
-                        <strong className="text-[#161E33]">Trade-off:</strong> {alt.tradeoffs}
+                      <p className="text-[13px] text-ink-2">
+                        <strong className="text-ink">Trade-off:</strong> {alt.tradeoffs}
                       </p>
                     )}
                     {alt.why_not_recommended && (
-                      <p className="text-[11px] text-[#944012]">
+                      <p className="text-[13px] text-accent-700">
                         <strong className="font-semibold">Why Deprioritized:</strong> {alt.why_not_recommended}
                       </p>
                     )}
@@ -642,13 +642,13 @@ export default function SynthesisPanel({
           {/* Evidence, Assumptions, Risks & Dialectical Defense Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Supporting Evidence Card */}
-            <div className="bg-[#FCFBF8] border border-[#D9D2C3] rounded p-5 flex flex-col justify-between">
+            <div className="bg-surface border border-line rounded p-5 flex flex-col justify-between">
               <div>
-                <div className="flex items-center justify-between mb-3 pb-2 border-b border-[#D9D2C3]">
-                  <h4 className="font-serif font-bold text-[#161E33] text-sm">
+                <div className="flex items-center justify-between mb-3 pb-2 border-b border-line">
+                  <h4 className="font-serif font-bold text-ink text-sm">
                     Supporting Evidentiary Findings
                   </h4>
-                  <span className="text-[10px] font-mono uppercase text-[#5A6275]">
+                  <span className="text-[13px] font-mono uppercase text-ink-2">
                     Verified
                   </span>
                 </div>
@@ -656,12 +656,12 @@ export default function SynthesisPanel({
                   {displaySynthesis.supporting_evidence.map((ev, idx) => (
                     <div
                       key={idx}
-                      className="p-2.5 rounded bg-[#EFEADF]/40 border border-[#D9D2C3] text-xs"
+                      className="p-2.5 rounded bg-subtle/40 border border-line text-xs"
                     >
-                      <p className="text-[#161E33] font-medium mb-1">
+                      <p className="text-ink font-medium mb-1">
                         &ldquo;{ev.claim}&rdquo;
                       </p>
-                      <div className="flex items-center justify-between text-[11px] text-[#5A6275] mt-1.5">
+                      <div className="flex items-center justify-between text-[13px] text-ink-2 mt-1.5">
                         <span className="font-medium">
                           {ev.source_title || "Verified Source"}
                         </span>
@@ -670,13 +670,13 @@ export default function SynthesisPanel({
                             href={ev.source_url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-[#2F5D8F] hover:underline flex items-center gap-1 font-mono text-[10px]"
+                            className="text-accent hover:underline flex items-center gap-1 font-mono text-[13px]"
                           >
                             <span>Source Link</span>
                             <ExternalLink className="w-2.5 h-2.5 inline" />
                           </a>
                         ) : (
-                          <span className="capitalize text-[#8B909C]">
+                          <span className="capitalize text-ink-3">
                             {ev.evidence_type.replace(/_/g, " ")}
                           </span>
                         )}
@@ -688,13 +688,13 @@ export default function SynthesisPanel({
             </div>
 
             {/* Assumptions & Critical Failure Modes */}
-            <div className="bg-[#FCFBF8] border border-[#D9D2C3] rounded p-5 flex flex-col justify-between">
+            <div className="bg-surface border border-line rounded p-5 flex flex-col justify-between">
               <div>
-                <div className="flex items-center justify-between mb-3 pb-2 border-b border-[#D9D2C3]">
-                  <h4 className="font-serif font-bold text-[#161E33] text-sm">
+                <div className="flex items-center justify-between mb-3 pb-2 border-b border-line">
+                  <h4 className="font-serif font-bold text-ink text-sm">
                     Key Operating Assumptions
                   </h4>
-                  <span className="text-[10px] font-mono uppercase text-[#5A6275]">
+                  <span className="text-[13px] font-mono uppercase text-ink-2">
                     Sensitivity
                   </span>
                 </div>
@@ -702,24 +702,24 @@ export default function SynthesisPanel({
                   {displaySynthesis.assumptions.map((item, idx) => (
                     <div
                       key={idx}
-                      className="p-2.5 rounded bg-[#EFEADF]/40 border border-[#D9D2C3] text-xs"
+                      className="p-2.5 rounded bg-subtle/40 border border-line text-xs"
                     >
                       <div className="flex items-center justify-between gap-2 mb-1">
-                        <span className="font-medium text-[#161E33]">
+                        <span className="font-medium text-ink">
                           {item.assumption}
                         </span>
                         <span
-                          className={`text-[9px] font-mono uppercase px-1.5 py-0.5 rounded-sm border shrink-0 ${
+                          className={`text-[12px] font-mono uppercase px-1.5 py-0.5 rounded-sm border shrink-0 ${
                             item.is_verified
-                              ? "bg-[#EBF5EE] text-[#1F5132] border-[#C2E4CD]"
-                              : "bg-[#FEF6EE] text-[#944012] border-[#F9DBAF]"
+                              ? "bg-accent-50 text-accent-700 border-accent-200"
+                              : "bg-accent-50 text-accent-700 border-accent-200"
                           }`}
                         >
                           {item.is_verified ? "Verified" : "Unverified"}
                         </span>
                       </div>
-                      <p className="text-[#5A6275] text-[11px]">
-                        <strong className="text-[#161E33]">Impact if False:</strong> {item.impact_if_false}
+                      <p className="text-ink-2 text-[13px]">
+                        <strong className="text-ink">Impact if False:</strong> {item.impact_if_false}
                       </p>
                     </div>
                   ))}
@@ -728,13 +728,13 @@ export default function SynthesisPanel({
             </div>
 
             {/* Risks & Mitigation Strategies */}
-            <div className="bg-[#FCFBF8] border border-[#D9D2C3] rounded p-5 flex flex-col justify-between">
+            <div className="bg-surface border border-line rounded p-5 flex flex-col justify-between">
               <div>
-                <div className="flex items-center justify-between mb-3 pb-2 border-b border-[#D9D2C3]">
-                  <h4 className="font-serif font-bold text-[#161E33] text-sm">
+                <div className="flex items-center justify-between mb-3 pb-2 border-b border-line">
+                  <h4 className="font-serif font-bold text-ink text-sm">
                     Risks, Mitigations & Contingency Plans
                   </h4>
-                  <span className="text-[10px] font-mono uppercase text-[#5A6275]">
+                  <span className="text-[13px] font-mono uppercase text-ink-2">
                     Risk Governance
                   </span>
                 </div>
@@ -742,27 +742,27 @@ export default function SynthesisPanel({
                   {displaySynthesis.risks_and_mitigations.map((r, idx) => (
                     <div
                       key={idx}
-                      className="p-2.5 rounded bg-[#EFEADF]/40 border border-[#D9D2C3] text-xs"
+                      className="p-2.5 rounded bg-subtle/40 border border-line text-xs"
                     >
                       <div className="flex items-center justify-between gap-2 mb-1">
-                        <span className="font-bold text-[#161E33]">
+                        <span className="font-bold text-ink">
                           {r.risk}
                         </span>
                         <span
-                          className={`text-[9px] font-mono uppercase px-1.5 py-0.5 rounded-sm border shrink-0 ${
+                          className={`text-[12px] font-mono uppercase px-1.5 py-0.5 rounded-sm border shrink-0 ${
                             r.severity === "high" || r.severity === "critical"
-                              ? "bg-[#FDF2F2] text-[#9B1C1C] border-[#F8B4B4]"
-                              : "bg-[#FEF6EE] text-[#944012] border-[#F9DBAF]"
+                              ? "bg-danger-50 text-danger-700 border-danger-200"
+                              : "bg-accent-50 text-accent-700 border-accent-200"
                           }`}
                         >
                           {r.severity}
                         </span>
                       </div>
-                      <p className="text-[#5A6275] text-[11px] mb-1">
-                        <strong className="text-[#161E33]">Mitigation:</strong> {r.mitigation}
+                      <p className="text-ink-2 text-[13px] mb-1">
+                        <strong className="text-ink">Mitigation:</strong> {r.mitigation}
                       </p>
                       {r.contingency_plan && (
-                        <p className="text-[#2F5D8F] text-[11px]">
+                        <p className="text-accent text-[13px]">
                           <strong>Contingency:</strong> {r.contingency_plan}
                         </p>
                       )}
@@ -773,13 +773,13 @@ export default function SynthesisPanel({
             </div>
 
             {/* Dialectical Counterarguments & Rebuttals */}
-            <div className="bg-[#FCFBF8] border border-[#D9D2C3] rounded p-5 flex flex-col justify-between">
+            <div className="bg-surface border border-line rounded p-5 flex flex-col justify-between">
               <div>
-                <div className="flex items-center justify-between mb-3 pb-2 border-b border-[#D9D2C3]">
-                  <h4 className="font-serif font-bold text-[#161E33] text-sm">
+                <div className="flex items-center justify-between mb-3 pb-2 border-b border-line">
+                  <h4 className="font-serif font-bold text-ink text-sm">
                     Dialectical Counterarguments & Rebuttals
                   </h4>
-                  <span className="text-[10px] font-mono uppercase text-[#5A6275]">
+                  <span className="text-[13px] font-mono uppercase text-ink-2">
                     Steel-Manning
                   </span>
                 </div>
@@ -787,13 +787,13 @@ export default function SynthesisPanel({
                   {displaySynthesis.counterarguments.map((c, idx) => (
                     <div
                       key={idx}
-                      className="p-2.5 rounded bg-[#EFEADF]/40 border border-[#D9D2C3] text-xs"
+                      className="p-2.5 rounded bg-subtle/40 border border-line text-xs"
                     >
-                      <p className="font-serif italic font-bold text-[#161E33] mb-1">
+                      <p className="font-serif italic font-bold text-ink mb-1">
                         &ldquo;{c.argument}&rdquo;
                       </p>
-                      <p className="text-[#5A6275] text-[11px]">
-                        <strong className="text-[#161E33] not-italic">Strategic Rebuttal:</strong>{" "}
+                      <p className="text-ink-2 text-[13px]">
+                        <strong className="text-ink not-italic">Strategic Rebuttal:</strong>{" "}
                         {c.rebuttal_or_concession}
                       </p>
                     </div>
@@ -804,26 +804,26 @@ export default function SynthesisPanel({
           </div>
 
           {/* Confidence Assessment & Information Limitations */}
-          <div className="bg-[#EFEADF] border border-[#D9D2C3] rounded p-6">
+          <div className="bg-subtle border border-line rounded p-6">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-3">
               <div>
-                <span className="text-[10px] font-mono uppercase tracking-widest text-[#5A6275] block mb-0.5">
+                <span className="text-[13px] font-mono uppercase tracking-widest text-ink-2 block mb-0.5">
                   Confidence Rating
                 </span>
-                <h4 className="text-base font-serif font-bold text-[#161E33]">
+                <h4 className="text-base font-serif font-bold text-ink">
                   Decision Confidence:{" "}
-                  <span className="text-[#2F5D8F] font-mono">
+                  <span className="text-accent font-mono">
                     {(displaySynthesis.confidence_assessment.score * 100).toFixed(0)}%
                   </span>{" "}
-                  <span className="text-xs uppercase font-mono font-medium text-[#5A6275]">
+                  <span className="text-xs uppercase font-mono font-medium text-ink-2">
                     ({displaySynthesis.confidence_assessment.level})
                   </span>
                 </h4>
               </div>
 
-              <div className="w-full md:w-56 bg-[#D9D2C3] rounded-full h-2 overflow-hidden">
+              <div className="w-full md:w-56 bg-line rounded-full h-2 overflow-hidden">
                 <div
-                  className="bg-[#2F5D8F] h-full rounded-full transition-all duration-500"
+                  className="bg-accent h-full rounded-full transition-all duration-500"
                   style={{
                     width: `${Math.min(100, Math.max(10, displaySynthesis.confidence_assessment.score * 100))}%`,
                   }}
@@ -831,22 +831,22 @@ export default function SynthesisPanel({
               </div>
             </div>
 
-            <p className="text-xs text-[#161E33] leading-relaxed mb-3">
+            <p className="text-xs text-ink leading-relaxed mb-3">
               {displaySynthesis.confidence_assessment.rationale}
             </p>
 
             {displaySynthesis.confidence_assessment.limitations.length > 0 && (
-              <div className="pt-3 border-t border-[#D9D2C3]">
-                <span className="text-[10px] font-mono uppercase tracking-wider text-[#5A6275] block mb-1.5">
+              <div className="pt-3 border-t border-line">
+                <span className="text-[13px] font-mono uppercase tracking-wider text-ink-2 block mb-1.5">
                   Documented Information Limitations
                 </span>
                 <ul className="space-y-1">
                   {displaySynthesis.confidence_assessment.limitations.map((lim, idx) => (
                     <li
                       key={idx}
-                      className="text-xs text-[#5A6275] flex items-start gap-2"
+                      className="text-xs text-ink-2 flex items-start gap-2"
                     >
-                      <span className="text-[#2F5D8F] font-bold">•</span>
+                      <span className="text-accent font-bold">•</span>
                       <span>{lim}</span>
                     </li>
                   ))}
@@ -857,13 +857,13 @@ export default function SynthesisPanel({
 
           {/* Actionable Phased Execution Roadmap */}
           {displayRoadmap && (
-            <div className="bg-[#FCFBF8] border border-[#D9D2C3] rounded p-6 space-y-5">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-[#D9D2C3]">
+            <div className="bg-surface border border-line rounded p-6 space-y-5">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-line">
                 <div>
-                  <h3 className="text-base font-serif font-bold text-[#161E33]">
+                  <h3 className="text-base font-serif font-bold text-ink">
                     {displayRoadmap.title}
                   </h3>
-                  <p className="text-xs text-[#5A6275] mt-0.5">
+                  <p className="text-xs text-ink-2 mt-0.5">
                     Operational milestones, owner roles, and condition triggers. Check off completed tasks to track execution.
                   </p>
                 </div>
@@ -872,7 +872,7 @@ export default function SynthesisPanel({
                   <button
                     onClick={handleSaveRoadmap}
                     disabled={savingRoadmap}
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#161E33] hover:bg-[#1e293b] text-[#FCFBF8] font-medium text-xs rounded transition-colors disabled:opacity-50 shrink-0"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-ink hover:bg-ink text-surface font-medium text-xs rounded transition-colors disabled:opacity-50 shrink-0"
                   >
                     {savingRoadmap ? "Saving..." : "Save Roadmap Changes"}
                   </button>
@@ -884,18 +884,18 @@ export default function SynthesisPanel({
                 {displayRoadmap.phases.map((phase) => (
                   <div
                     key={phase.phase_id}
-                    className="rounded border border-[#D9D2C3] bg-[#FCFBF8] p-4 space-y-3"
+                    className="rounded border border-line bg-surface p-4 space-y-3"
                   >
                     <div className="flex items-center justify-between gap-2">
                       <div>
-                        <h4 className="font-serif font-bold text-[#161E33] text-sm">
+                        <h4 className="font-serif font-bold text-ink text-sm">
                           {phase.title}
                         </h4>
-                        <p className="text-xs text-[#5A6275]">
+                        <p className="text-xs text-ink-2">
                           {phase.description}
                         </p>
                       </div>
-                      <span className="text-[10px] font-mono px-2 py-0.5 rounded-sm bg-[#EFEADF] border border-[#D9D2C3] text-[#5A6275] shrink-0">
+                      <span className="text-[13px] font-mono px-2 py-0.5 rounded-sm bg-subtle border border-line text-ink-2 shrink-0">
                         {phase.timeline}
                       </span>
                     </div>
@@ -907,8 +907,8 @@ export default function SynthesisPanel({
                           key={task.task_id}
                           className={`p-3 rounded border flex items-start gap-3 transition-colors ${
                             task.is_completed
-                              ? "bg-[#EFEADF]/60 border-[#D9D2C3] opacity-75"
-                              : "bg-[#FCFBF8] border-[#D9D2C3]"
+                              ? "bg-subtle/60 border-line opacity-75"
+                              : "bg-surface border-line"
                           }`}
                         >
                           <input
@@ -918,40 +918,40 @@ export default function SynthesisPanel({
                             onChange={() =>
                               handleToggleTask(phase.phase_id, task.task_id)
                             }
-                            className="mt-0.5 h-3.5 w-3.5 rounded-sm border-[#D9D2C3] text-[#2F5D8F] focus:ring-1 focus:ring-[#2F5D8F] cursor-pointer disabled:cursor-not-allowed"
+                            className="mt-0.5 h-3.5 w-3.5 rounded-sm border-line text-accent focus:ring-1 focus:ring-accent cursor-pointer disabled:cursor-not-allowed"
                           />
                           <div className="flex-1 min-w-0">
                             <div className="flex flex-wrap items-center justify-between gap-2">
                               <span
                                 className={`text-xs font-medium ${
                                   task.is_completed
-                                    ? "line-through text-[#8B909C]"
-                                    : "text-[#161E33]"
+                                    ? "line-through text-ink-3"
+                                    : "text-ink"
                                 }`}
                               >
                                 {task.title}
                               </span>
                               <div className="flex items-center gap-1.5">
-                                <span className="text-[9px] font-mono uppercase px-1.5 py-0.5 rounded-sm bg-[#EFEADF] text-[#161E33] border border-[#D9D2C3]">
+                                <span className="text-[12px] font-mono uppercase px-1.5 py-0.5 rounded-sm bg-subtle text-ink border border-line">
                                   {task.owner_role || "Lead"}
                                 </span>
-                                <span className="text-[9px] font-mono text-[#8B909C]">
+                                <span className="text-[12px] font-mono text-ink-3">
                                   {task.timeline}
                                 </span>
                               </div>
                             </div>
                             {task.description && (
-                              <p className="text-[11px] text-[#5A6275] mt-1">
+                              <p className="text-[13px] text-ink-2 mt-1">
                                 {task.description}
                               </p>
                             )}
                             {task.reason && (
-                              <p className="text-[11px] text-[#5A6275] mt-1 italic">
-                                <strong className="not-italic text-[#161E33] font-medium">Why this task:</strong> {task.reason}
+                              <p className="text-[13px] text-ink-2 mt-1 italic">
+                                <strong className="not-italic text-ink font-medium">Why this task:</strong> {task.reason}
                               </p>
                             )}
                             {task.success_criteria && (
-                              <p className="text-[10px] text-[#2F5D8F] font-mono mt-1 flex items-center gap-1">
+                              <p className="text-[13px] text-accent font-mono mt-1 flex items-center gap-1">
                                 <Check className="w-2.5 h-2.5 shrink-0" />
                                 <span>Exit Criteria: {task.success_criteria}</span>
                               </p>
@@ -965,13 +965,13 @@ export default function SynthesisPanel({
                     {!viewingSnapshot && (
                       <div className="pt-1">
                         {addingTaskPhaseId === phase.phase_id ? (
-                          <div className="p-3 bg-[#EFEADF]/40 rounded border border-[#D9D2C3] space-y-2">
+                          <div className="p-3 bg-subtle/40 rounded border border-line space-y-2">
                             <input
                               type="text"
                               placeholder="New milestone task title..."
                               value={newTaskTitle}
                               onChange={(e) => setNewTaskTitle(e.target.value)}
-                              className="w-full text-xs px-2.5 py-1.5 bg-[#FCFBF8] border border-[#D9D2C3] rounded text-[#161E33] focus:outline-none focus:ring-1 focus:ring-[#2F5D8F]"
+                              className="w-full text-xs px-2.5 py-1.5 bg-surface border border-line rounded text-ink focus:outline-none focus:ring-1 focus:ring-accent"
                             />
                             <div className="flex items-center gap-2">
                               <input
@@ -979,24 +979,24 @@ export default function SynthesisPanel({
                                 placeholder="Owner Role (e.g. Legal, Architect)"
                                 value={newTaskOwner}
                                 onChange={(e) => setNewTaskOwner(e.target.value)}
-                                className="text-xs px-2 py-1 bg-[#FCFBF8] border border-[#D9D2C3] rounded flex-1 text-[#161E33]"
+                                className="text-xs px-2 py-1 bg-surface border border-line rounded flex-1 text-ink"
                               />
                               <input
                                 type="text"
                                 placeholder="Timeline (e.g. Week 2)"
                                 value={newTaskTimeline}
                                 onChange={(e) => setNewTaskTimeline(e.target.value)}
-                                className="text-xs px-2 py-1 bg-[#FCFBF8] border border-[#D9D2C3] rounded flex-1 text-[#161E33]"
+                                className="text-xs px-2 py-1 bg-surface border border-line rounded flex-1 text-ink"
                               />
                               <button
                                 onClick={() => handleAddTask(phase.phase_id)}
-                                className="text-xs px-3 py-1 bg-[#161E33] text-[#FCFBF8] font-medium rounded hover:bg-[#1e293b]"
+                                className="text-xs px-3 py-1 bg-ink text-surface font-medium rounded hover:bg-ink"
                               >
                                 Add Task
                               </button>
                               <button
                                 onClick={() => setAddingTaskPhaseId(null)}
-                                className="text-xs px-2 py-1 text-[#5A6275] hover:text-[#161E33]"
+                                className="text-xs px-2 py-1 text-ink-2 hover:text-ink"
                               >
                                 Cancel
                               </button>
@@ -1008,7 +1008,7 @@ export default function SynthesisPanel({
                               setAddingTaskPhaseId(phase.phase_id);
                               setNewTaskTitle("");
                             }}
-                            className="text-xs font-medium text-[#2F5D8F] hover:underline flex items-center gap-1"
+                            className="text-xs font-medium text-accent hover:underline flex items-center gap-1"
                           >
                             + Add Milestone Task
                           </button>
@@ -1033,20 +1033,20 @@ export default function SynthesisPanel({
       ) : (
 
         /* Empty State */
-        <div className="bg-[#FCFBF8] rounded border border-dashed border-[#D9D2C3] p-12 text-center">
-          <div className="w-10 h-10 rounded-full bg-[#EFEADF] border border-[#D9D2C3] text-[#161E33] flex items-center justify-center mx-auto mb-3 text-sm font-mono font-bold">
+        <div className="bg-surface rounded border border-dashed border-line p-12 text-center">
+          <div className="w-10 h-10 rounded-full bg-subtle border border-line text-ink flex items-center justify-center mx-auto mb-3 text-sm font-mono font-bold">
             05
           </div>
-          <h3 className="text-base font-serif font-bold text-[#161E33] mb-1">
+          <h3 className="text-base font-serif font-bold text-ink mb-1">
             Decision Synthesis Ready for Generation
           </h3>
-          <p className="text-xs text-[#5A6275] max-w-md mx-auto mb-5">
+          <p className="text-xs text-ink-2 max-w-md mx-auto mb-5">
             Synthesize your structured facts, answered evidence gaps, identified risks, and multi-criteria evaluations into an executive decision memo and actionable roadmap.
           </p>
           <button
             onClick={handleRunSynthesis}
             disabled={loading}
-            className="px-4 py-2 bg-[#161E33] hover:bg-[#1e293b] text-[#FCFBF8] font-medium text-xs rounded transition-colors disabled:opacity-50"
+            className="px-4 py-2 bg-ink hover:bg-ink text-surface font-medium text-xs rounded transition-colors disabled:opacity-50"
           >
             {loading ? "Synthesizing Decision..." : "Generate Final Decision Synthesis"}
           </button>

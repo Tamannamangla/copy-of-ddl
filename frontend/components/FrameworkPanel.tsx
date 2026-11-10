@@ -325,7 +325,7 @@ export default function FrameworkPanel({
             className="px-3 py-2 text-xs font-semibold border border-slate-200 bg-slate-50 text-slate-700 hover:bg-slate-100 rounded-xl transition"
             title="Configure available frameworks"
           >
-            <Sliders className="w-3.5 h-3.5 inline mr-1 text-slate-500" />
+            <Sliders className="w-4 h-4 inline mr-1 text-slate-500" />
             Config
           </button>
 
@@ -389,7 +389,7 @@ export default function FrameworkPanel({
                       : "bg-white text-slate-700 border-slate-200 hover:border-slate-300"
                   }`}
                 >
-                  {isSelected && <Check className="w-3.5 h-3.5 text-white" />}
+                  {isSelected && <Check className="w-4 h-4 text-white" />}
                   {fw.label}
                 </button>
               );
@@ -419,11 +419,11 @@ export default function FrameworkPanel({
                       : "bg-slate-50 text-slate-600 hover:text-slate-900 hover:bg-slate-100 border border-slate-200/80"
                   }`}
                 >
-                  <Icon className="w-3.5 h-3.5" />
+                  <Icon className="w-4 h-4" />
                   <span>{tab.shortLabel}</span>
                   {roleTag && (
                     <span
-                      className={`text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider ${
+                      className={`text-[13px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider ${
                         isActive
                           ? "bg-white/20 text-white"
                           : "bg-indigo-50 text-indigo-700 border border-indigo-100"
@@ -470,7 +470,7 @@ export default function FrameworkPanel({
                   </span>
                 </div>
                 {activeRec?.role_label && (
-                  <span className="hidden sm:inline-block text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-indigo-100 text-indigo-800">
+                  <span className="hidden sm:inline-block text-[13px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-indigo-100 text-indigo-800">
                     {activeRec.role_label}
                   </span>
                 )}
@@ -495,7 +495,7 @@ export default function FrameworkPanel({
                         <fw.icon className="w-3.5 h-3.5 text-slate-500" />
                         {fw.label}
                       </span>
-                      <p className="text-[11px] text-slate-500 mt-1 leading-snug">
+                      <p className="text-[13px] text-slate-500 mt-1 leading-snug">
                         {fw.reason}
                       </p>
                     </div>
@@ -568,7 +568,7 @@ export default function FrameworkPanel({
                         />
                         <h4 className="font-bold text-xs text-slate-900">{hat.name}</h4>
                       </div>
-                      <p className="text-[11px] text-slate-500 mb-3 italic">
+                      <p className="text-[13px] text-slate-500 mb-3 italic">
                         {hat.focus}
                       </p>
                       <ul className="space-y-1.5 text-xs text-slate-700">
@@ -582,8 +582,8 @@ export default function FrameworkPanel({
                     </div>
 
                     {hat.key_takeaway && (
-                      <div className="pt-2 border-t border-slate-100 text-[11px] text-slate-600 font-medium">
-                        <span className="text-slate-400 font-semibold block text-[10px] uppercase">
+                      <div className="pt-2 border-t border-slate-100 text-[13px] text-slate-600 font-medium">
+                        <span className="text-slate-400 font-semibold block text-[13px] uppercase">
                           Takeaway:
                         </span>
                         {hat.key_takeaway}
@@ -614,7 +614,7 @@ export default function FrameworkPanel({
                     {analysis.swot.strengths.map((item) => (
                       <li key={item.id} className="p-2.5 bg-white rounded-lg border border-emerald-100 shadow-2xs">
                         <p className="text-slate-800 font-medium">{item.text}</p>
-                        <span className="text-[10px] text-emerald-600 font-mono mt-1 block">
+                        <span className="text-[13px] text-emerald-600 font-mono mt-1 block">
                           Impact: {item.impact.toUpperCase()}
                         </span>
                       </li>
@@ -631,7 +631,7 @@ export default function FrameworkPanel({
                     {analysis.swot.weaknesses.map((item) => (
                       <li key={item.id} className="p-2.5 bg-white rounded-lg border border-rose-100 shadow-2xs">
                         <p className="text-slate-800 font-medium">{item.text}</p>
-                        <span className="text-[10px] text-rose-600 font-mono mt-1 block">
+                        <span className="text-[13px] text-rose-600 font-mono mt-1 block">
                           Impact: {item.impact.toUpperCase()}
                         </span>
                       </li>
@@ -648,7 +648,7 @@ export default function FrameworkPanel({
                     {analysis.swot.opportunities.map((item) => (
                       <li key={item.id} className="p-2.5 bg-white rounded-lg border border-blue-100 shadow-2xs">
                         <p className="text-slate-800 font-medium">{item.text}</p>
-                        <span className="text-[10px] text-blue-600 font-mono mt-1 block">
+                        <span className="text-[13px] text-blue-600 font-mono mt-1 block">
                           Impact: {item.impact.toUpperCase()}
                         </span>
                       </li>
@@ -665,7 +665,7 @@ export default function FrameworkPanel({
                     {analysis.swot.threats.map((item) => (
                       <li key={item.id} className="p-2.5 bg-white rounded-lg border border-amber-100 shadow-2xs">
                         <p className="text-slate-800 font-medium">{item.text}</p>
-                        <span className="text-[10px] text-amber-600 font-mono mt-1 block">
+                        <span className="text-[13px] text-amber-600 font-mono mt-1 block">
                           Impact: {item.impact.toUpperCase()}
                         </span>
                       </li>
@@ -683,7 +683,7 @@ export default function FrameworkPanel({
                   <ul className="space-y-1.5 text-slate-700">
                     {analysis.swot.strategic_implications.map((imp, idx) => (
                       <li key={idx} className="flex items-start gap-2">
-                        <ArrowRight className="w-3.5 h-3.5 text-indigo-600 shrink-0 mt-0.5" />
+                        <ArrowRight className="w-4 h-4 text-indigo-600 shrink-0 mt-0.5" />
                         <span>{imp}</span>
                       </li>
                     ))}
@@ -715,7 +715,7 @@ export default function FrameworkPanel({
                           </span>
                           {analysis.canonical_result && (
                             <span
-                              className={`text-[9px] font-mono font-bold px-1.5 py-0.5 rounded ${
+                              className={`text-[12px] font-mono font-bold px-1.5 py-0.5 rounded ${
                                 analysis.canonical_result.decision_status === "READY"
                                   ? "bg-emerald-200 text-emerald-900"
                                   : "bg-amber-100 text-amber-800 border border-amber-300"
@@ -735,7 +735,7 @@ export default function FrameworkPanel({
                         <span className="font-mono text-base font-extrabold text-emerald-700">
                           {matrixResults[0].weighted_score.toFixed(2)}/10
                         </span>
-                        <span className="text-[10px] text-emerald-600 block">
+                        <span className="text-[13px] text-emerald-600 block">
                           Rank #1 (Canonical)
                         </span>
                       </div>
@@ -743,14 +743,14 @@ export default function FrameworkPanel({
                   </div>
                   {analysis.canonical_result?.conditions_precedent &&
                     analysis.canonical_result.conditions_precedent.length > 0 && (
-                      <div className="pt-2 border-t border-emerald-200/60 text-[11px] text-emerald-900">
-                        <span className="font-bold uppercase tracking-wider text-[10px] text-amber-900 block mb-1">
+                      <div className="pt-2 border-t border-emerald-200/60 text-[13px] text-emerald-900">
+                        <span className="font-bold uppercase tracking-wider text-[13px] text-amber-900 block mb-1">
                           Conditions Precedent for Winner Execution:
                         </span>
                         <ul className="space-y-0.5">
                           {analysis.canonical_result.conditions_precedent.map((cond, idx) => (
                             <li key={idx} className="flex items-start gap-1.5">
-                              <Zap className="w-3 h-3 text-amber-700 shrink-0 mt-0.5" />
+                              <Zap className="w-4 h-4 text-amber-700 shrink-0 mt-0.5" />
                               <span>{cond}</span>
                             </li>
                           ))}
@@ -786,14 +786,14 @@ export default function FrameworkPanel({
               {/* Interactive Matrix Table */}
               <div className="overflow-x-auto border border-slate-200 rounded-xl">
                 <table className="w-full text-xs text-left border-collapse">
-                  <thead className="bg-slate-100 text-slate-700 uppercase text-[10px] tracking-wider border-b border-slate-200">
+                  <thead className="bg-slate-100 text-slate-700 uppercase text-[13px] tracking-wider border-b border-slate-200">
                     <tr>
                       <th className="p-3 font-bold">Criteria & Weight</th>
                       {matrixOptions.map((opt) => (
                         <th key={opt.id} className="p-3 font-bold text-center">
                           <div className="text-slate-900 font-bold">{opt.name}</div>
                           {opt.origin === "derived" && (
-                            <span className="inline-block mt-0.5 text-[9px] font-mono px-1.5 py-0.5 rounded bg-indigo-50 text-indigo-700 border border-indigo-200">
+                            <span className="inline-block mt-0.5 text-[12px] font-mono px-1.5 py-0.5 rounded bg-indigo-50 text-indigo-700 border border-indigo-200">
                               HYBRID / DERIVED
                             </span>
                           )}
@@ -808,7 +808,7 @@ export default function FrameworkPanel({
                           <span className="font-semibold text-slate-800 block">
                             {crit.name}
                           </span>
-                          <span className="text-[10px] text-indigo-600 font-mono">
+                          <span className="text-[13px] text-indigo-600 font-mono">
                             Weight: {crit.weight}%
                           </span>
                         </td>
@@ -862,7 +862,7 @@ export default function FrameworkPanel({
                             <span className="font-mono text-sm text-indigo-600 block">
                               {res ? res.weighted_score.toFixed(2) : "—"} / 10
                             </span>
-                            <span className="text-[10px] text-slate-500 font-mono">
+                            <span className="text-[13px] text-slate-500 font-mono">
                               Rank #{res ? res.rank : "—"}
                             </span>
                           </td>
@@ -885,7 +885,7 @@ export default function FrameworkPanel({
           ) : (
             <>
               <div className="p-3 bg-slate-50 border border-slate-200 rounded-xl text-xs">
-                <span className="font-bold text-slate-600 uppercase text-[10px] block mb-1">
+                <span className="font-bold text-slate-600 uppercase text-[13px] block mb-1">
                   Starting Problem Symptom:
                 </span>
                 <p className="font-semibold text-slate-900">
@@ -910,7 +910,7 @@ export default function FrameworkPanel({
                       <p className="text-slate-700 leading-relaxed">
                         {step.answer}
                       </p>
-                      <div className="flex items-center gap-2 pt-1 text-[10px]">
+                      <div className="flex items-center gap-2 pt-1 text-[13px]">
                         <span
                           className={`px-2 py-0.5 rounded-full font-semibold ${
                             step.is_known_fact
@@ -935,11 +935,11 @@ export default function FrameworkPanel({
               {analysis.five_whys.root_cause && (
                 <div className="p-4 bg-rose-50 border border-rose-200 rounded-xl text-xs space-y-2">
                   <div className="flex items-center justify-between">
-                    <span className="font-bold text-rose-900 uppercase text-[10px]">
+                    <span className="font-bold text-rose-900 uppercase text-[13px]">
                       Identified Root Cause:
                     </span>
                     <span
-                      className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                      className={`text-[13px] font-bold px-2 py-0.5 rounded-full ${
                         analysis.five_whys.is_root_cause_verified
                           ? "bg-emerald-100 text-emerald-800"
                           : "bg-amber-100 text-amber-800"
@@ -965,7 +965,7 @@ export default function FrameworkPanel({
                   <ul className="space-y-1 text-slate-700">
                     {analysis.five_whys.countermeasures.map((cm, idx) => (
                       <li key={idx} className="flex items-start gap-1.5">
-                        <Check className="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5" />
+                        <Check className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
                         <span>{cm}</span>
                       </li>
                     ))}
@@ -1014,7 +1014,7 @@ export default function FrameworkPanel({
                         <span className="font-bold text-slate-900 text-sm">
                           {br.label}
                         </span>
-                        <span className="text-[10px] text-slate-400 font-mono">
+                        <span className="text-[13px] text-slate-400 font-mono">
                           {br.outcome_description}
                         </span>
                       </div>
@@ -1028,14 +1028,14 @@ export default function FrameworkPanel({
                             >
                               <div className="flex items-center justify-between font-semibold text-slate-800 mb-1">
                                 <span>{sub.label}</span>
-                                <span className="font-mono text-[10px] text-indigo-600 font-bold">
+                                <span className="font-mono text-[13px] text-indigo-600 font-bold">
                                   {typeof sub.payoff === "number" ? `${sub.payoff} ${sub.payoff_unit || ""}` : "Unstated"}
                                 </span>
                               </div>
-                              <p className="text-[11px] text-slate-500">
+                              <p className="text-[13px] text-slate-500">
                                 {sub.outcome_description}
                               </p>
-                              <span className="text-[10px] text-slate-400 mt-1 block">
+                              <span className="text-[13px] text-slate-400 mt-1 block">
                                 Probability:{" "}
                                 {typeof sub.probability === "number"
                                   ? `${(sub.probability * 100).toFixed(0)}%`
@@ -1060,7 +1060,7 @@ export default function FrameworkPanel({
 function InapplicableNotice({ reason }: { reason?: string | null }) {
   return (
     <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-700 space-y-1">
-      <div className="flex items-center gap-2 font-semibold text-[11px] text-amber-700 tracking-wide">
+      <div className="flex items-center gap-2 font-semibold text-[13px] text-amber-700 tracking-wide">
         <AlertCircle className="w-4 h-4 text-amber-600 shrink-0" />
         <span>Framework Ruled Out as Inapplicable</span>
       </div>
