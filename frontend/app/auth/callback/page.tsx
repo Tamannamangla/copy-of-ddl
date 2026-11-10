@@ -106,7 +106,7 @@ function CallbackHandler() {
         if (isMounted) {
           setStatus("success");
           setTimeout(() => {
-            router.replace("/dashboard");
+            router.replace("/overview");
           }, 800);
         }
       } catch (err: unknown) {
@@ -179,13 +179,13 @@ function CallbackHandler() {
                 className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-ink text-paper-surface text-xs font-semibold rounded-sm hover:opacity-90 transition w-full"
               >
                 <span>Return to Sign In</span>
-                <ArrowRight className="w-3.5 h-3.5" />
+                <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
           </div>
         )}
 
-        <div className="text-[11px] text-ink-tertiary pt-2 border-t border-border">
+        <div className="text-[13px] text-ink-tertiary pt-2 border-t border-border">
           DecisionLens Institutional Access &middot; Single Sign-On
         </div>
       </div>

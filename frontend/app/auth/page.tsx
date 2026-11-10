@@ -60,7 +60,7 @@ export default function AuthPage() {
       const redir = params.get("redirect");
       if (redir && redir.startsWith("/")) return redir;
     }
-    return "/dashboard";
+    return "/overview";
   };
 
   // Check if user is already authenticated and load OAuth providers
@@ -235,7 +235,7 @@ export default function AuthPage() {
               <span className="text-xl font-serif font-bold tracking-tight text-ink block">
                 DecisionLens
               </span>
-              <span className="text-[10px] font-mono font-semibold uppercase tracking-wider text-accent block">
+              <span className="text-[13px] font-mono font-semibold uppercase tracking-wider text-accent block">
                 Executive Cognitive Intelligence
               </span>
             </div>
@@ -260,7 +260,7 @@ export default function AuthPage() {
                 <Brain className="w-4 h-4 text-accent shrink-0" />
                 <span className="text-xs font-bold font-serif text-ink">Cognitive Structuring</span>
               </div>
-              <p className="text-[11px] text-ink-secondary leading-snug">
+              <p className="text-[13px] text-ink-secondary leading-snug">
                 Separates objective facts from unverified assumptions and bias.
               </p>
             </div>
@@ -270,7 +270,7 @@ export default function AuthPage() {
                 <Search className="w-4 h-4 text-accent shrink-0" />
                 <span className="text-xs font-bold font-serif text-ink">Empirical Due Diligence</span>
               </div>
-              <p className="text-[11px] text-ink-secondary leading-snug">
+              <p className="text-[13px] text-ink-secondary leading-snug">
                 Detects critical unknowns and pulls corroborated public evidence.
               </p>
             </div>
@@ -280,7 +280,7 @@ export default function AuthPage() {
                 <Compass className="w-4 h-4 text-accent shrink-0" />
                 <span className="text-xs font-bold font-serif text-ink">Multi-Model Frameworks</span>
               </div>
-              <p className="text-[11px] text-ink-secondary leading-snug">
+              <p className="text-[13px] text-ink-secondary leading-snug">
                 Weighted Matrix, SWOT, Five Whys, and Decision Tree analysis.
               </p>
             </div>
@@ -290,13 +290,13 @@ export default function AuthPage() {
                 <ShieldCheck className="w-4 h-4 text-accent shrink-0" />
                 <span className="text-xs font-bold font-serif text-ink">Cross-Meeting Memory</span>
               </div>
-              <p className="text-[11px] text-ink-secondary leading-snug">
+              <p className="text-[13px] text-ink-secondary leading-snug">
                 Folder continuity automatically inherits baseline facts and milestones.
               </p>
             </div>
           </div>
 
-          <div className="pt-2 flex items-center gap-2 text-[11px] text-ink-tertiary font-mono">
+          <div className="pt-2 flex items-center gap-2 text-[13px] text-ink-tertiary font-mono">
             <span className="w-2 h-2 rounded-full bg-emerald-600 inline-block" />
             <span>Google Workspace Single Sign-On &middot; Multi-Tenant Privacy</span>
           </div>
@@ -402,7 +402,7 @@ export default function AuthPage() {
 
             <div className="relative flex items-center justify-center my-4">
               <div className="border-t border-border w-full" />
-              <span className="bg-paper-surface px-3 text-[10px] font-mono font-semibold text-ink-tertiary uppercase tracking-wider absolute">
+              <span className="bg-paper-surface px-3 text-[13px] font-mono font-semibold text-ink-tertiary uppercase tracking-wider absolute">
                 or sign in with password
               </span>
             </div>
@@ -447,7 +447,7 @@ export default function AuthPage() {
                     Password
                   </label>
                   {mode === "signin" && (
-                    <span className="text-[11px] text-ink-tertiary">
+                    <span className="text-[13px] text-ink-tertiary">
                       Encrypted session
                     </span>
                   )}
@@ -475,11 +475,11 @@ export default function AuthPage() {
 
               {/* Password complexity checklist (during signup) */}
               {mode === "signup" && (
-                <div className="p-3 bg-paper-sidebar border border-border rounded-md text-[11px] space-y-1.5">
-                  <span className="font-semibold text-ink block text-[10px] uppercase font-mono tracking-wider">
+                <div className="p-3 bg-paper-sidebar border border-border rounded-md text-[13px] space-y-1.5">
+                  <span className="font-semibold text-ink block text-[13px] uppercase font-mono tracking-wider">
                     Password Criteria
                   </span>
-                  <div className="grid grid-cols-2 gap-1.5 font-mono text-[10px]">
+                  <div className="grid grid-cols-2 gap-1.5 font-mono text-[13px]">
                     <span className={`flex items-center gap-1.5 ${passwordChecks.minLength ? "text-emerald-700 font-semibold" : "text-ink-tertiary"}`}>
                       <span className={`w-1.5 h-1.5 rounded-full ${passwordChecks.minLength ? "bg-emerald-600" : "bg-border"}`} />
                       8+ characters
@@ -517,12 +517,12 @@ export default function AuthPage() {
                 ) : mode === "signup" ? (
                   <>
                     <span>Create Institutional Account</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
+                    <ArrowRight className="w-4 h-4" />
                   </>
                 ) : (
                   <>
                     <span>Enter DecisionLens Workspace</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
+                    <ArrowRight className="w-4 h-4" />
                   </>
                 )}
               </button>
@@ -547,7 +547,7 @@ export default function AuthPage() {
       {/* Dev / Sandbox Persona Simulation Modal (fallback if live OAuth client unconfigured) */}
       {showOAuthModal && (
         <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in">
-          <div className="bg-[#FCFBF8] rounded-md border border-[#D9D2C3] p-6 max-w-md w-full shadow-2xl space-y-4 relative z-50">
+          <div className="bg-surface rounded-md border border-line p-6 max-w-md w-full shadow-2xl space-y-4 relative z-50">
             <div className="flex items-center justify-between border-b border-border pb-3">
               <div className="flex items-center gap-2">
                 <div className="w-7 h-7 rounded-sm bg-paper-sidebar border border-border flex items-center justify-center text-accent">
@@ -557,7 +557,7 @@ export default function AuthPage() {
                   <h3 className="text-sm font-serif font-bold text-ink">
                     Sandbox: {activeOAuthProvider.toUpperCase()} Sign-In
                   </h3>
-                  <span className="text-[10px] text-ink-tertiary font-mono">
+                  <span className="text-[13px] text-ink-tertiary font-mono">
                     Local Dev Simulation Mode
                   </span>
                 </div>
@@ -588,9 +588,9 @@ export default function AuthPage() {
                       <div className="text-xs font-semibold text-ink group-hover:text-accent">
                         Alex Lead (Google Workspace)
                       </div>
-                      <div className="text-[10px] font-mono text-ink-secondary">alex.lead@google.com</div>
+                      <div className="text-[13px] font-mono text-ink-secondary">alex.lead@google.com</div>
                     </div>
-                    <ArrowRight className="w-3.5 h-3.5 text-ink-tertiary group-hover:text-accent transition" />
+                    <ArrowRight className="w-4 h-4 text-ink-tertiary group-hover:text-accent transition" />
                   </button>
                   <button
                     type="button"
@@ -602,9 +602,9 @@ export default function AuthPage() {
                       <div className="text-xs font-semibold text-ink group-hover:text-accent">
                         Sarah Director (Corporate Domain)
                       </div>
-                      <div className="text-[10px] font-mono text-ink-secondary">sarah.director@enterprise.com</div>
+                      <div className="text-[13px] font-mono text-ink-secondary">sarah.director@enterprise.com</div>
                     </div>
-                    <ArrowRight className="w-3.5 h-3.5 text-ink-tertiary group-hover:text-accent transition" />
+                    <ArrowRight className="w-4 h-4 text-ink-tertiary group-hover:text-accent transition" />
                   </button>
                 </>
               )}
@@ -612,7 +612,7 @@ export default function AuthPage() {
 
             {/* Custom OAuth Account Input */}
             <div className="pt-3 border-t border-border space-y-2">
-              <span className="text-[10px] font-mono font-semibold text-ink-tertiary uppercase tracking-wider block">
+              <span className="text-[13px] font-mono font-semibold text-ink-tertiary uppercase tracking-wider block">
                 Or authenticate custom address
               </span>
               <div className="flex gap-2">

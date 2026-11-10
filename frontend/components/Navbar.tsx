@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState, useCallback, useRef } from "react";
 import { getMe, clearStoredToken, User } from "@/lib/api";
 import { LogOut, LogIn, Layers } from "lucide-react";
+import { formatDisplayName, initials } from "@/lib/userDisplay";
 
 export default function Navbar({ onUserChange }: { onUserChange?: (user: User | null) => void }) {
   const [user, setUser] = useState<User | null>(null);
@@ -45,7 +46,7 @@ export default function Navbar({ onUserChange }: { onUserChange?: (user: User | 
     <header className="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-slate-200">
       <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
         <div className="flex items-center gap-6">
-          <Link href="/dashboard" className="flex items-center gap-2.5 font-bold text-slate-900 text-lg tracking-tight hover:opacity-90">
+          <Link href="/overview" className="flex items-center gap-2.5 font-bold text-slate-900 text-lg tracking-tight hover:opacity-90">
             <div className="w-8 h-8 rounded-lg bg-indigo-600 text-white flex items-center justify-center font-black text-sm shadow-sm">
               DL
             </div>
@@ -54,7 +55,7 @@ export default function Navbar({ onUserChange }: { onUserChange?: (user: User | 
 
           <nav className="hidden sm:flex items-center gap-1 text-sm font-medium text-slate-600">
             <Link
-              href="/dashboard"
+              href="/overview"
               className="px-3 py-1.5 rounded-lg hover:bg-slate-100 hover:text-slate-900 transition-colors flex items-center gap-1.5"
             >
               <Layers className="w-4 h-4 text-slate-500" />
@@ -74,11 +75,11 @@ export default function Navbar({ onUserChange }: { onUserChange?: (user: User | 
                 title="Manage Account Profile"
               >
                 <div className="w-8 h-8 rounded-full bg-indigo-100 text-indigo-700 font-bold text-xs flex items-center justify-center border border-indigo-200">
-                  {user.email[0].toUpperCase()}
+                  {initials(user.display_name, user.email)}
                 </div>
                 <div className="hidden sm:flex flex-col text-left">
-                  <span className="text-xs font-semibold text-slate-900">{user.email}</span>
-                  <span className="text-[10px] text-slate-500 font-mono">User #{user.id}</span>
+                  <span className="text-xs font-semibold text-slate-900">{formatDisplayName(user.display_name, user.email)}</span>
+                  <span className="text-[13px] text-slate-500 font-mono">User #{user.id}</span>
                 </div>
               </Link>
               <button
@@ -94,7 +95,7 @@ export default function Navbar({ onUserChange }: { onUserChange?: (user: User | 
               href="/auth"
               className="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-semibold text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg shadow-sm transition-colors"
             >
-              <LogIn className="w-3.5 h-3.5" />
+              <LogIn className="w-4 h-4" />
               Sign In
             </Link>
           )}
