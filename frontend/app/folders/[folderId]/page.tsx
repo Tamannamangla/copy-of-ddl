@@ -152,14 +152,14 @@ export default function FolderDetailPage({
             <div className="bg-white rounded-2xl border border-slate-200 p-6 sm:p-8 mb-8 shadow-sm relative overflow-hidden">
               <div
                 className="absolute top-0 left-0 right-0 h-2"
-                style={{ backgroundColor: folder.color || "#4F46E5" }}
+                style={{ backgroundColor: folder.color || "rgb(var(--a-600))" }}
               />
 
               <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
                 <div className="flex items-start gap-4">
                   <div
                     className="w-12 h-12 rounded-xl flex items-center justify-center text-white shrink-0 mt-1"
-                    style={{ backgroundColor: folder.color || "#4F46E5" }}
+                    style={{ backgroundColor: folder.color || "rgb(var(--a-600))" }}
                   >
                     <FolderIcon className="w-6 h-6" />
                   </div>
@@ -262,7 +262,7 @@ export default function FolderDetailPage({
                     <div className="space-y-2 flex-1 min-w-0">
                       <div className="flex items-center gap-2 flex-wrap">
                         <span
-                          className={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full ${
+                          className={`text-[13px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full ${
                             decision.record_type === "meeting"
                               ? "bg-emerald-50 text-emerald-700 border border-emerald-200/80"
                               : "bg-indigo-50 text-indigo-700 border border-indigo-200/80"
@@ -272,7 +272,7 @@ export default function FolderDetailPage({
                         </span>
 
                         <span
-                          className={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full ${
+                          className={`text-[13px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full ${
                             decision.status === "decided"
                               ? "bg-emerald-100/70 text-emerald-800 border border-emerald-300/60"
                               : decision.status === "evaluating"
@@ -362,7 +362,7 @@ export default function FolderDetailPage({
                   >
                     <Compass className="w-4 h-4 mb-1 text-indigo-600" />
                     <p className="text-xs font-bold">Decision Analysis</p>
-                    <p className="text-[10px] text-slate-500">Problem statement, tradeoffs, matrix</p>
+                    <p className="text-[13px] text-slate-500">Problem statement, tradeoffs, matrix</p>
                   </button>
                   <button
                     type="button"
@@ -374,7 +374,7 @@ export default function FolderDetailPage({
                   >
                     <Users className="w-4 h-4 mb-1 text-emerald-600" />
                     <p className="text-xs font-bold">Meeting Record</p>
-                    <p className="text-[10px] text-slate-500">Discussion notes, transcripts, takeaways</p>
+                    <p className="text-[13px] text-slate-500">Discussion notes, transcripts, takeaways</p>
                   </button>
                 </div>
               </div>

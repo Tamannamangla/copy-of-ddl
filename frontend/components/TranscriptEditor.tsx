@@ -132,17 +132,17 @@ export default function TranscriptEditor({
         {/* Status Indicators */}
         <div className="flex items-center gap-2 flex-wrap">
           <span className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-semibold rounded-lg bg-slate-100 text-slate-700">
-            <Languages className="w-3.5 h-3.5 text-slate-500" />
+            <Languages className="w-4 h-4 text-slate-500" />
             {language === "hi" ? "Hindi (hi)" : "English (en)"}
           </span>
 
           {reviewed ? (
             <span className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-semibold rounded-lg bg-emerald-50 text-emerald-700 border border-emerald-200">
-              <ShieldCheck className="w-3.5 h-3.5" /> Verified & Reviewed
+              <ShieldCheck className="w-4 h-4" /> Verified & Reviewed
             </span>
           ) : (
             <span className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-semibold rounded-lg bg-amber-50 text-amber-700 border border-amber-200">
-              <Clock className="w-3.5 h-3.5" /> AI Generated (Unreviewed)
+              <Clock className="w-4 h-4" /> AI Generated (Unreviewed)
             </span>
           )}
         </div>
@@ -163,11 +163,11 @@ export default function TranscriptEditor({
             >
               {copied ? (
                 <>
-                  <CheckCircle2 className="w-3.5 h-3.5" /> Copied!
+                  <CheckCircle2 className="w-4 h-4" /> Copied!
                 </>
               ) : (
                 <>
-                  <Copy className="w-3.5 h-3.5" /> Copy
+                  <Copy className="w-4 h-4" /> Copy
                 </>
               )}
             </button>
@@ -212,7 +212,7 @@ export default function TranscriptEditor({
           title="Retry speech-to-text using the original unenhanced audio"
           className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-medium text-slate-600 hover:text-slate-900 bg-white border border-slate-200 hover:bg-slate-50 rounded-xl transition-colors disabled:opacity-50"
         >
-          <RotateCcw className="w-3.5 h-3.5 text-slate-400" />
+          <RotateCcw className="w-4 h-4 text-slate-400" />
           {isRetrying
             ? "Re-transcribing Original..."
             : "Retry with Original Audio"}

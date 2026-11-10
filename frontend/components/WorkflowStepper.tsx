@@ -138,7 +138,7 @@ export default function WorkflowStepper({
             onClick={onOpenExportModal}
             className="inline-flex items-center gap-1.5 text-xs px-4 py-1.5 rounded-xl bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 text-white font-semibold transition shadow-sm hover:shadow"
           >
-            <Share2 className="w-3.5 h-3.5" />
+            <Share2 className="w-4 h-4" />
             <span>Export Brief</span>
           </button>
         </div>
@@ -185,7 +185,7 @@ export default function WorkflowStepper({
                 {stage.isCompleted ? (
                   <CheckCircle2 className="w-4 h-4 text-emerald-600" />
                 ) : (
-                  <span className="font-mono text-[10px] text-slate-400 font-bold">
+                  <span className="font-mono text-[13px] text-slate-400 font-bold">
                     0{idx + 1}
                   </span>
                 )}
@@ -201,7 +201,7 @@ export default function WorkflowStepper({
                 >
                   {stage.label}
                 </h4>
-                <p className="text-[10px] text-slate-500 truncate mt-0.5">
+                <p className="text-[13px] text-slate-500 truncate mt-0.5">
                   {stage.description}
                 </p>
               </div>
@@ -219,7 +219,7 @@ export default function WorkflowStepper({
             onClick={() => onSelectStage(stages[currentIdx - 1].id)}
             className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-slate-200 text-slate-700 bg-white hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed font-medium transition"
           >
-            <ArrowLeft className="w-3.5 h-3.5" />
+            <ArrowLeft className="w-4 h-4" />
             Previous Stage
           </button>
 
@@ -234,7 +234,7 @@ export default function WorkflowStepper({
             className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold disabled:opacity-40 disabled:cursor-not-allowed transition"
           >
             Next Stage
-            <ArrowRight className="w-3.5 h-3.5" />
+            <ArrowRight className="w-4 h-4" />
           </button>
         </div>
       )}

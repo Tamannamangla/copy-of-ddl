@@ -129,7 +129,7 @@ export default function FileUploader({ decisionId, onUploadSuccess }: FileUpload
             </p>
           </div>
 
-          <div className="flex items-center gap-2 pt-1 text-[11px] text-slate-400 font-medium">
+          <div className="flex items-center gap-2 pt-1 text-[13px] text-slate-400 font-medium">
             <span className="px-2 py-0.5 bg-slate-100 rounded">.PDF</span>
             <span className="px-2 py-0.5 bg-slate-100 rounded">.DOCX</span>
             <span className="px-2 py-0.5 bg-slate-100 rounded">.TXT</span>
@@ -148,7 +148,7 @@ export default function FileUploader({ decisionId, onUploadSuccess }: FileUpload
           <p className="text-amber-700">
             {error}
           </p>
-          <p className="text-[11px] text-amber-600">
+          <p className="text-[13px] text-amber-600">
             Note: DecisionLens currently extracts selectable digital text. Scanned photo-only PDFs require optical character recognition (OCR), which is deferred for now.
           </p>
         </div>

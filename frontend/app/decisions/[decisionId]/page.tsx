@@ -242,7 +242,7 @@ export default function DecisionDetailPage({
                 onClick={() => loadData()}
                 className="text-xs font-semibold px-3 py-1.5 bg-red-100 hover:bg-red-200 text-red-800 rounded-lg flex items-center gap-1 transition"
               >
-                <RefreshCw className="w-3.5 h-3.5" /> Retry
+                <RefreshCw className="w-4 h-4" /> Retry
               </button>
               <Link
                 href="/dashboard"
@@ -271,11 +271,11 @@ export default function DecisionDetailPage({
                   >
                     {recordType === "meeting" ? (
                       <>
-                        <Users className="w-3.5 h-3.5" /> Meeting Record
+                        <Users className="w-4 h-4" /> Meeting Record
                       </>
                     ) : (
                       <>
-                        <Compass className="w-3.5 h-3.5" /> Decision Analysis
+                        <Compass className="w-4 h-4" /> Decision Analysis
                       </>
                     )}
                   </span>
@@ -295,7 +295,7 @@ export default function DecisionDetailPage({
                     onClick={() => setShowExportModal(true)}
                     className="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-semibold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 rounded-xl shadow-2xs transition"
                   >
-                    <Share2 className="w-3.5 h-3.5" />
+                    <Share2 className="w-4 h-4" />
                     Export Brief
                   </button>
                   <button
@@ -303,7 +303,7 @@ export default function DecisionDetailPage({
                     disabled={saving}
                     className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-semibold text-white bg-indigo-600 hover:bg-indigo-700 active:scale-[0.98] rounded-xl shadow-sm transition-all disabled:opacity-50"
                   >
-                    <Save className="w-3.5 h-3.5" />
+                    <Save className="w-4 h-4" />
                     {saving ? "Saving..." : "Save Changes"}
                   </button>
                   <button
@@ -554,11 +554,11 @@ export default function DecisionDetailPage({
                                   >
                                     {isExpanded ? (
                                       <>
-                                        Hide Text <ChevronUp className="w-3.5 h-3.5" />
+                                        Hide Text <ChevronUp className="w-4 h-4" />
                                       </>
                                     ) : (
                                       <>
-                                        View Extracted Text <ChevronDown className="w-3.5 h-3.5" />
+                                        View Extracted Text <ChevronDown className="w-4 h-4" />
                                       </>
                                     )}
                                   </button>
@@ -586,11 +586,11 @@ export default function DecisionDetailPage({
                                     >
                                       {copiedId === att.id ? (
                                         <>
-                                          <CheckCircle2 className="w-3.5 h-3.5" /> Copied!
+                                          <CheckCircle2 className="w-4 h-4" /> Copied!
                                         </>
                                       ) : (
                                         <>
-                                          <Copy className="w-3.5 h-3.5" /> Copy Text
+                                          <Copy className="w-4 h-4" /> Copy Text
                                         </>
                                       )}
                                     </button>
@@ -762,19 +762,19 @@ export default function DecisionDetailPage({
 
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
                   <div className="p-3 bg-slate-800/80 rounded-xl border border-slate-700">
-                    <span className="text-[10px] text-emerald-400 font-mono flex items-center gap-1">
+                    <span className="text-[13px] text-emerald-400 font-mono flex items-center gap-1">
                       Phase 8 <Check className="w-2.5 h-2.5" />
                     </span>
                     <span className="font-semibold text-slate-300">External Web Research</span>
                   </div>
                   <div className="p-3 bg-slate-800/80 rounded-xl border border-slate-700">
-                    <span className="text-[10px] text-emerald-400 font-mono flex items-center gap-1">
+                    <span className="text-[13px] text-emerald-400 font-mono flex items-center gap-1">
                       Phase 9 <Check className="w-2.5 h-2.5" />
                     </span>
                     <span className="font-semibold text-slate-300">5 Thinking Frameworks</span>
                   </div>
                   <div className="p-3 bg-slate-800/80 rounded-xl border border-emerald-500/50">
-                    <span className="text-[10px] text-emerald-400 font-mono flex items-center gap-1">
+                    <span className="text-[13px] text-emerald-400 font-mono flex items-center gap-1">
                       Phase 10 <Check className="w-2.5 h-2.5" />
                     </span>
                     <span className="font-semibold text-emerald-300">Recommendation & Roadmap</span>
