@@ -112,16 +112,16 @@ export default function OutcomeTrackingCard({
   const latest = outcomes.length > 0 ? outcomes[0] : null;
 
   return (
-    <div className="mt-8 pt-8 border-t border-[#D9D2C3]">
+    <div className="mt-8 pt-8 border-t border-line">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
         <div>
-          <span className="text-[10px] font-mono uppercase tracking-widest text-[#5A6275] block mb-1">
+          <span className="text-[13px] font-mono uppercase tracking-widest text-ink-2 block mb-1">
             Stage 6 • Closed-Loop Accountability
           </span>
-          <h3 className="text-lg font-serif font-bold text-[#161E33]">
+          <h3 className="text-lg font-serif font-bold text-ink">
             Real-World Follow-Up & Outcome Tracking
           </h3>
-          <p className="text-xs text-[#5A6275]">
+          <p className="text-xs text-ink-2">
             Close the decision loop. Measure whether the implemented recommendation delivered expected value and train folder memory.
           </p>
         </div>
@@ -131,7 +131,7 @@ export default function OutcomeTrackingCard({
             setError(null);
             setIsModalOpen(true);
           }}
-          className="px-3.5 py-1.5 bg-[#2F5D8F] hover:bg-[#254b73] text-[#FCFBF8] text-xs font-medium rounded transition-colors flex items-center justify-center gap-1.5 shadow-sm"
+          className="px-3.5 py-1.5 bg-accent hover:bg-accent-hover text-surface text-xs font-medium rounded transition-colors flex items-center justify-center gap-1.5 shadow-sm"
         >
           <span>★</span>
           <span>{latest ? "Log Follow-Up Check-in" : "Log Decision Outcome"}</span>
@@ -145,13 +145,13 @@ export default function OutcomeTrackingCard({
       )}
 
       {loading ? (
-        <div className="p-6 bg-[#FCFBF8] border border-[#D9D2C3] rounded text-center text-xs text-[#5A6275]">
+        <div className="p-6 bg-surface border border-line rounded text-center text-xs text-ink-2">
           Loading recorded outcomes...
         </div>
       ) : latest ? (
         /* Display Latest Recorded Review */
-        <div className="bg-[#FCFBF8] border border-[#D9D2C3] rounded-lg p-5 shadow-sm">
-          <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-[#D9D2C3]">
+        <div className="bg-surface border border-line rounded-lg p-5 shadow-sm">
+          <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-line">
             <div className="flex items-center gap-3">
               <div className="flex text-amber-500 text-sm">
                 {[1, 2, 3, 4, 5].map((star) => (
@@ -160,16 +160,16 @@ export default function OutcomeTrackingCard({
                   </span>
                 ))}
               </div>
-              <span className="text-xs font-bold text-[#161E33]">
+              <span className="text-xs font-bold text-ink">
                 {latest.utility_rating}/5 Utility Rating
               </span>
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#EFEADF] text-[#5A6275]">
+              <span className="text-[13px] font-mono px-2 py-0.5 rounded bg-subtle text-ink-2">
                 {latest.days_since_decision} Days Post-Decision
               </span>
             </div>
 
             <span
-              className={`text-[10px] font-mono uppercase tracking-wider px-2 py-0.5 rounded border font-medium ${
+              className={`text-[13px] font-mono uppercase tracking-wider px-2 py-0.5 rounded border font-medium ${
                 latest.implementation_status === "implemented_as_recommended"
                   ? "bg-emerald-50 text-emerald-700 border-emerald-200"
                   : latest.implementation_status === "pivoted_to_alternative"
@@ -183,42 +183,42 @@ export default function OutcomeTrackingCard({
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3 text-xs">
             <div>
-              <span className="text-[10px] font-mono uppercase text-[#5A6275] block mb-0.5">
+              <span className="text-[13px] font-mono uppercase text-ink-2 block mb-0.5">
                 Adopted Choice
               </span>
-              <p className="font-semibold text-[#161E33]">{latest.chosen_option}</p>
+              <p className="font-semibold text-ink">{latest.chosen_option}</p>
             </div>
 
             {latest.what_worked_well && (
               <div>
-                <span className="text-[10px] font-mono uppercase text-[#5A6275] block mb-0.5">
+                <span className="text-[13px] font-mono uppercase text-ink-2 block mb-0.5">
                   What Succeeded
                 </span>
-                <p className="text-[#161E33] leading-relaxed">{latest.what_worked_well}</p>
+                <p className="text-ink leading-relaxed">{latest.what_worked_well}</p>
               </div>
             )}
           </div>
 
           {latest.lessons_learned && (
-            <div className="mt-3 p-3 bg-[#EFEADF] rounded border border-[#D9D2C3] text-xs">
-              <span className="text-[10px] font-mono uppercase tracking-wider text-[#5A6275] block mb-1">
+            <div className="mt-3 p-3 bg-subtle rounded border border-line text-xs">
+              <span className="text-[13px] font-mono uppercase tracking-wider text-ink-2 block mb-1">
                 Lessons Learned (Injected into Folder Memory)
               </span>
-              <p className="text-[#161E33] italic">&ldquo;{latest.lessons_learned}&rdquo;</p>
+              <p className="text-ink italic">&ldquo;{latest.lessons_learned}&rdquo;</p>
             </div>
           )}
 
 
           {latest.unexpected_challenges && latest.unexpected_challenges.length > 0 && (
             <div className="mt-3">
-              <span className="text-[10px] font-mono uppercase tracking-wider text-[#5A6275] block mb-1">
+              <span className="text-[13px] font-mono uppercase tracking-wider text-ink-2 block mb-1">
                 Production Challenges Encountered
               </span>
               <div className="flex flex-wrap gap-1.5">
                 {latest.unexpected_challenges.map((c, i) => (
                   <span
                     key={i}
-                    className="text-[10px] px-2 py-0.5 bg-rose-50 border border-rose-200 text-rose-700 rounded"
+                    className="text-[13px] px-2 py-0.5 bg-rose-50 border border-rose-200 text-rose-700 rounded"
                   >
                     ⚠ {c}
                   </span>
@@ -227,7 +227,7 @@ export default function OutcomeTrackingCard({
             </div>
           )}
 
-          <div className="mt-4 pt-3 border-t border-[#D9D2C3] flex items-center justify-between text-[10px] text-[#5A6275]">
+          <div className="mt-4 pt-3 border-t border-line flex items-center justify-between text-[13px] text-ink-2">
             <span>
               Recorded on {new Date(latest.created_at).toLocaleDateString()}
             </span>
@@ -241,19 +241,19 @@ export default function OutcomeTrackingCard({
         </div>
       ) : (
         /* Empty Prompt Banner */
-        <div className="bg-[#FCFBF8] border border-dashed border-[#D9D2C3] rounded-lg p-6 text-center">
-          <div className="w-8 h-8 rounded-full bg-[#EFEADF] text-[#2F5D8F] flex items-center justify-center mx-auto mb-2 text-sm font-bold">
+        <div className="bg-surface border border-dashed border-line rounded-lg p-6 text-center">
+          <div className="w-8 h-8 rounded-full bg-subtle text-accent flex items-center justify-center mx-auto mb-2 text-sm font-bold">
             ★
           </div>
-          <h4 className="text-sm font-bold text-[#161E33] mb-1">
+          <h4 className="text-sm font-bold text-ink mb-1">
             No Real-World Outcome Recorded Yet
           </h4>
-          <p className="text-xs text-[#5A6275] max-w-md mx-auto mb-3">
+          <p className="text-xs text-ink-2 max-w-md mx-auto mb-3">
             Did you follow the recommendation? Check in at 30, 60, or 90 days to log whether this decision solved the problem, stay accountable, and help your team learn from past results.
           </p>
           <button
             onClick={() => setIsModalOpen(true)}
-            className="px-3 py-1.5 bg-[#161E33] hover:bg-[#1e293b] text-[#FCFBF8] text-xs font-medium rounded transition-colors"
+            className="px-3 py-1.5 bg-ink hover:bg-ink text-surface text-xs font-medium rounded transition-colors"
           >
             Log 30-Day Decision Outcome
           </button>
@@ -263,19 +263,19 @@ export default function OutcomeTrackingCard({
       {/* Modal / Form */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-xs p-4">
-          <div className="bg-[#FCFBF8] border border-[#D9D2C3] rounded-lg shadow-xl w-full max-w-lg max-h-[90vh] overflow-y-auto p-6">
-            <div className="flex items-center justify-between pb-3 border-b border-[#D9D2C3] mb-4">
+          <div className="bg-surface border border-line rounded-lg shadow-xl w-full max-w-lg max-h-[90vh] overflow-y-auto p-6">
+            <div className="flex items-center justify-between pb-3 border-b border-line mb-4">
               <div>
-                <h3 className="text-base font-serif font-bold text-[#161E33]">
+                <h3 className="text-base font-serif font-bold text-ink">
                   Post-Decision Outcome Review
                 </h3>
-                <span className="text-[10px] text-[#5A6275]">
+                <span className="text-[13px] text-ink-2">
                   Evaluate decision effectiveness and log organizational lessons.
                 </span>
               </div>
               <button
                 onClick={() => setIsModalOpen(false)}
-                className="text-[#5A6275] hover:text-[#161E33] text-lg font-bold"
+                className="text-ink-2 hover:text-ink text-lg font-bold"
               >
                 ×
               </button>
@@ -290,7 +290,7 @@ export default function OutcomeTrackingCard({
             <form onSubmit={handleSubmitOutcome} className="space-y-4 text-xs">
               {/* Implementation Status */}
               <div>
-                <label className="block font-semibold text-[#161E33] mb-1">
+                <label className="block font-semibold text-ink mb-1">
                   Implementation Status
                 </label>
                 <div className="grid grid-cols-2 gap-2">
@@ -306,8 +306,8 @@ export default function OutcomeTrackingCard({
                       onClick={() => setStatus(s.id)}
                       className={`p-2 rounded text-left border transition-all ${
                         status === s.id
-                          ? "bg-[#2F5D8F] text-[#FCFBF8] border-[#2F5D8F] font-medium"
-                          : "bg-[#EFEADF] text-[#161E33] border-[#D9D2C3] hover:border-[#2F5D8F]"
+                          ? "bg-accent text-surface border-accent font-medium"
+                          : "bg-subtle text-ink border-line hover:border-accent"
                       }`}
                     >
                       {s.label}
@@ -318,7 +318,7 @@ export default function OutcomeTrackingCard({
 
               {/* Utility Rating */}
               <div>
-                <label className="block font-semibold text-[#161E33] mb-1">
+                <label className="block font-semibold text-ink mb-1">
                   Decision Utility Rating: {utilityRating} / 5 Stars
                 </label>
                 <div className="flex items-center gap-1.5 text-2xl cursor-pointer">
@@ -328,13 +328,13 @@ export default function OutcomeTrackingCard({
                       type="button"
                       onClick={() => setUtilityRating(star)}
                       className={`transition-transform hover:scale-110 ${
-                        star <= utilityRating ? "text-amber-500" : "text-[#D9D2C3]"
+                        star <= utilityRating ? "text-amber-500" : "text-line"
                       }`}
                     >
                       ★
                     </button>
                   ))}
-                  <span className="text-xs text-[#5A6275] ml-2">
+                  <span className="text-xs text-ink-2 ml-2">
                     {utilityRating === 5
                       ? "High impact / Mission critical"
                       : utilityRating >= 4
@@ -349,7 +349,7 @@ export default function OutcomeTrackingCard({
               {/* Chosen Option & Days Elapsed */}
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block font-semibold text-[#161E33] mb-1">
+                  <label className="block font-semibold text-ink mb-1">
                     Option Actually Implemented
                   </label>
                   <input
@@ -357,18 +357,18 @@ export default function OutcomeTrackingCard({
                     value={chosenOption}
                     onChange={(e) => setChosenOption(e.target.value)}
                     placeholder="e.g. Supabase + PgBouncer"
-                    className="w-full px-2.5 py-1.5 bg-[#FCFBF8] border border-[#D9D2C3] rounded text-[#161E33]"
+                    className="w-full px-2.5 py-1.5 bg-surface border border-line rounded text-ink"
                   />
                 </div>
 
                 <div>
-                  <label className="block font-semibold text-[#161E33] mb-1">
+                  <label className="block font-semibold text-ink mb-1">
                     Days Post-Decision
                   </label>
                   <select
                     value={daysElapsed}
                     onChange={(e) => setDaysElapsed(Number(e.target.value))}
-                    className="w-full px-2.5 py-1.5 bg-[#FCFBF8] border border-[#D9D2C3] rounded text-[#161E33]"
+                    className="w-full px-2.5 py-1.5 bg-surface border border-line rounded text-ink"
                   >
                     <option value={14}>14 Days (Early Rollout)</option>
                     <option value={30}>30 Days (Pilot Check)</option>
@@ -381,7 +381,7 @@ export default function OutcomeTrackingCard({
 
               {/* What Worked Well */}
               <div>
-                <label className="block font-semibold text-[#161E33] mb-1">
+                <label className="block font-semibold text-ink mb-1">
                   What Succeeded in Real-World Rollout?
                 </label>
                 <textarea
@@ -389,13 +389,13 @@ export default function OutcomeTrackingCard({
                   value={whatWorked}
                   onChange={(e) => setWhatWorked(e.target.value)}
                   placeholder="e.g., Latency stayed under 80ms, budget targets were met without surprise invoices..."
-                  className="w-full px-2.5 py-1.5 bg-[#FCFBF8] border border-[#D9D2C3] rounded text-[#161E33]"
+                  className="w-full px-2.5 py-1.5 bg-surface border border-line rounded text-ink"
                 />
               </div>
 
               {/* Lessons Learned */}
               <div>
-                <label className="block font-semibold text-[#161E33] mb-1">
+                <label className="block font-semibold text-ink mb-1">
                   Key Lessons Learned (Stored in Folder Memory)
                 </label>
                 <textarea
@@ -403,13 +403,13 @@ export default function OutcomeTrackingCard({
                   value={lessonsLearned}
                   onChange={(e) => setLessonsLearned(e.target.value)}
                   placeholder="e.g., Enable connection pooling before running load tests; set up automated alerts for burst queries..."
-                  className="w-full px-2.5 py-1.5 bg-[#FCFBF8] border border-[#D9D2C3] rounded text-[#161E33]"
+                  className="w-full px-2.5 py-1.5 bg-surface border border-line rounded text-ink"
                 />
               </div>
 
               {/* Unexpected Challenges */}
               <div>
-                <label className="block font-semibold text-[#161E33] mb-1">
+                <label className="block font-semibold text-ink mb-1">
                   Unforeseen Pitfalls or Obstacles
                 </label>
                 <div className="flex gap-2 mb-2">
@@ -424,12 +424,12 @@ export default function OutcomeTrackingCard({
                       }
                     }}
                     placeholder="Add an unexpected challenge and press Enter..."
-                    className="flex-1 px-2.5 py-1.5 bg-[#FCFBF8] border border-[#D9D2C3] rounded text-[#161E33]"
+                    className="flex-1 px-2.5 py-1.5 bg-surface border border-line rounded text-ink"
                   />
                   <button
                     type="button"
                     onClick={handleAddChallenge}
-                    className="px-3 py-1 bg-[#EFEADF] border border-[#D9D2C3] rounded hover:bg-[#D9D2C3] text-[#161E33]"
+                    className="px-3 py-1 bg-subtle border border-line rounded hover:bg-line text-ink"
                   >
                     Add
                   </button>
@@ -440,7 +440,7 @@ export default function OutcomeTrackingCard({
                     {challenges.map((c, i) => (
                       <span
                         key={i}
-                        className="inline-flex items-center gap-1 px-2 py-0.5 bg-rose-50 border border-rose-200 text-rose-700 rounded text-[10px]"
+                        className="inline-flex items-center gap-1 px-2 py-0.5 bg-rose-50 border border-rose-200 text-rose-700 rounded text-[13px]"
                       >
                         <span>{c}</span>
                         <button
@@ -457,18 +457,18 @@ export default function OutcomeTrackingCard({
               </div>
 
               {/* Actions */}
-              <div className="flex items-center justify-end gap-2 pt-3 border-t border-[#D9D2C3]">
+              <div className="flex items-center justify-end gap-2 pt-3 border-t border-line">
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
-                  className="px-3 py-1.5 text-[#5A6275] hover:text-[#161E33]"
+                  className="px-3 py-1.5 text-ink-2 hover:text-ink"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="px-4 py-1.5 bg-[#2F5D8F] hover:bg-[#254b73] text-[#FCFBF8] font-medium rounded transition-colors disabled:opacity-50"
+                  className="px-4 py-1.5 bg-accent hover:bg-accent-hover text-surface font-medium rounded transition-colors disabled:opacity-50"
                 >
                   {submitting ? "Saving Outcome..." : "Save Outcome Review"}
                 </button>

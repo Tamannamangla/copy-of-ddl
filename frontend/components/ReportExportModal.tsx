@@ -193,33 +193,33 @@ export default function ReportExportModal({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 bg-[#161E33]/60 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto animate-fadeIn">
-      <div className="bg-[#FCFBF8] rounded-xl border border-[#D9D2C3] shadow-2xl max-w-5xl w-full max-h-[92vh] flex flex-col overflow-hidden my-auto">
+    <div className="fixed inset-0 z-50 bg-ink/60 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto animate-fadeIn">
+      <div className="bg-surface rounded-xl border border-line shadow-2xl max-w-5xl w-full max-h-[92vh] flex flex-col overflow-hidden my-auto">
         {/* Header */}
-        <div className="p-5 sm:p-6 border-b border-[#D9D2C3] flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-[#EFEADF]/50">
+        <div className="p-5 sm:p-6 border-b border-line flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-subtle/50">
           <div>
             <div className="flex items-center gap-2">
-              <span className="p-1.5 rounded bg-white text-[#2F5D8F] border border-[#D9D2C3]">
+              <span className="p-1.5 rounded bg-white text-accent border border-line">
                 <FileText className="w-5 h-5" />
               </span>
-              <h3 className="text-lg font-bold text-[#161E33] tracking-tight">
+              <h3 className="text-lg font-bold text-ink tracking-tight">
                 Executive Decision Brief &amp; Interactive LaTeX PDF Dossier
               </h3>
             </div>
-            <p className="text-xs text-[#5A6275] mt-1">
+            <p className="text-xs text-ink-2 mt-1">
               Export all 10 intelligence phases: Problem framing, cognitive structuring, verified research citations, multi-criteria frameworks, recommendation, and execution roadmap.
             </p>
           </div>
 
           <div className="flex items-center gap-2 self-end sm:self-center">
             {/* View Mode Switcher */}
-            <div className="inline-flex rounded-lg border border-[#D9D2C3] bg-white p-0.5 text-xs font-medium">
+            <div className="inline-flex rounded-lg border border-line bg-white p-0.5 text-xs font-medium">
               <button
                 onClick={() => handleViewModeChange("preview")}
                 className={`px-2.5 py-1 rounded transition ${
                   viewMode === "preview"
-                    ? "bg-[#161E33] text-[#FCFBF8] font-bold"
-                    : "text-[#5A6275] hover:text-[#161E33]"
+                    ? "bg-ink text-surface font-bold"
+                    : "text-ink-2 hover:text-ink"
                 }`}
               >
                 Preview
@@ -228,8 +228,8 @@ export default function ReportExportModal({
                 onClick={() => handleViewModeChange("latex")}
                 className={`px-2.5 py-1 rounded transition ${
                   viewMode === "latex"
-                    ? "bg-[#2F5D8F] text-[#FCFBF8] font-bold"
-                    : "text-[#5A6275] hover:text-[#161E33]"
+                    ? "bg-accent text-surface font-bold"
+                    : "text-ink-2 hover:text-ink"
                 }`}
               >
                 LaTeX Source
@@ -238,8 +238,8 @@ export default function ReportExportModal({
                 onClick={() => handleViewModeChange("raw")}
                 className={`px-2.5 py-1 rounded transition ${
                   viewMode === "raw"
-                    ? "bg-[#161E33] text-[#FCFBF8] font-bold"
-                    : "text-[#5A6275] hover:text-[#161E33]"
+                    ? "bg-ink text-surface font-bold"
+                    : "text-ink-2 hover:text-ink"
                 }`}
               >
                 Raw Markdown
@@ -248,7 +248,7 @@ export default function ReportExportModal({
 
             <button
               onClick={onClose}
-              className="w-8 h-8 rounded-full bg-[#EFEADF] hover:bg-[#D9D2C3] text-[#161E33] flex items-center justify-center transition border border-[#D9D2C3]"
+              className="w-8 h-8 rounded-full bg-subtle hover:bg-line text-ink flex items-center justify-center transition border border-line"
             >
               <X className="w-4 h-4" />
             </button>
@@ -256,15 +256,15 @@ export default function ReportExportModal({
         </div>
 
         {/* Action Toolbar */}
-        <div className="px-5 sm:px-6 py-3 bg-[#FCFBF8] border-b border-[#D9D2C3] flex flex-wrap items-center justify-between gap-3 text-xs">
+        <div className="px-5 sm:px-6 py-3 bg-surface border-b border-line flex flex-wrap items-center justify-between gap-3 text-xs">
           <div className="flex flex-wrap items-center gap-2">
             {/* Primary Action: Interactive PDF */}
             <button
               onClick={handleDownloadPdf}
               disabled={loading || downloadingPdf}
-              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded bg-[#161E33] hover:bg-[#2F5D8F] text-[#FCFBF8] font-bold transition shadow-xs disabled:opacity-50"
+              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded bg-ink hover:bg-accent text-surface font-bold transition shadow-xs disabled:opacity-50"
             >
-              <FileDown className="w-3.5 h-3.5" />
+              <FileDown className="w-4 h-4" />
               {downloadingPdf ? "Generating PDF..." : "Download Interactive PDF (.pdf)"}
             </button>
 
@@ -272,9 +272,9 @@ export default function ReportExportModal({
             <button
               onClick={handleDownloadLatex}
               disabled={loading || downloadingLatex}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded border border-[#2F5D8F] bg-white text-[#2F5D8F] hover:bg-[#2F5D8F]/10 font-semibold transition disabled:opacity-50"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded border border-accent bg-white text-accent hover:bg-accent/10 font-semibold transition disabled:opacity-50"
             >
-              <FileCode className="w-3.5 h-3.5" />
+              <FileCode className="w-4 h-4" />
               {downloadingLatex ? "Exporting .tex..." : "Download LaTeX (.tex)"}
             </button>
 
@@ -282,9 +282,9 @@ export default function ReportExportModal({
             <button
               onClick={handleDownloadMarkdown}
               disabled={loading || !report}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded border border-[#D9D2C3] bg-white hover:bg-[#EFEADF]/50 text-[#161E33] font-medium transition disabled:opacity-50"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded border border-line bg-white hover:bg-subtle/50 text-ink font-medium transition disabled:opacity-50"
             >
-              <Download className="w-3.5 h-3.5 text-[#5A6275]" />
+              <Download className="w-4 h-4 text-ink-2" />
               Markdown (.md)
             </button>
 
@@ -292,9 +292,9 @@ export default function ReportExportModal({
             <button
               onClick={handleDownloadJson}
               disabled={loading || !report}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded border border-[#D9D2C3] bg-white hover:bg-[#EFEADF]/50 text-[#161E33] font-medium transition disabled:opacity-50"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded border border-line bg-white hover:bg-subtle/50 text-ink font-medium transition disabled:opacity-50"
             >
-              <Download className="w-3.5 h-3.5 text-[#5A6275]" />
+              <Download className="w-4 h-4 text-ink-2" />
               JSON
             </button>
 
@@ -302,16 +302,16 @@ export default function ReportExportModal({
             <button
               onClick={handleCopy}
               disabled={loading || (!report && !latexContent)}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded border border-[#D9D2C3] bg-white hover:bg-[#EFEADF]/50 text-[#161E33] font-medium transition disabled:opacity-50"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded border border-line bg-white hover:bg-subtle/50 text-ink font-medium transition disabled:opacity-50"
             >
               {copied ? (
                 <>
-                  <Check className="w-3.5 h-3.5 text-emerald-600" />
+                  <Check className="w-4 h-4 text-emerald-600" />
                   <span className="text-emerald-600 font-semibold">Copied!</span>
                 </>
               ) : (
                 <>
-                  <Copy className="w-3.5 h-3.5 text-[#5A6275]" />
+                  <Copy className="w-4 h-4 text-ink-2" />
                   <span>Copy {viewMode === "latex" ? "LaTeX" : "Markdown"}</span>
                 </>
               )}
@@ -322,9 +322,9 @@ export default function ReportExportModal({
           <button
             onClick={handleSaveToAttachments}
             disabled={saving || loading || !report}
-            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded bg-[#2F5D8F] hover:bg-[#161E33] text-[#FCFBF8] font-semibold shadow-xs transition disabled:opacity-50"
+            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded bg-accent hover:bg-ink text-surface font-semibold shadow-xs transition disabled:opacity-50"
           >
-            <Save className="w-3.5 h-3.5" />
+            <Save className="w-4 h-4" />
             {saving ? "Saving Dossier Bundle..." : "Save Dossier to Documents"}
           </button>
         </div>
@@ -340,7 +340,7 @@ export default function ReportExportModal({
               onClick={loadReport}
               className="text-xs font-bold underline hover:text-red-900 ml-3 flex items-center gap-1"
             >
-              <RefreshCw className="w-3 h-3" /> Retry
+              <RefreshCw className="w-4 h-4" /> Retry
             </button>
           </div>
         )}
@@ -357,62 +357,62 @@ export default function ReportExportModal({
         )}
 
         {/* Content Viewer */}
-        <div className="flex-1 overflow-y-auto p-5 sm:p-6 bg-[#F5F1E8]">
+        <div className="flex-1 overflow-y-auto p-5 sm:p-6 bg-page">
           {loading || (viewMode === "latex" && loadingLatex) ? (
             <div className="py-20 text-center space-y-3">
-              <div className="animate-spin w-8 h-8 border-3 border-[#2F5D8F] border-t-transparent rounded-full mx-auto" />
-              <p className="text-xs text-[#5A6275] font-medium">
+              <div className="animate-spin w-8 h-8 border-3 border-accent border-t-transparent rounded-full mx-auto" />
+              <p className="text-xs text-ink-2 font-medium">
                 {viewMode === "latex" ? "Compiling publication-grade LaTeX brief..." : "Compiling Executive Decision Brief across all 10 intelligence phases..."}
               </p>
             </div>
           ) : viewMode === "latex" ? (
             latexContent ? (
               <div className="space-y-3">
-                <div className="p-3 bg-white rounded border border-[#D9D2C3] flex items-center justify-between text-xs text-[#5A6275]">
-                  <span className="font-mono text-[11px]">
+                <div className="p-3 bg-white rounded border border-line flex items-center justify-between text-xs text-ink-2">
+                  <span className="font-mono text-[13px]">
                     Standard Article &bull; Geometry (1.8cm) &bull; Hyperref Bookmarks &bull; Tcolorbox &bull; Booktabs &bull; Tabularx
                   </span>
                   <button
                     onClick={handleDownloadLatex}
-                    className="text-[#2F5D8F] font-bold hover:underline flex items-center gap-1"
+                    className="text-accent font-bold hover:underline flex items-center gap-1"
                   >
-                    <Download className="w-3 h-3" /> Download .tex
+                    <Download className="w-4 h-4" /> Download .tex
                   </button>
                 </div>
-                <pre className="font-mono text-xs bg-[#161E33] text-[#FCFBF8] p-5 sm:p-6 rounded-lg overflow-x-auto whitespace-pre leading-relaxed shadow-inner border border-[#D9D2C3]">
+                <pre className="font-mono text-xs bg-ink text-surface p-5 sm:p-6 rounded-lg overflow-x-auto whitespace-pre leading-relaxed shadow-inner border border-line">
                   {latexContent}
                 </pre>
               </div>
             ) : (
-              <div className="py-16 text-center text-[#5A6275] text-xs">
+              <div className="py-16 text-center text-ink-2 text-xs">
                 Click above to load LaTeX source code.
               </div>
             )
           ) : report ? (
             viewMode === "preview" ? (
-              <div className="prose prose-slate max-w-none text-xs sm:text-sm bg-white p-6 sm:p-8 rounded-lg border border-[#D9D2C3] shadow-xs leading-relaxed whitespace-pre-wrap font-sans text-[#161E33]">
+              <div className="prose prose-slate max-w-none text-xs sm:text-sm bg-white p-6 sm:p-8 rounded-lg border border-line shadow-xs leading-relaxed whitespace-pre-wrap font-sans text-ink">
                 {report.content}
               </div>
             ) : (
-              <pre className="font-mono text-xs bg-[#161E33] text-[#FCFBF8] p-5 sm:p-6 rounded-lg overflow-x-auto whitespace-pre leading-relaxed shadow-inner border border-[#D9D2C3]">
+              <pre className="font-mono text-xs bg-ink text-surface p-5 sm:p-6 rounded-lg overflow-x-auto whitespace-pre leading-relaxed shadow-inner border border-line">
                 {report.content}
               </pre>
             )
           ) : (
-            <div className="py-16 text-center text-[#5A6275] text-xs">
+            <div className="py-16 text-center text-ink-2 text-xs">
               No report content generated. Click Retry to compile.
             </div>
           )}
         </div>
 
         {/* Footer */}
-        <div className="p-4 bg-[#EFEADF]/60 border-t border-[#D9D2C3] flex items-center justify-between text-xs text-[#5A6275]">
-          <span className="font-mono text-[11px]">
+        <div className="p-4 bg-subtle/60 border-t border-line flex items-center justify-between text-xs text-ink-2">
+          <span className="font-mono text-[13px]">
             DecisionLens Dossier &bull; Grounded Evidence &bull; Interactive Outline &amp; Form Fields Enabled
           </span>
           <button
             onClick={onClose}
-            className="px-4 py-1.5 bg-white hover:bg-[#EFEADF] text-[#161E33] font-semibold rounded border border-[#D9D2C3] transition"
+            className="px-4 py-1.5 bg-white hover:bg-subtle text-ink font-semibold rounded border border-line transition"
           >
             Close
           </button>

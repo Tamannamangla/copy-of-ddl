@@ -430,14 +430,14 @@ export default function StructuredFindingsEditor({
                 <span className="text-xs font-bold text-slate-900 block truncate">
                   {config.title}
                 </span>
-                <span className="text-[10px] text-slate-500 block truncate">
+                <span className="text-[13px] text-slate-500 block truncate">
                   {config.description}
                 </span>
               </div>
             </div>
 
             <span
-              className={`text-[11px] font-bold px-2.5 py-0.5 rounded-full shrink-0 ${config.colorClasses.badge}`}
+              className={`text-[13px] font-bold px-2.5 py-0.5 rounded-full shrink-0 ${config.colorClasses.badge}`}
             >
               {items.length} {items.length === 1 ? "point" : "points"}
             </span>
@@ -519,14 +519,14 @@ export default function StructuredFindingsEditor({
       {sourceSummary && sourceSummary !== "None" && (
         <div className="flex flex-wrap items-center justify-between gap-2 px-3.5 py-2.5 bg-paper-surface border border-border rounded text-xs text-ink-secondary">
           <div className="flex items-center gap-2">
-            <Layers className="w-3.5 h-3.5 text-accent shrink-0" />
+            <Layers className="w-4 h-4 text-accent shrink-0" />
             <span>
               Context Sources: <strong className="font-semibold text-ink">{sourceSummary}</strong>
             </span>
           </div>
           {sourceSummary.includes("Folder Memory") && (
-            <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[10px] font-mono bg-accent/10 text-accent font-medium border border-accent/20">
-              <GitBranch className="w-3 h-3" />
+            <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[13px] font-mono bg-accent/10 text-accent font-medium border border-accent/20">
+              <GitBranch className="w-4 h-4" />
               Connected to Prior Folder Records
             </span>
           )}
@@ -554,11 +554,11 @@ export default function StructuredFindingsEditor({
                   {reviewed ? "Findings Reviewed & Approved" : "User Review Required"}
                 </span>
                 {reviewed ? (
-                  <span className="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800">
+                  <span className="text-[13px] font-semibold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800">
                     Ready for Framework Analysis
                   </span>
                 ) : (
-                  <span className="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-amber-100 text-amber-800">
+                  <span className="text-[13px] font-semibold px-2 py-0.5 rounded-full bg-amber-100 text-amber-800">
                     Review Gate Active
                   </span>
                 )}
@@ -675,7 +675,7 @@ export default function StructuredFindingsEditor({
                           }`}
                           title="Zoom Out: Wide camera view"
                         >
-                          <ZoomOut className="w-3.5 h-3.5" />
+                          <ZoomOut className="w-4 h-4" />
                           <span className="hidden md:inline">Zoom Out</span>
                         </button>
 
@@ -689,7 +689,7 @@ export default function StructuredFindingsEditor({
                           }`}
                           title="Spacious Box: Generous card height"
                         >
-                          <Maximize2 className="w-3.5 h-3.5" />
+                          <Maximize2 className="w-4 h-4" />
                           <span className="hidden md:inline">Spacious</span>
                         </button>
 
@@ -703,7 +703,7 @@ export default function StructuredFindingsEditor({
                           }`}
                           title="Focus Zoom: Enlarged reading view"
                         >
-                          <ZoomIn className="w-3.5 h-3.5" />
+                          <ZoomIn className="w-4 h-4" />
                           <span className="hidden md:inline">Focus</span>
                         </button>
                       </div>
@@ -720,7 +720,7 @@ export default function StructuredFindingsEditor({
                           }`}
                           title="2 Columns: Side-by-side comparison"
                         >
-                          <Columns className="w-3.5 h-3.5" />
+                          <Columns className="w-4 h-4" />
                         </button>
                         <button
                           type="button"
@@ -732,7 +732,7 @@ export default function StructuredFindingsEditor({
                           }`}
                           title="1 Column: Maximum spacious width"
                         >
-                          <Square className="w-3.5 h-3.5" />
+                          <Square className="w-4 h-4" />
                         </button>
                       </div>
 
@@ -838,11 +838,11 @@ export default function StructuredFindingsEditor({
                       <span className="text-xs font-bold uppercase tracking-wider text-slate-200">
                         Private Transcript Reflection
                       </span>
-                      <span className="text-[10px] bg-slate-800 text-indigo-300 border border-indigo-400/30 px-2 py-0.5 rounded-full font-mono">
+                      <span className="text-[13px] bg-slate-800 text-indigo-300 border border-indigo-400/30 px-2 py-0.5 rounded-full font-mono">
                         Internal Feedback Only
                       </span>
                     </div>
-                    <p className="text-[11px] text-slate-400">
+                    <p className="text-[13px] text-slate-400">
                       Private coaching notes on tone, potential biases, and clarity before final decision-making.
                     </p>
                   </div>
@@ -863,7 +863,7 @@ export default function StructuredFindingsEditor({
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {/* Tone Assessment */}
                     <div className="p-3 bg-slate-900/80 rounded-xl border border-slate-800 space-y-1">
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">
+                      <span className="text-[13px] font-bold uppercase tracking-wider text-slate-400 block">
                         Discussion Tone Observations
                       </span>
                       <p className="text-slate-200 leading-relaxed">
@@ -873,7 +873,7 @@ export default function StructuredFindingsEditor({
 
                     {/* Clarity Rating */}
                     <div className="p-3 bg-slate-900/80 rounded-xl border border-slate-800 space-y-1">
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">
+                      <span className="text-[13px] font-bold uppercase tracking-wider text-slate-400 block">
                         Problem Clarity Rating
                       </span>
                       <span className="inline-block px-2.5 py-1 rounded-md text-xs font-bold bg-indigo-900/50 text-indigo-300 border border-indigo-700/50">
@@ -886,7 +886,7 @@ export default function StructuredFindingsEditor({
                   {findings.private_feedback.potential_biases &&
                     findings.private_feedback.potential_biases.length > 0 && (
                       <div className="p-3 bg-slate-900/80 rounded-xl border border-slate-800 space-y-2">
-                        <span className="text-[10px] font-bold uppercase tracking-wider text-amber-400 block">
+                        <span className="text-[13px] font-bold uppercase tracking-wider text-amber-400 block">
                           Detected Cognitive Biases & Blind Spots
                         </span>
                         <ul className="space-y-1.5">
@@ -903,7 +903,7 @@ export default function StructuredFindingsEditor({
                   {/* Coaching Notes */}
                   {findings.private_feedback.feedback_notes && (
                     <div className="p-3 bg-indigo-950/40 rounded-xl border border-indigo-900/50 space-y-1">
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-indigo-300 block">
+                      <span className="text-[13px] font-bold uppercase tracking-wider text-indigo-300 block">
                         Actionable Guidance for Next Phases
                       </span>
                       <p className="text-slate-200 leading-relaxed">

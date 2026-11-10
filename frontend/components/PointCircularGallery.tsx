@@ -179,7 +179,7 @@ export default function PointCircularGallery({
             <span>Point {activeIndex + 1} of {items.length}</span>
           </span>
           {viewMode === "circular" && items[activeIndex] && (
-            <span className="text-[10px] font-mono text-slate-400 border border-slate-200 px-2.5 py-0.5 rounded-full bg-white hidden sm:inline-block">
+            <span className="text-[13px] font-mono text-slate-400 border border-slate-200 px-2.5 py-0.5 rounded-full bg-white hidden sm:inline-block">
               {getReadingStats(items[activeIndex]).words} words
             </span>
           )}
@@ -193,42 +193,42 @@ export default function PointCircularGallery({
               <button
                 type="button"
                 onClick={() => handleSetZoom("zoomOut")}
-                className={`px-2 py-1 rounded-lg text-[11px] font-medium flex items-center gap-1 transition ${
+                className={`px-2 py-1 rounded-lg text-[13px] font-medium flex items-center gap-1 transition ${
                   zoomMode === "zoomOut"
                     ? "bg-white text-indigo-700 shadow-2xs font-semibold"
                     : "text-slate-500 hover:text-slate-800"
                 }`}
                 title="Zoom Out: Wide angle camera perspective to view multiple cards comfortably"
               >
-                <ZoomOut className="w-3.5 h-3.5" />
+                <ZoomOut className="w-4 h-4" />
                 <span className="hidden md:inline">Zoom Out</span>
               </button>
 
               <button
                 type="button"
                 onClick={() => handleSetZoom("spacious")}
-                className={`px-2 py-1 rounded-lg text-[11px] font-medium flex items-center gap-1 transition ${
+                className={`px-2 py-1 rounded-lg text-[13px] font-medium flex items-center gap-1 transition ${
                   zoomMode === "spacious"
                     ? "bg-white text-indigo-700 shadow-2xs font-semibold"
                     : "text-slate-500 hover:text-slate-800"
                 }`}
                 title="Spacious Box (Default): Roomy, large box with full sentence visibility"
               >
-                <Maximize2 className="w-3.5 h-3.5" />
+                <Maximize2 className="w-4 h-4" />
                 <span className="hidden md:inline">Spacious</span>
               </button>
 
               <button
                 type="button"
                 onClick={() => handleSetZoom("focus")}
-                className={`px-2 py-1 rounded-lg text-[11px] font-medium flex items-center gap-1 transition ${
+                className={`px-2 py-1 rounded-lg text-[13px] font-medium flex items-center gap-1 transition ${
                   zoomMode === "focus"
                     ? "bg-white text-indigo-700 shadow-2xs font-semibold"
                     : "text-slate-500 hover:text-slate-800"
                 }`}
                 title="Focus Zoom: Large reading scale for comprehensive analysis"
               >
-                <ZoomIn className="w-3.5 h-3.5" />
+                <ZoomIn className="w-4 h-4" />
                 <span className="hidden md:inline">Focus</span>
               </button>
             </div>
@@ -239,7 +239,7 @@ export default function PointCircularGallery({
             <button
               type="button"
               onClick={() => setViewMode("circular")}
-              className={`px-2.5 py-1 rounded-lg text-[11px] font-semibold transition ${
+              className={`px-2.5 py-1 rounded-lg text-[13px] font-semibold transition ${
                 viewMode === "circular"
                   ? "bg-white text-indigo-700 shadow-2xs"
                   : "text-slate-500 hover:text-slate-800"
@@ -251,7 +251,7 @@ export default function PointCircularGallery({
             <button
               type="button"
               onClick={() => setViewMode("list")}
-              className={`px-2.5 py-1 rounded-lg text-[11px] font-semibold transition ${
+              className={`px-2.5 py-1 rounded-lg text-[13px] font-semibold transition ${
                 viewMode === "list"
                   ? "bg-white text-indigo-700 shadow-2xs"
                   : "text-slate-500 hover:text-slate-800"
@@ -361,7 +361,7 @@ export default function PointCircularGallery({
                           {title} #{idx + 1}
                         </span>
                         <span
-                          className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${
+                          className={`text-[13px] font-semibold px-2 py-0.5 rounded-full ${
                             stats.words > 50
                               ? "bg-amber-50 text-amber-700 border border-amber-200/60"
                               : "bg-slate-100 text-slate-600"
@@ -406,7 +406,7 @@ export default function PointCircularGallery({
                           value={item}
                           onChange={(e) => onUpdateItem(idx, e.target.value)}
                           placeholder={`Describe this ${title.toLowerCase().slice(0, -1)} in detail...`}
-                          className="w-full h-full text-[15px] sm:text-[15.5px] leading-[1.7] text-slate-900 placeholder:text-slate-400 bg-transparent border-0 focus:ring-0 p-0 focus:outline-none resize-none font-normal scrollbar-none"
+                          className="w-full h-full text-[17px] sm:text-[15.5px] leading-[1.7] text-slate-900 placeholder:text-slate-400 bg-transparent border-0 focus:ring-0 p-0 focus:outline-none resize-none font-normal scrollbar-none"
                         />
                       ) : (
                         <p className="text-sm text-slate-700 font-medium line-clamp-6 leading-relaxed select-none">
@@ -417,12 +417,12 @@ export default function PointCircularGallery({
 
 
                     {/* Card Footer: Reading Metrics & Helpful Hint */}
-                    <div className="pt-2.5 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-400 shrink-0">
+                    <div className="pt-2.5 border-t border-slate-100 flex items-center justify-between text-[13px] text-slate-400 shrink-0">
                       <span>
                         {stats.words} words • ~{stats.readTimeSec}s read
                       </span>
                       {isCenter && (
-                        <span className="text-indigo-600 font-medium text-[11px]">
+                        <span className="text-indigo-600 font-medium text-[13px]">
                           Editable in-place
                         </span>
                       )}
@@ -479,7 +479,7 @@ export default function PointCircularGallery({
               onClick={handleAddAndFocus}
               className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-slate-700 hover:text-indigo-600 hover:bg-indigo-50/60 rounded-xl transition border border-transparent hover:border-indigo-100"
             >
-              <Plus className="w-3.5 h-3.5" />
+              <Plus className="w-4 h-4" />
               <span>Add Point</span>
             </button>
           </div>
@@ -502,7 +502,7 @@ export default function PointCircularGallery({
                   className="p-1 text-slate-400 hover:text-red-600 rounded transition"
                   title="Delete point"
                 >
-                  <Trash2 className="w-3.5 h-3.5" />
+                  <Trash2 className="w-4 h-4" />
                 </button>
               </div>
 

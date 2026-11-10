@@ -430,7 +430,7 @@ export default function AudioRecorder({
                 : "text-slate-600 hover:text-slate-900"
             }`}
           >
-            <Mic className="w-3.5 h-3.5" /> Live Microphone
+            <Mic className="w-4 h-4" /> Live Microphone
           </button>
           <button
             type="button"
@@ -444,7 +444,7 @@ export default function AudioRecorder({
                 : "text-slate-600 hover:text-slate-900"
             }`}
           >
-            <Upload className="w-3.5 h-3.5" /> Upload Audio File
+            <Upload className="w-4 h-4" /> Upload Audio File
           </button>
         </div>
       </div>
@@ -462,11 +462,11 @@ export default function AudioRecorder({
               onClick={() => setLanguage("en")}
               className={`flex items-center justify-center gap-2 p-2 rounded-lg border font-medium transition-all ${
                 language === "en"
-                  ? "border-[#2F5D8F] bg-white text-[#2F5D8F] font-bold shadow-xs"
-                  : "border-[#D9D2C3] bg-[#EFEADF]/40 text-[#5A6275] hover:bg-white"
+                  ? "border-accent bg-white text-accent font-bold shadow-xs"
+                  : "border-line bg-subtle/40 text-ink-2 hover:bg-white"
               }`}
             >
-              <span className="font-mono text-xs font-semibold px-1.5 py-0.5 rounded bg-[#EFEADF] text-[#161E33] border border-[#D9D2C3]">EN</span>
+              <span className="font-mono text-xs font-semibold px-1.5 py-0.5 rounded bg-subtle text-ink border border-line">EN</span>
               <span>English (en)</span>
             </button>
             <button
@@ -474,11 +474,11 @@ export default function AudioRecorder({
               onClick={() => setLanguage("hi")}
               className={`flex items-center justify-center gap-2 p-2 rounded-lg border font-medium transition-all ${
                 language === "hi"
-                  ? "border-[#2F5D8F] bg-white text-[#2F5D8F] font-bold shadow-xs"
-                  : "border-[#D9D2C3] bg-[#EFEADF]/40 text-[#5A6275] hover:bg-white"
+                  ? "border-accent bg-white text-accent font-bold shadow-xs"
+                  : "border-line bg-subtle/40 text-ink-2 hover:bg-white"
               }`}
             >
-              <span className="font-mono text-xs font-semibold px-1.5 py-0.5 rounded bg-[#EFEADF] text-[#161E33] border border-[#D9D2C3]">HI</span>
+              <span className="font-mono text-xs font-semibold px-1.5 py-0.5 rounded bg-subtle text-ink border border-line">HI</span>
               <span>Hindi (hi)</span>
             </button>
           </div>
@@ -487,7 +487,7 @@ export default function AudioRecorder({
         {/* FFmpeg Enhancement Toggle */}
         <div>
           <label className="block font-semibold text-slate-700 mb-1.5 flex items-center gap-1.5">
-            <Sliders className="w-3.5 h-3.5 text-slate-500" />
+            <Sliders className="w-4 h-4 text-slate-500" />
             Audio Enhancement Pipeline
           </label>
           <label className="flex items-start gap-2.5 p-2 bg-white rounded-lg border border-slate-200 cursor-pointer hover:border-indigo-300 transition-colors">
@@ -501,7 +501,7 @@ export default function AudioRecorder({
               <span className="font-semibold text-slate-800 block">
                 FFmpeg Normalization & High-Pass Filter
               </span>
-              <span className="text-[11px] text-slate-500">
+              <span className="text-[13px] text-slate-500">
                 EBU R128 volume leveling + 200Hz rumble reduction.
               </span>
             </div>
@@ -551,7 +551,7 @@ export default function AudioRecorder({
               <div className="w-full max-w-md mx-auto bg-indigo-50 border border-indigo-200 rounded-xl p-3 text-xs text-indigo-950 flex items-start gap-2.5 shadow-xs">
                 <Sparkles className="w-4 h-4 text-indigo-600 shrink-0 mt-0.5 animate-pulse" />
                 <div className="flex-1 min-w-0">
-                  <div className="font-bold text-indigo-800 text-[11px] uppercase tracking-wider mb-0.5">
+                  <div className="font-bold text-indigo-800 text-[13px] uppercase tracking-wider mb-0.5">
                     Live Speech Detected ({language === "hi" ? "Hindi" : "English"})
                   </div>
                   <p className="text-slate-800 font-medium break-words leading-relaxed">
@@ -580,7 +580,7 @@ export default function AudioRecorder({
                       onClick={resumeRecording}
                       className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-semibold text-slate-700 bg-white border border-slate-200 hover:bg-slate-50 rounded-full shadow-xs"
                     >
-                      <Play className="w-3.5 h-3.5" /> Resume
+                      <Play className="w-4 h-4" /> Resume
                     </button>
                   ) : (
                     <button
@@ -588,7 +588,7 @@ export default function AudioRecorder({
                       onClick={pauseRecording}
                       className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-semibold text-slate-700 bg-white border border-slate-200 hover:bg-slate-50 rounded-full shadow-xs"
                     >
-                      <Pause className="w-3.5 h-3.5" /> Pause
+                      <Pause className="w-4 h-4" /> Pause
                     </button>
                   )}
                   <button
@@ -596,7 +596,7 @@ export default function AudioRecorder({
                     onClick={stopRecording}
                     className="inline-flex items-center gap-2 px-5 py-2 text-xs font-semibold text-white bg-slate-900 hover:bg-slate-800 rounded-full shadow-xs"
                   >
-                    <Square className="w-3.5 h-3.5" /> Stop & Review
+                    <Square className="w-4 h-4" /> Stop & Review
                   </button>
                 </>
               ) : (
@@ -605,7 +605,7 @@ export default function AudioRecorder({
                   onClick={resetRecording}
                   className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-slate-600 hover:text-slate-900 bg-white border border-slate-200 rounded-lg hover:bg-slate-50"
                 >
-                  <RotateCcw className="w-3.5 h-3.5" /> Reset & Record Again
+                  <RotateCcw className="w-4 h-4" /> Reset & Record Again
                 </button>
               )}
             </div>
@@ -645,7 +645,7 @@ export default function AudioRecorder({
 
           <label className="inline-block mt-2">
             <span className="px-4 py-2 bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 rounded-xl text-xs font-semibold shadow-xs cursor-pointer inline-flex items-center gap-1.5">
-              <Upload className="w-3.5 h-3.5" /> Browse Audio File
+              <Upload className="w-4 h-4" /> Browse Audio File
             </span>
             <input
               type="file"
@@ -738,7 +738,7 @@ export default function AudioRecorder({
             {/* Title and Status Badge */}
             <div className="space-y-1.5">
               <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-indigo-50 text-indigo-700 border border-indigo-100">
-                <Loader2 className="w-3.5 h-3.5 animate-spin text-indigo-600" />
+                <Loader2 className="w-4 h-4 animate-spin text-indigo-600" />
                 <span>AI Speech-to-Text Pipeline</span>
               </div>
               <h3 className="text-xl font-bold text-slate-900 tracking-tight">
@@ -773,13 +773,13 @@ export default function AudioRecorder({
                       : "bg-slate-200 text-slate-500"
                   }`}
                 >
-                  {processingStep > 1 ? <Check className="w-3.5 h-3.5" /> : "1"}
+                  {processingStep > 1 ? <Check className="w-4 h-4" /> : "1"}
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="font-medium text-slate-800">
                     Audio Leveling & FFmpeg Noise Gate
                   </p>
-                  <p className="text-[11px] text-slate-400">
+                  <p className="text-[13px] text-slate-400">
                     {processingStep > 1 ? "Completed" : "Optimizing loudness & frequencies..."}
                   </p>
                 </div>
@@ -796,13 +796,13 @@ export default function AudioRecorder({
                       : "bg-slate-200 text-slate-500"
                   }`}
                 >
-                  {processingStep > 2 ? <Check className="w-3.5 h-3.5" /> : "2"}
+                  {processingStep > 2 ? <Check className="w-4 h-4" /> : "2"}
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="font-medium text-slate-800">
                     Multimodal AI Transcription
                   </p>
-                  <p className="text-[11px] text-slate-400">
+                  <p className="text-[13px] text-slate-400">
                     {processingStep > 2
                       ? "Completed"
                       : processingStep === 2
@@ -827,7 +827,7 @@ export default function AudioRecorder({
                   <p className="font-medium text-slate-800">
                     Sync to Meeting Transcript & Voice Notes
                   </p>
-                  <p className="text-[11px] text-slate-400">
+                  <p className="text-[13px] text-slate-400">
                     Populating editable editor below...
                   </p>
                 </div>
