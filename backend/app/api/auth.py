@@ -15,6 +15,7 @@ from app.schemas import (
     UserResponse,
     TokenResponse,
     UserChangePassword,
+    UserProfileUpdate,
     OAuthLoginRequest,
     OAuthProviderInfo,
 )
@@ -93,6 +94,29 @@ def login(body: UserLogin, db: Session = Depends(get_db)):
 )
 def get_me(current_user: User = Depends(get_current_user)):
     """Return the profile of the currently authenticated user."""
+    return UserResponse.model_validate(current_user)
+
+
+@router.patch(
+    "/me",
+    response_model=UserResponse,
+    summary="Update current user profile",
+)
+def update_me(
+    body: UserProfileUpdate,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """Update editable profile fields (currently the display name)."""
+    name = body.display_name.strip()
+    if not name:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Display name cannot be empty",
+        )
+    current_user.display_name = name[:150]
+    db.commit()
+    db.refresh(current_user)
     return UserResponse.model_validate(current_user)
 
 

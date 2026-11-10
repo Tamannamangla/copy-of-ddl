@@ -9,6 +9,7 @@ import {
   getFolders,
   getDecisions,
   changePassword,
+  updateProfile,
   getOAuthProviders,
   clearStoredToken,
   User,
@@ -39,7 +40,16 @@ import {
   Users,
   Link2,
   ExternalLink,
+  Pencil,
+  Palette,
 } from "lucide-react";
+import { ThemeSegmentedControl } from "@/components/ThemeProvider";
+import {
+  formatDisplayName,
+  initials,
+  saveDisplayNameOverride,
+  PROFILE_UPDATED_EVENT,
+} from "@/lib/userDisplay";
 
 export default function ProfilePage() {
   const router = useRouter();
@@ -59,6 +69,13 @@ export default function ProfilePage() {
   const [passwordLoading, setPasswordLoading] = useState(false);
   const [passwordError, setPasswordError] = useState<string | null>(null);
   const [passwordSuccess, setPasswordSuccess] = useState<string | null>(null);
+
+  // Display name editing state
+  const [nameDraft, setNameDraft] = useState("");
+  const [editingName, setEditingName] = useState(false);
+  const [nameSaving, setNameSaving] = useState(false);
+  const [nameMsg, setNameMsg] = useState<{ type: "ok" | "err"; text: string } | null>(null);
+  const [nameVersion, setNameVersion] = useState(0);
 
   // Voice Ingestion Settings State (persisted to localStorage)
   const [defaultLanguage, setDefaultLanguage] = useState<string>("en");
@@ -166,6 +183,37 @@ export default function ProfilePage() {
     }
   };
 
+  // Handle display name update
+  const handleNameSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!currentUser) return;
+    const trimmed = nameDraft.trim();
+    if (trimmed.length < 1 || trimmed.length > 60) {
+      setNameMsg({ type: "err", text: "Please enter a name between 1 and 60 characters." });
+      return;
+    }
+    setNameSaving(true);
+    setNameMsg(null);
+    // Always keep a local copy so the new name shows everywhere right away
+    saveDisplayNameOverride(currentUser.email, trimmed);
+    try {
+      const updated = await updateProfile({ display_name: trimmed });
+      setCurrentUser({ ...currentUser, ...updated, display_name: trimmed });
+      setNameMsg({ type: "ok", text: "Display name updated." });
+    } catch {
+      setCurrentUser({ ...currentUser, display_name: trimmed });
+      setNameMsg({ type: "ok", text: "Display name saved on this device." });
+    } finally {
+      if (typeof window !== "undefined") {
+        window.dispatchEvent(new Event(PROFILE_UPDATED_EVENT));
+      }
+      setNameVersion((v) => v + 1);
+      setNameSaving(false);
+      setEditingName(false);
+      setTimeout(() => setNameMsg(null), 3000);
+    }
+  };
+
   // Handle Logout
   const handleLogout = () => {
     clearStoredToken();
@@ -211,25 +259,26 @@ export default function ProfilePage() {
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
               <div className="flex items-center gap-4">
                 <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-indigo-600 via-indigo-500 to-purple-600 text-white font-black text-2xl flex items-center justify-center shadow-lg ring-4 ring-indigo-50 shrink-0">
-                  {currentUser.email.charAt(0).toUpperCase()}
+                  {initials(currentUser.display_name, currentUser.email)}
                 </div>
                 <div>
                   <div className="flex items-center gap-2 flex-wrap">
-                    <h1 className="text-xl sm:text-2xl font-extrabold text-slate-950">
-                      {currentUser.email}
+                    <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-950" data-v={nameVersion}>
+                      {formatDisplayName(currentUser.display_name, currentUser.email)}
                     </h1>
-                    <span className="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200">
+                    <span className="text-[13px] font-bold px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200">
                       Decision Intelligence Lead
                     </span>
                   </div>
+                  <p className="text-sm text-slate-500 mt-0.5 break-all">{currentUser.email}</p>
                   <div className="flex items-center gap-3 text-xs text-slate-500 mt-1 flex-wrap">
                     <span className="flex items-center gap-1 font-mono">
-                      <Shield className="w-3.5 h-3.5 text-emerald-600" />
+                      <Shield className="w-4 h-4 text-emerald-600" />
                       User #{currentUser.id}
                     </span>
                     <span>•</span>
                     <span className="flex items-center gap-1">
-                      <Calendar className="w-3.5 h-3.5 text-slate-400" />
+                      <Calendar className="w-4 h-4 text-slate-400" />
                       Member since {new Date(currentUser.created_at).toLocaleDateString()}
                     </span>
                     <span>•</span>
@@ -243,27 +292,106 @@ export default function ProfilePage() {
 
               <div className="flex items-center gap-2 self-start sm:self-auto shrink-0">
                 <Link
-                  href="/dashboard"
+                  href="/overview"
                   className="px-4 py-2 border border-slate-200 hover:border-slate-300 bg-white text-slate-700 hover:text-slate-900 text-xs font-semibold rounded-xl shadow-2xs transition"
                 >
-                  Workspace Dashboard
+                  Overview
                 </Link>
                 <button
                   type="button"
                   onClick={handleLogout}
                   className="px-4 py-2 border border-rose-200 hover:bg-rose-50 text-rose-700 text-xs font-semibold rounded-xl transition flex items-center gap-1.5 shadow-2xs"
                 >
-                  <LogOut className="w-3.5 h-3.5" />
+                  <LogOut className="w-4 h-4" />
                   <span>Log Out</span>
                 </button>
               </div>
             </div>
           </div>
 
+          {/* Account & Appearance */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <section className="glass-card rounded-2xl p-6 border border-slate-200/80 shadow-2xs space-y-4">
+              <div className="flex items-center gap-2">
+                <UserIcon className="w-5 h-5 text-indigo-600" />
+                <h2 className="text-lg font-bold text-slate-900">Display name</h2>
+              </div>
+              <p className="text-sm text-slate-500">
+                This is how your name appears across DecisionLens.
+              </p>
+              {editingName ? (
+                <form onSubmit={handleNameSubmit} className="flex flex-col sm:flex-row gap-3">
+                  <input
+                    type="text"
+                    value={nameDraft}
+                    onChange={(e) => setNameDraft(e.target.value)}
+                    maxLength={60}
+                    autoFocus
+                    aria-label="Display name"
+                    className="flex-1 h-11 px-4 rounded-xl border border-slate-200 bg-white text-slate-900 text-base focus:outline-none focus:ring-2 focus:ring-indigo-500/40"
+                  />
+                  <div className="flex gap-2">
+                    <button
+                      type="submit"
+                      disabled={nameSaving}
+                      className="h-11 px-5 rounded-xl bg-ink text-on-ink text-sm font-semibold hover:opacity-90 disabled:opacity-50 transition"
+                    >
+                      {nameSaving ? "Saving…" : "Save"}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setEditingName(false)}
+                      className="h-11 px-5 rounded-xl border border-slate-200 text-slate-700 text-sm font-semibold hover:bg-slate-50 transition"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </form>
+              ) : (
+                <div className="flex items-center justify-between gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3">
+                  <span className="text-base font-semibold text-slate-900 truncate" data-v={nameVersion}>
+                    {formatDisplayName(currentUser.display_name, currentUser.email)}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setNameDraft(formatDisplayName(currentUser.display_name, currentUser.email));
+                      setEditingName(true);
+                    }}
+                    className="h-10 px-4 rounded-lg border border-slate-200 text-slate-700 text-sm font-semibold hover:bg-slate-50 transition flex items-center gap-2 shrink-0"
+                  >
+                    <Pencil className="w-4 h-4" />
+                    Edit
+                  </button>
+                </div>
+              )}
+              {nameMsg && (
+                <p
+                  className={`text-sm font-medium ${
+                    nameMsg.type === "ok" ? "text-indigo-700" : "text-rose-700"
+                  }`}
+                >
+                  {nameMsg.text}
+                </p>
+              )}
+            </section>
+
+            <section className="glass-card rounded-2xl p-6 border border-slate-200/80 shadow-2xs space-y-4">
+              <div className="flex items-center gap-2">
+                <Palette className="w-5 h-5 text-indigo-600" />
+                <h2 className="text-lg font-bold text-slate-900">Appearance</h2>
+              </div>
+              <p className="text-sm text-slate-500">
+                Choose light, dark, or match your device setting.
+              </p>
+              <ThemeSegmentedControl />
+            </section>
+          </div>
+
           {/* Telemetry Stats Grid */}
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
             <div className="glass-card glass-card-hover rounded-2xl p-5 border border-slate-200/80 shadow-2xs">
-              <span className="text-[11px] text-slate-500 font-semibold tracking-wider uppercase block mb-1">
+              <span className="text-[13px] text-slate-500 font-semibold tracking-wider uppercase block mb-1">
                 Workspaces Owned
               </span>
               <span className="text-3xl font-extrabold text-slate-900 tabular-nums">
@@ -272,7 +400,7 @@ export default function ProfilePage() {
             </div>
 
             <div className="glass-card glass-card-hover rounded-2xl p-5 border border-slate-200/80 shadow-2xs">
-              <span className="text-[11px] text-slate-500 font-semibold tracking-wider uppercase block mb-1">
+              <span className="text-[13px] text-slate-500 font-semibold tracking-wider uppercase block mb-1">
                 Total Decisions & Dossiers
               </span>
               <span className="text-3xl font-extrabold text-slate-900 tabular-nums">
@@ -281,7 +409,7 @@ export default function ProfilePage() {
             </div>
 
             <div className="glass-card glass-card-hover rounded-2xl p-5 border border-indigo-200/70 bg-gradient-to-br from-white/90 to-indigo-50/30 shadow-2xs">
-              <span className="text-[11px] text-indigo-600 font-bold tracking-wider uppercase block mb-1">
+              <span className="text-[13px] text-indigo-600 font-bold tracking-wider uppercase block mb-1">
                 Under Active Scrutiny
               </span>
               <span className="text-3xl font-extrabold text-indigo-600 tabular-nums">
@@ -290,7 +418,7 @@ export default function ProfilePage() {
             </div>
 
             <div className="glass-card glass-card-hover rounded-2xl p-5 border border-emerald-200/70 bg-gradient-to-br from-white/90 to-emerald-50/30 shadow-2xs">
-              <span className="text-[11px] text-emerald-700 font-bold tracking-wider uppercase block mb-1">
+              <span className="text-[13px] text-emerald-700 font-bold tracking-wider uppercase block mb-1">
                 Resolved & Decided
               </span>
               <span className="text-3xl font-extrabold text-emerald-600 tabular-nums">
@@ -366,7 +494,7 @@ export default function ProfilePage() {
                           onClick={() => setShowPassword(!showPassword)}
                           className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
                         >
-                          {showPassword ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
+                          {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                         </button>
                       </div>
                     </div>
@@ -388,7 +516,7 @@ export default function ProfilePage() {
 
                   {/* Password Checklist */}
                   {newPassword && (
-                    <div className="p-3 bg-slate-50 rounded-xl border border-slate-200 text-[11px] space-y-1.5">
+                    <div className="p-3 bg-slate-50 rounded-xl border border-slate-200 text-[13px] space-y-1.5">
                       <span className="font-semibold text-slate-600 block">Password Requirements:</span>
                       <div className="grid grid-cols-2 gap-1.5">
                         <span className={`flex items-center gap-1.5 ${passwordChecks.minLength ? "text-emerald-600 font-semibold" : "text-slate-400"}`}>
@@ -447,7 +575,7 @@ export default function ProfilePage() {
                       </p>
                     </div>
                   </div>
-                  <span className="text-[11px] font-semibold text-slate-400 bg-slate-100 px-2.5 py-1 rounded-full">
+                  <span className="text-[13px] font-semibold text-slate-400 bg-slate-100 px-2.5 py-1 rounded-full">
                     RFC 7519 JWT
                   </span>
                 </div>
@@ -484,12 +612,12 @@ export default function ProfilePage() {
                         <div className="flex items-center gap-2">
                           <h4 className="text-xs font-bold text-slate-900">Google Workspace</h4>
                           {currentUser.oauth_provider === "google" && (
-                            <span className="text-[10px] font-bold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded-full border border-emerald-300">
+                            <span className="text-[13px] font-bold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded-full border border-emerald-300">
                               Active Provider
                             </span>
                           )}
                         </div>
-                        <p className="text-[11px] text-slate-500 truncate">
+                        <p className="text-[13px] text-slate-500 truncate">
                           Sync Google Meet transcripts, audio recordings &amp; Drive RFC docs
                         </p>
                       </div>
@@ -498,7 +626,7 @@ export default function ProfilePage() {
                     <div className="shrink-0">
                       {currentUser.oauth_provider === "google" ? (
                         <div className="flex items-center gap-1.5 text-xs font-bold text-emerald-600 bg-emerald-100/80 px-3 py-1.5 rounded-xl border border-emerald-300">
-                          <CheckCircle2 className="w-3.5 h-3.5" />
+                          <CheckCircle2 className="w-4 h-4" />
                           <span>Connected</span>
                         </div>
                       ) : (
@@ -507,7 +635,7 @@ export default function ProfilePage() {
                           className="text-xs font-semibold text-indigo-600 hover:text-indigo-700 border border-indigo-200 hover:bg-indigo-50 px-3 py-1.5 rounded-xl transition flex items-center gap-1 shadow-2xs"
                         >
                           <span>Connect</span>
-                          <ExternalLink className="w-3 h-3" />
+                          <ExternalLink className="w-4 h-4" />
                         </Link>
                       )}
                     </div>
@@ -529,12 +657,12 @@ export default function ProfilePage() {
                         <div className="flex items-center gap-2">
                           <h4 className="text-xs font-bold text-slate-900">GitHub Enterprise</h4>
                           {currentUser.oauth_provider === "github" && (
-                            <span className="text-[10px] font-bold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded-full border border-emerald-300">
+                            <span className="text-[13px] font-bold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded-full border border-emerald-300">
                               Active Provider
                             </span>
                           )}
                         </div>
-                        <p className="text-[11px] text-slate-500 truncate">
+                        <p className="text-[13px] text-slate-500 truncate">
                           Link technical RFC architecture discussions &amp; pull request decisions
                         </p>
                       </div>
@@ -543,7 +671,7 @@ export default function ProfilePage() {
                     <div className="shrink-0">
                       {currentUser.oauth_provider === "github" ? (
                         <div className="flex items-center gap-1.5 text-xs font-bold text-emerald-600 bg-emerald-100/80 px-3 py-1.5 rounded-xl border border-emerald-300">
-                          <CheckCircle2 className="w-3.5 h-3.5" />
+                          <CheckCircle2 className="w-4 h-4" />
                           <span>Connected</span>
                         </div>
                       ) : (
@@ -552,7 +680,7 @@ export default function ProfilePage() {
                           className="text-xs font-semibold text-slate-700 hover:text-slate-900 border border-slate-200 hover:bg-slate-50 px-3 py-1.5 rounded-xl transition flex items-center gap-1 shadow-2xs"
                         >
                           <span>Connect</span>
-                          <ExternalLink className="w-3 h-3" />
+                          <ExternalLink className="w-4 h-4" />
                         </Link>
                       )}
                     </div>
@@ -577,12 +705,12 @@ export default function ProfilePage() {
                         <div className="flex items-center gap-2">
                           <h4 className="text-xs font-bold text-slate-900">Microsoft Azure AD / Office 365</h4>
                           {currentUser.oauth_provider === "microsoft" && (
-                            <span className="text-[10px] font-bold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded-full border border-emerald-300">
+                            <span className="text-[13px] font-bold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded-full border border-emerald-300">
                               Active Provider
                             </span>
                           )}
                         </div>
-                        <p className="text-[11px] text-slate-500 truncate">
+                        <p className="text-[13px] text-slate-500 truncate">
                           Microsoft Teams meeting audio &amp; Office 365 corporate identity
                         </p>
                       </div>
@@ -591,7 +719,7 @@ export default function ProfilePage() {
                     <div className="shrink-0">
                       {currentUser.oauth_provider === "microsoft" ? (
                         <div className="flex items-center gap-1.5 text-xs font-bold text-emerald-600 bg-emerald-100/80 px-3 py-1.5 rounded-xl border border-emerald-300">
-                          <CheckCircle2 className="w-3.5 h-3.5" />
+                          <CheckCircle2 className="w-4 h-4" />
                           <span>Connected</span>
                         </div>
                       ) : (
@@ -600,7 +728,7 @@ export default function ProfilePage() {
                           className="text-xs font-semibold text-slate-700 hover:text-slate-900 border border-slate-200 hover:bg-slate-50 px-3 py-1.5 rounded-xl transition flex items-center gap-1 shadow-2xs"
                         >
                           <span>Connect</span>
-                          <ExternalLink className="w-3 h-3" />
+                          <ExternalLink className="w-4 h-4" />
                         </Link>
                       )}
                     </div>
@@ -608,7 +736,7 @@ export default function ProfilePage() {
                 </div>
 
                 <div className="p-3 bg-slate-50/80 rounded-xl border border-slate-200/80 flex items-center justify-between text-xs">
-                  <span className="text-slate-500 text-[11px]">
+                  <span className="text-slate-500 text-[13px]">
                     Need to link a different enterprise organization?
                   </span>
                   <Link
@@ -616,7 +744,7 @@ export default function ProfilePage() {
                     className="font-bold text-indigo-600 hover:text-indigo-800 text-xs flex items-center gap-1"
                   >
                     <span>OAuth Switcher</span>
-                    <ArrowRight className="w-3 h-3" />
+                    <ArrowRight className="w-4 h-4" />
                   </Link>
                 </div>
               </div>
@@ -637,7 +765,7 @@ export default function ProfilePage() {
                       </p>
                     </div>
                   </div>
-                  <span className="text-[11px] font-bold text-emerald-700 bg-emerald-100 px-2.5 py-1 rounded-full border border-emerald-300 flex items-center gap-1.5">
+                  <span className="text-[13px] font-bold text-emerald-700 bg-emerald-100 px-2.5 py-1 rounded-full border border-emerald-300 flex items-center gap-1.5">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
                     Adaptive Intelligence
                   </span>
@@ -649,36 +777,36 @@ export default function ProfilePage() {
                     <Sparkles className="w-4 h-4 text-indigo-600" />
                     <span>Dynamic Context-Driven Model Selection</span>
                   </div>
-                  <p className="text-[11px] text-slate-600 leading-relaxed">
+                  <p className="text-[13px] text-slate-600 leading-relaxed">
                     DecisionLens does not use static user preferences. The cognitive engine autonomously analyzes the meeting context, speaker tension, trade-offs, and risk factors to activate the optimal analytical model dynamically:
                   </p>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1 text-[11px]">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1 text-[13px]">
                     <div className="p-2 bg-white/90 rounded-lg border border-indigo-100 flex items-start gap-2 shadow-2xs">
                       <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 shrink-0 mt-1.5" />
                       <div>
                         <span className="font-bold text-slate-800 block">Weighted Decision Matrix</span>
-                        <span className="text-slate-500 text-[10px]">Autonomously active when competing vendor/architecture options are compared.</span>
+                        <span className="text-slate-500 text-[13px]">Autonomously active when competing vendor/architecture options are compared.</span>
                       </div>
                     </div>
                     <div className="p-2 bg-white/90 rounded-lg border border-indigo-100 flex items-start gap-2 shadow-2xs">
                       <span className="w-1.5 h-1.5 rounded-full bg-purple-500 shrink-0 mt-1.5" />
                       <div>
                         <span className="font-bold text-slate-800 block">Five Whys (Root Cause)</span>
-                        <span className="text-slate-500 text-[10px]">Autonomously active when debugging outages, regressions, or process failures.</span>
+                        <span className="text-slate-500 text-[13px]">Autonomously active when debugging outages, regressions, or process failures.</span>
                       </div>
                     </div>
                     <div className="p-2 bg-white/90 rounded-lg border border-indigo-100 flex items-start gap-2 shadow-2xs">
                       <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0 mt-1.5" />
                       <div>
                         <span className="font-bold text-slate-800 block">SWOT Strategic Scrutiny</span>
-                        <span className="text-slate-500 text-[10px]">Autonomously active when long-term product vision, threats, and market moves are evaluated.</span>
+                        <span className="text-slate-500 text-[13px]">Autonomously active when long-term product vision, threats, and market moves are evaluated.</span>
                       </div>
                     </div>
                     <div className="p-2 bg-white/90 rounded-lg border border-indigo-100 flex items-start gap-2 shadow-2xs">
                       <span className="w-1.5 h-1.5 rounded-full bg-amber-500 shrink-0 mt-1.5" />
                       <div>
                         <span className="font-bold text-slate-800 block">Six Thinking Hats</span>
-                        <span className="text-slate-500 text-[10px]">Autonomously active for cross-functional debate (optimism, risk, emotion, and logic).</span>
+                        <span className="text-slate-500 text-[13px]">Autonomously active for cross-functional debate (optimism, risk, emotion, and logic).</span>
                       </div>
                     </div>
                   </div>
@@ -688,7 +816,7 @@ export default function ProfilePage() {
                   {/* Language */}
                   <div>
                     <label className="block font-bold text-slate-700 mb-1.5 flex items-center gap-1.5">
-                      <Globe className="w-3.5 h-3.5 text-indigo-600" />
+                      <Globe className="w-4 h-4 text-indigo-600" />
                       Audio Ingestion Primary Language
                     </label>
                     <div className="grid grid-cols-2 gap-2">
@@ -697,11 +825,11 @@ export default function ProfilePage() {
                         onClick={() => savePreferences("en", audioEnhancement)}
                         className={`p-2.5 rounded-xl border text-xs font-semibold flex items-center justify-center gap-2 transition ${
                           defaultLanguage === "en"
-                            ? "border-[#2F5D8F] bg-[#FCFBF8] text-[#161E33] font-bold shadow-2xs"
-                            : "border-[#D9D2C3] bg-[#EFEADF]/40 text-[#5A6275] hover:bg-white"
+                            ? "border-accent bg-surface text-ink font-bold shadow-2xs"
+                            : "border-line bg-subtle/40 text-ink-2 hover:bg-white"
                         }`}
                       >
-                        <span className="font-mono text-xs font-semibold px-1.5 py-0.5 rounded bg-[#EFEADF] text-[#161E33] border border-[#D9D2C3]">EN</span>
+                        <span className="font-mono text-xs font-semibold px-1.5 py-0.5 rounded bg-subtle text-ink border border-line">EN</span>
                         <span>English (en)</span>
                       </button>
                       <button
@@ -709,11 +837,11 @@ export default function ProfilePage() {
                         onClick={() => savePreferences("hi", audioEnhancement)}
                         className={`p-2.5 rounded-xl border text-xs font-semibold flex items-center justify-center gap-2 transition ${
                           defaultLanguage === "hi"
-                            ? "border-[#2F5D8F] bg-[#FCFBF8] text-[#161E33] font-bold shadow-2xs"
-                            : "border-[#D9D2C3] bg-[#EFEADF]/40 text-[#5A6275] hover:bg-white"
+                            ? "border-accent bg-surface text-ink font-bold shadow-2xs"
+                            : "border-line bg-subtle/40 text-ink-2 hover:bg-white"
                         }`}
                       >
-                        <span className="font-mono text-xs font-semibold px-1.5 py-0.5 rounded bg-[#EFEADF] text-[#161E33] border border-[#D9D2C3]">HI</span>
+                        <span className="font-mono text-xs font-semibold px-1.5 py-0.5 rounded bg-subtle text-ink border border-line">HI</span>
                         <span>Hindi (hi)</span>
                       </button>
                     </div>
@@ -722,7 +850,7 @@ export default function ProfilePage() {
                   {/* Audio Enhancement */}
                   <div>
                     <label className="block font-bold text-slate-700 mb-1.5 flex items-center gap-1.5">
-                      <Mic className="w-3.5 h-3.5 text-indigo-600" />
+                      <Mic className="w-4 h-4 text-indigo-600" />
                       FFmpeg Audio Processing Pipeline
                     </label>
                     <label className="flex items-start gap-3 p-3 bg-slate-50 border border-slate-200 rounded-xl cursor-pointer hover:border-indigo-300 transition">
@@ -736,7 +864,7 @@ export default function ProfilePage() {
                         <span className="font-bold text-slate-900 block">
                           EBU R128 Loudness Normalization &amp; High-Pass Filter
                         </span>
-                        <span className="text-[11px] text-slate-500">
+                        <span className="text-[13px] text-slate-500">
                           Automatically level audio volume and strip low-frequency rumble (&lt;200Hz) before transcription.
                         </span>
                       </div>
@@ -758,20 +886,20 @@ export default function ProfilePage() {
                 </div>
                 <div className="space-y-3 text-xs">
                   <div className="p-3 bg-slate-50 rounded-xl border border-slate-200 space-y-1">
-                    <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">
+                    <span className="text-[13px] font-bold text-slate-500 uppercase tracking-wider block">
                       Active User Identity
                     </span>
                     <span className="font-bold text-slate-900 block truncate">
-                      {currentUser.display_name || currentUser.email}
+                      {formatDisplayName(currentUser.display_name, currentUser.email)}
                     </span>
-                    <span className="text-slate-500 text-[11px] block truncate">
+                    <span className="text-slate-500 text-[13px] block truncate">
                       {currentUser.email}
                     </span>
                   </div>
 
                   <div className="grid grid-cols-2 gap-2 text-xs">
                     <div className="p-3 bg-slate-50 rounded-xl border border-slate-200">
-                      <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">
+                      <span className="text-[13px] font-bold text-slate-500 uppercase tracking-wider block">
                         Tenant ID
                       </span>
                       <span className="font-mono font-bold text-slate-900">
@@ -780,7 +908,7 @@ export default function ProfilePage() {
                     </div>
 
                     <div className="p-3 bg-slate-50 rounded-xl border border-slate-200">
-                      <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">
+                      <span className="text-[13px] font-bold text-slate-500 uppercase tracking-wider block">
                         Auth Provider
                       </span>
                       <span className="font-bold text-indigo-600 capitalize">
@@ -789,7 +917,7 @@ export default function ProfilePage() {
                     </div>
                   </div>
 
-                  <div className="p-3 bg-emerald-50 rounded-xl border border-emerald-200/80 text-[11px] text-emerald-800 flex items-center gap-2">
+                  <div className="p-3 bg-emerald-50 rounded-xl border border-emerald-200/80 text-[13px] text-emerald-800 flex items-center gap-2">
                     <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
                     <span>Cryptographically isolated tenant storage &amp; workspace boundary active.</span>
                   </div>
@@ -826,12 +954,12 @@ export default function ProfilePage() {
                           <p className="text-xs font-semibold text-slate-800 group-hover:text-indigo-600 truncate">
                             {d.title}
                           </p>
-                          <p className="text-[10px] text-slate-400">
+                          <p className="text-[13px] text-slate-400">
                             {new Date(d.created_at).toLocaleDateString()}
                           </p>
                         </div>
                         <span
-                          className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full shrink-0 ${
+                          className={`text-[13px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full shrink-0 ${
                             d.status === "decided"
                               ? "bg-emerald-50 text-emerald-800 border border-emerald-200"
                               : "bg-indigo-50 text-indigo-700 border border-indigo-200"
