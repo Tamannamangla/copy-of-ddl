@@ -150,16 +150,10 @@ export default function FolderDetailPage({
           <>
             {/* Folder Header Card */}
             <div className="bg-white rounded-2xl border border-slate-200 p-6 sm:p-8 mb-8 shadow-sm relative overflow-hidden">
-              <div
-                className="absolute top-0 left-0 right-0 h-2"
-                style={{ backgroundColor: folder.color || "rgb(var(--a-600))" }}
-              />
-
               <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
                 <div className="flex items-start gap-4">
                   <div
-                    className="w-12 h-12 rounded-xl flex items-center justify-center text-white shrink-0 mt-1"
-                    style={{ backgroundColor: folder.color || "rgb(var(--a-600))" }}
+                    className="w-12 h-12 rounded-xl flex items-center justify-center bg-slate-100 border border-slate-200 text-slate-800 shrink-0 mt-1"
                   >
                     <FolderIcon className="w-6 h-6" />
                   </div>
